@@ -1,5 +1,5 @@
 package harapanbangsachicken.main;
 
-public class app {
+public class Main {
     
 }
