@@ -12,6 +12,7 @@ public class Customer extends User {
     private int point;
     private Level level;
     private ArrayList<Reward> reward;
+
     public Customer(int user_id, String namaDepan, String namaBelakang, String password, String email, String noTelp,
             String alamat, String gender, double saldo, ArrayList<History> history, ArrayList<Promo> listPromo,
             int point, Level level, ArrayList<Reward> reward) {
@@ -25,6 +26,7 @@ public class Customer extends User {
         this.level = level;
         this.reward = reward;
     }
+    
     public String getAlamat() {
         return alamat;
     }
