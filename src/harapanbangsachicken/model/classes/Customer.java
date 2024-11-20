@@ -7,10 +7,10 @@ public class Customer extends User {
     private String alamat;
     private String gender;
     private double saldo;
+    private Level level;
+    private int point;
     private ArrayList<History> history;
     private ArrayList<Promo> listPromo;
-    private int point;
-    private Level level;
     private ArrayList<Reward> reward;
 
     public Customer(int user_id, String namaDepan, String namaBelakang, String password, String email, String noTelp,
