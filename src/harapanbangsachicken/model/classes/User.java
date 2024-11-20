@@ -1,6 +1,6 @@
 package harapanbangsachicken.model.classes;
 
-abstract class User {
+public abstract class User {
     private int user_id;
     private String namaDepan;
     private String namaBelakang;
