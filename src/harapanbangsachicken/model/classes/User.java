@@ -8,6 +8,10 @@ public abstract class User {
     private String email;
     private String noTelp;
 
+    public User(){
+
+    }
+
     public User(int user_id, String namaDepan, String namaBelakang, String password, String email, String noTelp) {
         this.user_id = user_id;
         this.namaDepan = namaDepan;
