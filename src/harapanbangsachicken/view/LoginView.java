@@ -5,6 +5,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import harapanbangsachicken.controller.Login;
 
 public class LoginView extends JFrame{
     private JPanel frame; 
@@ -47,12 +48,22 @@ public class LoginView extends JFrame{
                 System.out.println("Username: "+username+ "\nPassword:"+password);
             }
         });
+        // register.addActionListener(new ActionListener() {
+        //     @Override
+        //     public void actionPerformed(ActionEvent e) {
+        //         dispose();
+        //     }
+        // });
+
     }
     public String getUsername(){
         return userValue.getText();
     }
     public String getPassword(){
         return new String(passwordValue.getPassword());
+    }
+    public JButton getRegisterButton() {
+        return register;
     }
     public JButton getLoginButton() {
         return login;
