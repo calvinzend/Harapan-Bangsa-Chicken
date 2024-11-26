@@ -8,9 +8,7 @@ public abstract class User {
     private String email;
     private String noTelp;
 
-    public User(){
 
-    }
 
     public User(int user_id, String namaDepan, String namaBelakang, String password, String email, String noTelp) {
         this.user_id = user_id;
@@ -57,4 +55,9 @@ public abstract class User {
     public void setNoTelp(String noTelp) {
         this.noTelp = noTelp;
     }
+
+    public boolean cekLogin(String inputEmail, String inputPassword) {
+        return this.email.equals(inputEmail) && this.password.equals(inputPassword);
+    }
+
 }
