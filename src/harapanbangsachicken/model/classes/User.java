@@ -70,6 +70,6 @@ public abstract class User {
     }
 
     public String toString() {
-        return "User ID: " + user_id + "\nNama Depan: " + namaDepan + "\nNama Belakang: " + namaBelakang + "\nPassword: " + password + "\nEmail: " + email + "\nNomor Telepon: " + noTelp;
+        return "ID User: " + user_id + "\nNama Depan: " + namaDepan + "\nNama Belakang: " + namaBelakang + "\nPassword: " + password + "\nEmail: " + email + "\nNomor Telepon: " + noTelp;
     }
 }

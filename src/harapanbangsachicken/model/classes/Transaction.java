@@ -72,4 +72,14 @@ public class Transaction {
         this.hargaTotal = hargaTotal;
     }
 
+    @Override
+    public String toString() {
+        String menu = "";
+
+        for (Menu msg1 : listMenu) {
+            menu += msg1.toString();
+        }
+
+        return "\nID Transaction: " + transaction_id + "\nMenu: " + menu + "\nPemesan: " + pemesan + "\nTanggal Pembelian: " + tanggalPembelian + "\nPotongan Promo: " + potonganPromo + "\nHarga Total: " + hargaTotal;
+    }
 }

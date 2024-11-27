@@ -16,4 +16,15 @@ public class History {
     public void setTransaksi(ArrayList<Transaction> transaksi) {
         this.transaksi = transaksi;
     }
+
+    @Override
+    public String toString() {
+        String transaksiMsg = "";
+
+        for (Transaction msg1 : transaksi) {
+            transaksiMsg += msg1.toString();
+        }
+        
+        return "Transaksi: " + transaksiMsg;
+    }
 }
