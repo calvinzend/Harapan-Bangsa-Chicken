@@ -50,4 +50,11 @@ public class Menu {
         this.resep = resep;
     }
 
+    public String toString(){
+        String resepMsg = "";
+        for (Resep r : resep) {
+            resepMsg += "\n" + r.toString();
+        }
+        return "ID Menu: " + getMenu_id() + "\nNama : " + getNama() + "\nHarga: " + getHarga() + "\nResep List : " + resepMsg;
+    }
 }

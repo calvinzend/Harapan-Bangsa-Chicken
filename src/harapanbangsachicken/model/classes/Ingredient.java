@@ -47,4 +47,8 @@ public class Ingredient {
     public void setSatuan(String satuan) {
         this.satuan = satuan;
     }
+
+    public String toString() {
+        return "ID Ingredient: " + getIng_id() + "\nName : " + getIngredientName() + "\nStock : " + getStock() + "\nSatuan : " + getSatuan();
+    }
 }
