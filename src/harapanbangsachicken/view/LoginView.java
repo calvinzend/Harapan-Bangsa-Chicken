@@ -5,7 +5,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import harapanbangsachicken.controller.Login;
 
 public class LoginView extends JFrame{
     private JPanel frame; 
@@ -68,7 +67,6 @@ public class LoginView extends JFrame{
     public JButton getLoginButton() {
         return login;
     }
-
     public void showMessage(String message) {
         JOptionPane.showMessageDialog(this, message);
     }

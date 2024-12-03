@@ -4,11 +4,11 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import harapanbangsachicken.controller.Register;
-import harapanbangsachicken.main.Main;;
+
+import harapanbangsachicken.controller.Login;
 
 public class RegisterView extends JFrame {
-    private JTextField namaDepanValue, namaBelakangValue, emailValue, noTelpValue;
+    private JTextField namaDepanValue, namaBelakangValue, emailValue, noTelpValue, alamatValue ,genderValue, saldoValue;
     private JPasswordField passwordValue;
     private JButton loginButton, registerButton;
 
@@ -36,6 +36,18 @@ public class RegisterView extends JFrame {
         noTelpValue = new JTextField(10);
         inputPanel.add(noTelpValue);
 
+        inputPanel.add(new JLabel("Alamat:"));
+        alamatValue = new JTextField(10);
+        inputPanel.add(alamatValue);
+
+        inputPanel.add(new JLabel("Gender:"));
+        genderValue = new JTextField(10);
+        inputPanel.add(genderValue);
+
+        inputPanel.add(new JLabel("Saldo Awal:"));
+        saldoValue = new JTextField(10);
+        inputPanel.add(saldoValue);
+
         loginButton = new JButton("LOGIN");
         registerButton = new JButton("REGISTER");
 
@@ -55,8 +67,8 @@ public class RegisterView extends JFrame {
         loginButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                dispose();
-              new LoginView();
+            dispose();
+              new Login(new LoginView()); 
             }
         });
     }
@@ -92,6 +104,16 @@ public class RegisterView extends JFrame {
     public String getNoTelp() {
         return noTelpValue.getText();
     }
+    public String getAlamat() {
+        return alamatValue.getText();
+    }
+    public String getGender() {
+        return genderValue.getText();
+    }
+    public String getSaldo() {
+        return saldoValue.getText();
+    }
+
 
     public void showMessage(String message) {
         JOptionPane.showMessageDialog(this, message);

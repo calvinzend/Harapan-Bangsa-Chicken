@@ -1,7 +1,10 @@
 package harapanbangsachicken.model.classes;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.util.ArrayList;
-import java.util.logging.Level;
+import harapanbangsachicken.model.enums.Level;
 
 public class Customer extends User {
     private String alamat;
@@ -28,7 +31,7 @@ public class Customer extends User {
         this.level = level;
         this.reward = reward;
     }
-    
+
     public String getAlamat() {
         return alamat;
     }
@@ -76,5 +79,61 @@ public class Customer extends User {
     }
     public void setReward(ArrayList<Reward> reward) {
         this.reward = reward;
+    }
+
+    public static boolean Login(String email, String password){
+        String query = "SELECT * FROM customer WHERE email = ? and password = ?";
+
+        try (Connection con = ConnectionManager.getConnection();
+                PreparedStatement st = con.prepareStatement(query)) {
+
+            st.setString(1, email);
+            st.setString(2, password);
+            try (ResultSet rs = st.executeQuery()) {
+                if (rs.next()) {
+                    return true;
+                }else{
+                    return false;
+                }
+            }
+        }catch (Exception ex) {
+            System.out.println("Terjadi kesalahan: " + ex.getMessage());
+            return false;
+        }
+    } 
+    public static boolean Register(Customer customer) {
+        String query = "INSERT INTO customer (user_id, namaDepan, namaBelakang, password, email, noTelp, alamat, gender, saldo, poin, lvl) " +
+                       "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    
+        try (Connection con = ConnectionManager.getConnection();
+             PreparedStatement st = con.prepareStatement(query)) {
+    
+            // Set nilai untuk setiap kolom
+            st.setInt(1, customer.getUser_id());
+            st.setString(2, customer.getNamaDepan());
+            st.setString(3, customer.getNamaBelakang()); 
+            st.setString(4, customer.getPassword()); 
+            st.setString(5, customer.getEmail());
+            st.setString(6, customer.getNoTelp()); 
+            st.setString(7, customer.getAlamat()); 
+            st.setString(8, customer.getGender()); 
+            st.setDouble(9, customer.getSaldo());
+            st.setInt(10, customer.getPoint());
+            st.setString(11, customer.getLevel().toString()); 
+    
+            // Eksekusi query
+            int rowsInserted = st.executeUpdate();
+            return rowsInserted > 0;
+    
+        } catch (Exception ex) {
+            System.out.println("Terjadi kesalahan saat registrasi: " + ex.getMessage());
+            return false;
+        }
+
+    // public static boolean Register(){
+    //     String query= "INSERT INTO customer (user_id, namaDepan, namaBelakang, password, email, noTelp, alamat, gender, saldo, poin, lvl) " +
+    //                          "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                             
+
     }
 }

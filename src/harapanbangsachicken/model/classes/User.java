@@ -56,8 +56,15 @@ public abstract class User {
         this.noTelp = noTelp;
     }
 
-    public boolean cekLogin(String inputEmail, String inputPassword) {
-        return this.email.equals(inputEmail) && this.password.equals(inputPassword);
+    public static boolean cekLogin(String inputEmail, String inputPassword) {
+        System.out.println("hehe");
+        if (Customer.Login(inputEmail, inputPassword)) {
+            return true;
+        }else if (false) {
+            return true;
+        }
+        return false;
     }
+    
 
 }
