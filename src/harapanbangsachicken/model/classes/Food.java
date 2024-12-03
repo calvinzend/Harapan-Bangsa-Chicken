@@ -8,4 +8,8 @@ public class Food extends Menu {
         super(menu_id, nama, harga, resep);
     }
 
+    @Override
+    public String toString() {
+        return super.toString();
+    }
 }

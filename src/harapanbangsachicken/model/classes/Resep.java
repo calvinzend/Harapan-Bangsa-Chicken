@@ -40,4 +40,11 @@ public class Resep {
         this.satuan = satuan;
     }
 
+    public  String toString() {
+        String ingredientMsg = "";
+        for (Ingredient ingredient : bahan) {
+            ingredientMsg += "\n" + ingredient.toString();
+        }
+        return "Ingredient : " + ingredientMsg + "\nQuantity : " + getQuantity() + "\nSatuan : " + getSatuan();
+    }
 }

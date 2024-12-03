@@ -14,20 +14,29 @@ public class Reward {
     public int getReward_id() {
         return reward_id;
     }
+    
     public void setReward_id(int reward_id) {
         this.reward_id = reward_id;
     }
+
     public String getRewardName() {
         return rewardName;
     }
+
     public void setRewardName(String rewardName) {
         this.rewardName = rewardName;
     }
+
     public int getMinimalPoint() {
         return minimalPoint;
     }
+
     public void setMinimalPoint(int minimalPoint) {
         this.minimalPoint = minimalPoint;
     }
 
+    @Override
+    public String toString() {
+        return "ID Reward: " + reward_id + "\nNama Reward: " + rewardName + "\nMinimal Poin: " + minimalPoint;
+    }
 }

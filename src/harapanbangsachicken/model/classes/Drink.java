@@ -24,4 +24,8 @@ public class Drink extends Menu {
         this.size = size;
     }
 
+    @Override
+    public String toString() {
+        return super.toString() + "\nSize: " + size;
+    }
 }

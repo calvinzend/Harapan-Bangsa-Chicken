@@ -7,10 +7,19 @@ public class Admin extends User{
     }
 
     public void viewTransaksi(){
+
     }
+    
     public void viewTotalPendapatan(){
-    }
-    public void updateMenu(){
+
     }
 
+    public void updateMenu(){
+
+    }
+
+    @Override
+    public String toString() {
+        return super.toString();
+    }
 }

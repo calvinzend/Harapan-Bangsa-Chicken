@@ -18,25 +18,37 @@ public class Promo {
     public int getPromo_id() {
         return promo_id;
     }
+
     public void setPromo_id(int promo_id) {
         this.promo_id = promo_id;
     }
+
     public String getNamaPromo() {
         return namaPromo;
     }
+
     public void setNamaPromo(String namaPromo) {
         this.namaPromo = namaPromo;
     }
+
     public int getNominalPromo() {
         return nominalPromo;
     }
+
     public void setNominalPromo(int nominalPromo) {
         this.nominalPromo = nominalPromo;
     }
+
     public Date getDate() {
         return date;
     }
+    
     public void setDate(Date date) {
         this.date = date;
+    }
+
+    @Override
+    public String toString() {
+        return "ID Promo: " + promo_id + "\nNama Promo: " + namaPromo + "\nNominal Promo: " + nominalPromo + "\nTanggal Kadaluarsa: " + date;
     }
 }
