@@ -94,7 +94,6 @@ public class Customer extends User {
         this.reward = reward;
     }
 
-<<<<<<< HEAD
     public static boolean Login(String email, String password){
         String query = "SELECT * FROM customer WHERE email = ? and password = ?";
 
@@ -117,40 +116,35 @@ public class Customer extends User {
     } 
     public static boolean Register(Customer customer) {
         String query = "INSERT INTO customer (user_id, namaDepan, namaBelakang, password, email, noTelp, alamat, gender, saldo, poin, lvl) " +
-                       "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-    
+                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
         try (Connection con = ConnectionManager.getConnection();
              PreparedStatement st = con.prepareStatement(query)) {
-    
-            // Set nilai untuk setiap kolom
+
             st.setInt(1, customer.getUser_id());
             st.setString(2, customer.getNamaDepan());
-            st.setString(3, customer.getNamaBelakang()); 
-            st.setString(4, customer.getPassword()); 
+            st.setString(3, customer.getNamaBelakang());
+            st.setString(4, customer.getPassword());
             st.setString(5, customer.getEmail());
-            st.setString(6, customer.getNoTelp()); 
-            st.setString(7, customer.getAlamat()); 
-            st.setString(8, customer.getGender()); 
+            st.setString(6, customer.getNoTelp());
+            st.setString(7, customer.getAlamat());
+            st.setString(8, customer.getGender());
             st.setDouble(9, customer.getSaldo());
             st.setInt(10, customer.getPoint());
-            st.setString(11, customer.getLevel().toString()); 
-    
-            // Eksekusi query
+            st.setString(11, customer.getLevel().toString());
+
             int rowsInserted = st.executeUpdate();
             return rowsInserted > 0;
-    
+
         } catch (Exception ex) {
             System.out.println("Terjadi kesalahan saat registrasi: " + ex.getMessage());
             return false;
         }
+    }
 
     // public static boolean Register(){
     //     String query= "INSERT INTO customer (user_id, namaDepan, namaBelakang, password, email, noTelp, alamat, gender, saldo, poin, lvl) " +
     //                          "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-                             
-
-=======
-
     @Override
     public String toString() {
         String historyMsg = "";
@@ -169,6 +163,11 @@ public class Customer extends User {
             rewardMsg += msg3.toString();
         }
         return super.toString() + "\nAlamat: " + alamat + "\nGender: " + gender + "\nSaldo: " + saldo + "\nLevel: " + level + "\nPoint: " + point + "\nHistory: " + historyMsg + "\nPromo: " + promoMsg + "\nReward: " + rewardMsg;
->>>>>>> 3599700644869940cd07b690173493498c67d194
+
+                
+
+    
     }
+
+   
 }
