@@ -104,16 +104,18 @@ public class RegisterView extends JFrame {
     public String getNoTelp() {
         return noTelpValue.getText();
     }
+
     public String getAlamat() {
         return alamatValue.getText();
     }
+
     public String getGender() {
         return genderValue.getText();
     }
+
     public String getSaldo() {
         return saldoValue.getText();
     }
-
 
     public void showMessage(String message) {
         JOptionPane.showMessageDialog(this, message);

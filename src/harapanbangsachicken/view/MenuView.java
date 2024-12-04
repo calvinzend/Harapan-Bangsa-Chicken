@@ -68,6 +68,7 @@ public class MenuView extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e){
                 System.out.println(SingletonManager.getInstance().getUser().showProfile());
+                new ProfileView();
             }
         });
 
