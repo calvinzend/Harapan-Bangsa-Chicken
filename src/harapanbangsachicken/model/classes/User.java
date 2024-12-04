@@ -66,7 +66,6 @@ public abstract class User {
     }
 
     public static boolean cekLogin(String inputEmail, String inputPassword) {
-        System.out.println("hehe");
         if (Customer.Login(inputEmail, inputPassword)) {
             return true;
         }else if (false) {

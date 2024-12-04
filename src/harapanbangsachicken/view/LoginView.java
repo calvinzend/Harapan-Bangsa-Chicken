@@ -43,20 +43,14 @@ public class LoginView extends JFrame{
         login.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String username = getUsername();
+                String email = getEmail();
                 String password = new String(passwordValue.getPassword());
-                System.out.println("Username: "+username+ "\nPassword:"+password);
+                System.out.println("Email : "+ email + "Berhasil login");
             }
         });
-        // register.addActionListener(new ActionListener() {
-        //     @Override
-        //     public void actionPerformed(ActionEvent e) {
-        //         dispose();
-        //     }
-        // });
 
     }
-    public String getUsername(){
+    public String getEmail(){
         return userValue.getText();
     }
     public String getPassword(){

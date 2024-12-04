@@ -142,9 +142,38 @@ public class Customer extends User {
         }
     }
 
-    // public static boolean Register(){
-    //     String query= "INSERT INTO customer (user_id, namaDepan, namaBelakang, password, email, noTelp, alamat, gender, saldo, poin, lvl) " +
-    //                          "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    public static Customer getData(String email) {
+        String query = "SELECT * FROM customer WHERE email = ?";
+        try (Connection con = ConnectionManager.getConnection();
+             PreparedStatement st = con.prepareStatement(query)) {
+    
+            st.setString(1, email);
+            try (ResultSet rs = st.executeQuery()) {
+                if (rs.next()) {
+                    return new Customer(
+                        rs.getInt("user_id"),
+                        rs.getString("namaDepan"),
+                        rs.getString("namaBelakang"),
+                        rs.getString("password"),
+                        rs.getString("email"),
+                        rs.getString("noTelp"),
+                        rs.getString("alamat"),
+                        rs.getString("gender"),
+                        rs.getDouble("saldo"),
+                        null, 
+                        null, 
+                        rs.getInt("poin"),
+                        Level.valueOf(rs.getString("lvl")),
+                        null  
+                    );
+                }
+            }
+        } catch (Exception ex) {
+            System.out.println("Terjadi kesalahan: " + ex.getMessage());
+        }
+        return null;
+    }
+    
     @Override
     public String toString() {
         String historyMsg = "";
@@ -163,9 +192,6 @@ public class Customer extends User {
             rewardMsg += msg3.toString();
         }
         return super.toString() + "\nAlamat: " + alamat + "\nGender: " + gender + "\nSaldo: " + saldo + "\nLevel: " + level + "\nPoint: " + point + "\nHistory: " + historyMsg + "\nPromo: " + promoMsg + "\nReward: " + rewardMsg;
-
-                
-
     
     }
 

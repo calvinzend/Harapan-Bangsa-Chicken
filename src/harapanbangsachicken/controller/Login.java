@@ -14,16 +14,19 @@ public class Login {
     }
 
     public void cekLogin() {
-        String user = loginView.getUsername();
+        String email = loginView.getEmail();
         String pass = loginView.getPassword();
         
-
         boolean isValid = false;
         
-        if (User.cekLogin(user, pass)) {
+        if (User.cekLogin(email, pass)) {
             isValid = true;
-            loginView.showMessage("Login berhasil! Selamat datang, " + user);
-            return;
+            loginView.showMessage("Login berhasil! Selamat datang, " + email);
+            Customer User = Customer.getData(email); 
+            SingletonManager.getInstance().setUser(User);
+            System.out.println(User.getNamaDepan());
+            loginView.dispose();
+            new MenuView();
         }
         
         if (!isValid) {
