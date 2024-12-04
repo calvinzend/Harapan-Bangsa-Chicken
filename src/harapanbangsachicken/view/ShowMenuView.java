@@ -67,6 +67,19 @@ public class ShowMenuView extends JFrame {
             }
         });
 
+        menuMinuman.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                ArrayList<Menu> show = Menu.getData("Drink");
+  
+                for (Menu menu : show) {
+                    System.out.println(menu.toString() +"\n");
+                }
+                System.out.println();
+                dispose();
+            }
+        });
+
         setVisible(true);
     }
 }

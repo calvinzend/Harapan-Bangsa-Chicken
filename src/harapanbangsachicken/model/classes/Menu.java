@@ -5,6 +5,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 
+import harapanbangsachicken.model.enums.Size;
+
 
 public class Menu {
     private int menu_id;
@@ -55,24 +57,37 @@ public class Menu {
     }
 
     public static ArrayList<Menu> getData(String type) {
-        ArrayList<Menu> foodList = new ArrayList<>();
+        ArrayList<Menu> menuList = new ArrayList<>();
         String query = "SELECT * FROM menu WHERE type = ?";
         try (Connection con = ConnectionManager.getConnection();
                 PreparedStatement st = con.prepareStatement(query)) {
                 st.setString(1, type);
             try (ResultSet rs = st.executeQuery()) {
-                while (rs.next()) {
-                    foodList.add(new Food(
-                        rs.getInt("menu_id"),
-                        rs.getString("nama"),
-                        rs.getInt("harga"),
-                        null));
+                if (type.equals("Food")) {
+                    while (rs.next()) {
+                        menuList.add(new Food(
+                            rs.getInt("menu_id"),
+                            rs.getString("nama"),
+                            rs.getInt("harga"),
+                            null
+                        ));
+                    }
+                } else if(type.equals("Drink")) {
+                    while (rs.next()) {
+                        menuList.add(new Drink(
+                            rs.getInt("menu_id"),
+                            rs.getString("nama"),
+                            rs.getInt("harga"),
+                            null,
+                            Size.valueOf(rs.getString("size"))
+                        ));
                     }
                 }
-            } catch (Exception ex) {
-                System.out.println("Terjadi kesalahan: " + ex.getMessage());
             }
-        return foodList;
+        } catch (Exception ex) {
+            System.out.println("Terjadi kesalahan: " + ex.getMessage());
+        }
+        return menuList;
     }
 
     public String toString(){
