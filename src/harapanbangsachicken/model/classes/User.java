@@ -75,15 +75,11 @@ public abstract class User {
     }
 
     public String showProfile(){
-        String hasil = "ID User: " + user_id +"\nNama Depan: " + namaDepan +"\nNama Belakang: "+ namaBelakang+"\nEmail: "+email+ "\nNomor Telepon: "+ noTelp;
+        String hasil = "ID User: " + user_id + "<br>Nama Depan: " + namaDepan + "<br>Nama Belakang: " + namaBelakang + "<br>Email: " + email + "<br>Nomor Telepon: " + noTelp;
         if (this instanceof Customer) {
             Customer customer = (Customer) this;
-            hasil += "\nAlamat: "+ customer.getAlamat() + "\nGender: " +customer.getGender()+"\nSaldo: "+customer.getSaldo()+"\nPoint: "+customer.getSaldo()+"\nLevel: "+customer.getLevel(); 
+            hasil += "<br>Alamat: " + customer.getAlamat() + "<br>Gender: " + customer.getGender()+"<br>Saldo: " + customer.getSaldo() + "<br>Point: " + customer.getSaldo() + "<br>Level: " + customer.getLevel(); 
         }
         return hasil;
-    }
-
-    public String toString() {
-        return "ID User: " + user_id + "\nNama Depan: " + namaDepan + "\nNama Belakang: " + namaBelakang + "\nPassword: " + password + "\nEmail: " + email + "\nNomor Telepon: " + noTelp;
     }
 }

@@ -50,18 +50,23 @@ public class LoginView extends JFrame{
         });
 
     }
+
     public String getEmail(){
         return userValue.getText();
     }
+
     public String getPassword(){
         return new String(passwordValue.getPassword());
     }
+
     public JButton getRegisterButton() {
         return register;
     }
+
     public JButton getLoginButton() {
         return login;
     }
+    
     public void showMessage(String message) {
         JOptionPane.showMessageDialog(this, message);
     }
