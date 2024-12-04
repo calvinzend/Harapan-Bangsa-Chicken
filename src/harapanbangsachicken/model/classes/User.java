@@ -83,7 +83,6 @@ public abstract class User {
         return hasil;
     }
     
-
     public String toString() {
         return "ID User: " + user_id + "\nNama Depan: " + namaDepan + "\nNama Belakang: " + namaBelakang + "\nPassword: " + password + "\nEmail: " + email + "\nNomor Telepon: " + noTelp;
     }
