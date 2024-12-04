@@ -24,6 +24,9 @@ public class MenuView extends JFrame {
         gbc.insets = new Insets(10, 10, 10, 10);
 
         JLabel judulAtas = new JLabel("Pilihan Menu", SwingConstants.CENTER);
+        judulAtas.setFont(new Font("Arial", Font.BOLD, 20));
+        judulAtas.setAlignmentX(Component.CENTER_ALIGNMENT);
+        
         gbc.gridx = 0;
         gbc.gridy = 0;
         gbc.gridwidth = 5; 

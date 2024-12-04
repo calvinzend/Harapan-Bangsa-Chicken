@@ -63,6 +63,7 @@ public class ShowMenuView extends JFrame {
                     System.out.println(menu.toString() +"\n");
                 }
                 System.out.println();
+                new ShowDaftarMenu(show);
                 dispose();
             }
         });

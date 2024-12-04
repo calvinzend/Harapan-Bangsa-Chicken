@@ -9,7 +9,7 @@ import java.awt.event.ActionListener;
 public class LoginView extends JFrame{
     private JPanel frame; 
     private JPanel input; 
-    private JLabel username, password;
+    private JLabel email, password;
     private  JTextField userValue;
     private JPasswordField passwordValue;
     private JButton login, register;
@@ -22,14 +22,14 @@ public class LoginView extends JFrame{
 
         frame = new JPanel(new GridBagLayout());
         input = new JPanel(new GridLayout(3,2));
-        username = new JLabel("Username:");
+        email = new JLabel("Email:");
         userValue = new JTextField(10);
         password = new JLabel("Password:");
         passwordValue = new JPasswordField(10);
         login = new JButton("LOGIN");
         register = new JButton("REGISTER");
   
-        input.add(username);
+        input.add(email);
         input.add(userValue);
         input.add(password);
         input.add(passwordValue);
@@ -44,7 +44,6 @@ public class LoginView extends JFrame{
             @Override
             public void actionPerformed(ActionEvent e) {
                 String email = getEmail();
-                String password = new String(passwordValue.getPassword());
                 System.out.println("Email : "+ email + "\nBerhasil login");
             }
         });
@@ -70,7 +69,5 @@ public class LoginView extends JFrame{
     public void showMessage(String message) {
         JOptionPane.showMessageDialog(this, message);
     }
-    public static void main(String[] args) {
-        new LoginView();
-    }
+
 }
