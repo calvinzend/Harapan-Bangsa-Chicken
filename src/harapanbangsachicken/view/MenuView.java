@@ -72,6 +72,15 @@ public class MenuView extends JFrame {
                 new ProfileView();
             }
         });
+        showMenu.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e){
+                dispose();
+                new ShowMenuView();
+            }
+
+        });
+        
 
         setVisible(true);
     }
