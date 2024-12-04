@@ -18,6 +18,7 @@ public class LoginView extends JFrame{
     public LoginView() {
         super("Login");
         setSize(800, 700);
+        setLocationRelativeTo(null);
 
         frame = new JPanel(new GridBagLayout());
         input = new JPanel(new GridLayout(3,2));
