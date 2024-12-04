@@ -1,6 +1,10 @@
 package harapanbangsachicken.model.classes;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.util.ArrayList;
+
 
 public class Menu {
     private int menu_id;
@@ -50,11 +54,28 @@ public class Menu {
         this.resep = resep;
     }
 
+    public static ArrayList<Menu> getData(String type) {
+        ArrayList<Menu> foodList = new ArrayList<>();
+        String query = "SELECT * FROM menu WHERE type = ?";
+        try (Connection con = ConnectionManager.getConnection();
+                PreparedStatement st = con.prepareStatement(query)) {
+                st.setString(1, type);
+            try (ResultSet rs = st.executeQuery()) {
+                while (rs.next()) {
+                    foodList.add(new Food(
+                        rs.getInt("menu_id"),
+                        rs.getString("nama"),
+                        rs.getInt("harga"),
+                        null));
+                    }
+                }
+            } catch (Exception ex) {
+                System.out.println("Terjadi kesalahan: " + ex.getMessage());
+            }
+        return foodList;
+    }
+
     public String toString(){
-        String resepMsg = "";
-        for (Resep r : resep) {
-            resepMsg += "\n" + r.toString();
-        }
-        return "ID Menu: " + getMenu_id() + "\nNama : " + getNama() + "\nHarga: " + getHarga() + "\nResep List : " + resepMsg;
+        return "ID Menu: " + getMenu_id() + "\nNama : " + getNama() + "\nHarga: " + getHarga();
     }
 }
