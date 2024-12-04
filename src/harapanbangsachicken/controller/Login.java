@@ -1,7 +1,7 @@
 package harapanbangsachicken.controller;
 
 import harapanbangsachicken.view.*;
-    import harapanbangsachicken.model.classes.*;
+import harapanbangsachicken.model.classes.*;
 
 public class Login {
     private LoginView loginView;

@@ -45,7 +45,7 @@ public class LoginView extends JFrame{
             public void actionPerformed(ActionEvent e) {
                 String email = getEmail();
                 String password = new String(passwordValue.getPassword());
-                System.out.println("Email : "+ email + "Berhasil login");
+                System.out.println("Email : "+ email + "\nBerhasil login");
             }
         });
 

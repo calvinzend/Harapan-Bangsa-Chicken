@@ -1,7 +1,12 @@
 package harapanbangsachicken.view;
 
 import javax.swing.*;
+
+import harapanbangsachicken.model.classes.SingletonManager;
+
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class MenuView extends JFrame {
     private JButton keranjang, checkout, showMenu, checkProfil, reward;
@@ -58,6 +63,13 @@ public class MenuView extends JFrame {
         pesan.add(judulBawah, gbc);
 
         add(pesan);
+
+        checkProfil.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e){
+                System.out.println(SingletonManager.getInstance().getUser().showProfile());
+            }
+        });
 
         setVisible(true);
     }

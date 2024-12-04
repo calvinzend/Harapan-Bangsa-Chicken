@@ -73,6 +73,15 @@ public abstract class User {
         }
         return false;
     }
+
+    public String showProfile(){
+        String hasil = "ID User: " + user_id +"\nNama Depan: " + namaDepan +"\nNama Belakang: "+ namaBelakang+"\nEmail: "+email+ "\nNomor Telepon: "+ noTelp;
+        if (this instanceof Customer) {
+            Customer customer = (Customer) this;
+            hasil += "\nAlamat: "+ customer.getAlamat() + "\nGender: " +customer.getGender()+"\nSaldo: "+customer.getSaldo()+"\nPoint: "+customer.getSaldo()+"\nLevel: "+customer.getLevel(); 
+        }
+        return hasil;
+    }
     
 
     public String toString() {
