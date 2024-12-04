@@ -22,11 +22,20 @@ public class Login {
         if (User.cekLogin(email, pass)) {
             isValid = true;
             loginView.showMessage("Login berhasil! Selamat datang, " + email);
-            Customer User = Customer.getData(email); 
+            User User = Customer.getData(email); 
             SingletonManager.getInstance().setUser(User);
             System.out.println(User.getNamaDepan());
             loginView.dispose();
             new MenuView();
+        }
+        if (Admin.Login(email,pass)) {
+            isValid = true;
+            loginView.showMessage("Login berhasil! Selamat datang, " + email);
+            User User = Admin.getData(email); 
+            SingletonManager.getInstance().setUser(User);
+            System.out.println(User.getNamaDepan());
+            loginView.dispose();
+            new MenuAdmin();
         }
         
         if (!isValid) {

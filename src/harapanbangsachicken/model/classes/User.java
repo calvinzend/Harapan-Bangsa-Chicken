@@ -68,8 +68,6 @@ public abstract class User {
     public static boolean cekLogin(String inputEmail, String inputPassword) {
         if (Customer.Login(inputEmail, inputPassword)) {
             return true;
-        }else if (false) {
-            return true;
         }
         return false;
     }
