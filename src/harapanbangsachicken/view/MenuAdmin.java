@@ -10,8 +10,9 @@ public class MenuAdmin extends JFrame{
 
     public MenuAdmin(){
         super("Menu");
-        setSize(800, 700);
+        setExtendedState(JFrame.MAXIMIZED_BOTH);
         setLocationRelativeTo(null);
+        setFont(new Font("Arial", Font.BOLD, 30));
 
         panel = new JPanel(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();

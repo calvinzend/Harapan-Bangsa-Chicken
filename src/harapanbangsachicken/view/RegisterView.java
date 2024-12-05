@@ -14,37 +14,40 @@ public class RegisterView extends JFrame {
 
     public RegisterView() {
         super("Login & Register");
+        setExtendedState(JFrame.MAXIMIZED_BOTH);
+        setLocationRelativeTo(null);
+        setFont(new Font("Arial", Font.BOLD, 30));
 
-        JPanel inputPanel = new JPanel(new GridLayout(6, 2));
-        inputPanel.add(new JLabel("Nama Depan:"));
+        JPanel inputPanel = new JPanel(new GridLayout(8, 2));
+        inputPanel.add(new JLabel("Nama Depan     :"));
         namaDepanValue = new JTextField(10);
         inputPanel.add(namaDepanValue);
 
-        inputPanel.add(new JLabel("Nama Belakang:"));
+        inputPanel.add(new JLabel("Nama Belakang :"));
         namaBelakangValue = new JTextField(10);
         inputPanel.add(namaBelakangValue);
 
-        inputPanel.add(new JLabel("Email:"));
+        inputPanel.add(new JLabel("Email                  :"));
         emailValue = new JTextField(10);
         inputPanel.add(emailValue);
 
-        inputPanel.add(new JLabel("Password:"));
+        inputPanel.add(new JLabel("Password          :"));
         passwordValue = new JPasswordField(10);
         inputPanel.add(passwordValue);
 
-        inputPanel.add(new JLabel("No. Telepon:"));
+        inputPanel.add(new JLabel("No. Telepon      :"));
         noTelpValue = new JTextField(10);
         inputPanel.add(noTelpValue);
 
-        inputPanel.add(new JLabel("Alamat:"));
+        inputPanel.add(new JLabel("Alamat               :"));
         alamatValue = new JTextField(10);
         inputPanel.add(alamatValue);
 
-        inputPanel.add(new JLabel("Gender:"));
+        inputPanel.add(new JLabel("Gender              :"));
         genderValue = new JTextField(10);
         inputPanel.add(genderValue);
 
-        inputPanel.add(new JLabel("Saldo Awal:"));
+        inputPanel.add(new JLabel("Saldo Awal        :"));
         saldoValue = new JTextField(10);
         inputPanel.add(saldoValue);
 
@@ -59,9 +62,6 @@ public class RegisterView extends JFrame {
         add(inputPanel, BorderLayout.CENTER);
         add(buttonPanel, BorderLayout.SOUTH);
 
-        setSize(800, 700);
-        setLocationRelativeTo(null);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setVisible(true);
 
         loginButton.addActionListener(new ActionListener() {

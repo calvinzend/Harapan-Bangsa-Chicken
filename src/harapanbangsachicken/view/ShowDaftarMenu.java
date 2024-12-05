@@ -11,8 +11,9 @@ public class ShowDaftarMenu extends JFrame {
 
     public ShowDaftarMenu(ArrayList<Menu> menu) {
         super("Show Menu");
-        setSize(800, 700);
+        setExtendedState(JFrame.MAXIMIZED_BOTH);
         setLocationRelativeTo(null);
+        setFont(new Font("Arial", Font.BOLD, 30));
 
         JPanel panel = new JPanel();
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));

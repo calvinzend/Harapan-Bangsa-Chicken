@@ -6,7 +6,6 @@ import java.awt.event.ActionListener;
 
 import javax.swing.*;
 
-
 import harapanbangsachicken.model.classes.SingletonManager;
 
 public class ProfileView extends JFrame{
@@ -16,7 +15,7 @@ public class ProfileView extends JFrame{
 
     public ProfileView() {
         super("Show Profile");
-        setSize(800, 700);
+        setExtendedState(JFrame.MAXIMIZED_BOTH);
         setLocationRelativeTo(null);
 
         panel = new JPanel();
