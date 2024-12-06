@@ -96,6 +96,15 @@ public class MenuView extends JFrame {
             }
 
         });
+        logout.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e){
+                SingletonManager.getInstance().clearUser();
+                dispose();
+                new LoginView();
+            }
+
+        });
         
 
         setVisible(true);
