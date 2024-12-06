@@ -25,7 +25,7 @@ public class LoginView extends JFrame {
         input = new JPanel(new GridLayout(3, 2, 10, 10));
         input.setOpaque(false);
 
-        ImageIcon logoIcon = new ImageIcon("C:/Users/Calvi/OneDrive/Dokumen/Semester 3/pbo/Tubes/Tubes PBO/src/harapanbangsachicken/view/gambar/mcd.png");
+        ImageIcon logoIcon = new ImageIcon("src/harapanbangsachicken/view/gambar/mcd.png");
         Image scaledImage = logoIcon.getImage().getScaledInstance(100, 100, Image.SCALE_SMOOTH);
         logoIcon = new ImageIcon(scaledImage);
         logoLabel = new JLabel(logoIcon);

@@ -7,6 +7,7 @@ import javax.swing.*;
 public class MenuAdmin extends JFrame{
     private JButton viewTransaksi, viewTotalPendapatan, menu, resep, paket;
     private JPanel panel;
+    private JLabel logoLabel;
 
     public MenuAdmin(){
         super("Menu");
@@ -15,9 +16,16 @@ public class MenuAdmin extends JFrame{
         setFont(new Font("Arial", Font.BOLD, 30));
 
         panel = new JPanel(new GridBagLayout());
+        panel.setBackground(Color.RED);
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.insets = new Insets(10, 10, 10, 10);
+
+        
+        ImageIcon logoIcon = new ImageIcon("src/harapanbangsachicken/view/gambar/mcd.png");
+        Image scaledImage = logoIcon.getImage().getScaledInstance(100, 100, Image.SCALE_SMOOTH);
+        logoIcon = new ImageIcon(scaledImage);
+        logoLabel = new JLabel(logoIcon);
 
         JLabel judulAtas = new JLabel("Pilihan Menu", SwingConstants.CENTER);
         gbc.gridx = 0;
