@@ -127,6 +127,10 @@ public class RegisterView extends JFrame {
         gender.setFont(new Font("Arial", Font.PLAIN, 16));
         gender.setForeground(Color.YELLOW);
 
+        JPanel buttonGender = new JPanel(new GridLayout(1,2));
+        buttonGender.setOpaque(false);  
+
+        ButtonGroup genderGroup = new ButtonGroup();
         // input gender
         genderMaleValue = new JRadioButton("Pria");
         genderMaleValue.setBorderPainted(false);
@@ -136,7 +140,7 @@ public class RegisterView extends JFrame {
         genderMaleValue.setFont(new Font("Arial", Font.PLAIN, 16));
         genderMaleValue.setBackground(Color.RED);
         genderMaleValue.setForeground(Color.YELLOW);
-
+        
         genderFemaleValue = new JRadioButton("Wanita");
         genderFemaleValue.setBorderPainted(false);
         genderFemaleValue.setContentAreaFilled(false);
@@ -145,32 +149,13 @@ public class RegisterView extends JFrame {
         genderFemaleValue.setFont(new Font("Arial", Font.PLAIN, 16));
         genderFemaleValue.setBackground(Color.RED);
         genderFemaleValue.setForeground(Color.YELLOW);
-
-        input.add(genderMaleValue);
-        input.add(Box.createHorizontalStrut(10));
-        input.add(genderFemaleValue);
-
-        genderMaleValue.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if (genderMaleValue.isSelected()) {
-                    genderFemaleValue.setEnabled(false);
-                } else {
-                    genderFemaleValue.setEnabled(true);
-                }
-            }
-        });
-
-        genderFemaleValue.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if (genderFemaleValue.isSelected()) {
-                    genderMaleValue.setEnabled(false);
-                } else {
-                    genderMaleValue.setEnabled(true);
-                }
-            }
-        });
+        
+        genderGroup.add(genderMaleValue);
+        genderGroup.add(genderFemaleValue);
+        buttonGender.add(genderMaleValue);
+        buttonGender.add(genderFemaleValue);
+  
+        input.add(buttonGender);
 
         // label saldo
         input.add(saldoAwal = new JLabel("Saldo Awal        :"));
@@ -188,21 +173,19 @@ public class RegisterView extends JFrame {
 
         // login button
         loginButton = new JButton("LOGIN");
-        loginButton.setBorder(roundedBorderButton);
         loginButton.setFont(new Font("Arial", Font.BOLD, 16));
         loginButton.setBackground(Color.RED);
         loginButton.setForeground(Color.YELLOW);
 
         // register button
         registerButton = new JButton("REGISTER");
-        registerButton.setBorder(roundedBorderButton);
         registerButton.setFont(new Font("Arial", Font.BOLD, 16));
         registerButton.setBackground(Color.RED);
         registerButton.setForeground(Color.YELLOW);
-
-        input.add(loginButton);
-        input.add(Box.createVerticalStrut(10));
+        
         input.add(registerButton);
+        input.add(loginButton);
+        // input.add(Box.createVerticalStrut(10));
 
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(10, 10, 10, 10);
@@ -220,7 +203,7 @@ public class RegisterView extends JFrame {
         frame.add(input, gbc);
          
         add(frame);
-
+ 
         setVisible(true);
 
         loginButton.addActionListener(new ActionListener() {
@@ -268,16 +251,13 @@ public class RegisterView extends JFrame {
         return alamatValue.getText();
     }
 
-    public JRadioButton getGenderMaleValue() {
-        return genderMaleValue;
-    }
-
-    public void setGenderMaleValue(JRadioButton genderMaleValue) {
-        this.genderMaleValue = genderMaleValue;
-    }
-
-    public JRadioButton getGenderFemaleValue() {
-        return genderFemaleValue;
+    public String getGender() {
+        if (genderMaleValue.isSelected()) {
+            return "Pria";
+        } else if (genderFemaleValue.isSelected()) {
+            return "Wanita";
+        }
+        return null;
     }
 
     public void setGenderFemaleValue(JRadioButton genderFemaleValue) {
