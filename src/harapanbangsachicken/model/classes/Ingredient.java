@@ -51,4 +51,25 @@ public class Ingredient {
     public String toString() {
         return "ID Ingredient: " + getIng_id() + "\nName : " + getIngredientName() + "\nStock : " + getStock() + "\nSatuan : " + getSatuan();
     }
+
+    //Fungsi untuk meanambah Quantity, dilakukan secara manual oleh admin
+    public boolean insertQuantity(double quantity) {
+        setStock(getStock() + quantity);
+        return true;
+    }
+
+    //Fungsi untuk mengurangi Ingredient setiap kali ada pemakaian ingredient
+    public boolean deleteQuantity(double quantity) {
+        if (getStock() >= quantity) {
+            setStock(getStock() - quantity);
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public String checkStock(){
+        String str = "Jumlah Stock tersisa = " + getStock() + " " + getSatuan();
+        return str;
+    }
 }

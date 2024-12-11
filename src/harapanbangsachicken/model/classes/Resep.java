@@ -1,26 +1,24 @@
 package harapanbangsachicken.model.classes;
 
-import java.util.ArrayList;
-
 public class Resep {
-    private ArrayList<Ingredient> bahan;
+    private Ingredient bahan;
     private int quantity;
     private String satuan;
 
     public Resep() {
     }
 
-    public Resep(ArrayList<Ingredient> bahan, int quantity, String satuan) {
+    public Resep(Ingredient bahan, int quantity, String satuan) {
         this.bahan = bahan;
         this.quantity = quantity;
         this.satuan = satuan;
     }
 
-    public ArrayList<Ingredient> getBahan() {
+    public Ingredient getBahan() {
         return bahan;
     }
 
-    public void setBahan(ArrayList<Ingredient> bahan) {
+    public void setBahan(Ingredient bahan) {
         this.bahan = bahan;
     }
 
@@ -40,11 +38,50 @@ public class Resep {
         this.satuan = satuan;
     }
 
-    public  String toString() {
-        String ingredientMsg = "";
-        for (Ingredient ingredient : bahan) {
-            ingredientMsg += "\n" + ingredient.toString();
+    public String toString() {
+        return "Ingredient : " + getBahan() + "\nQuantity : " + getQuantity() + "\nSatuan : " + getSatuan();
+    }
+
+    public String showResep() {
+        String msg = "";
+        Ingredient bahanResep = bahan;
+        msg += "\nBahan  : " + bahanResep.getIngredientName();
+        msg += "\nJumlah : " + getQuantity() + " " + getSatuan();
+        return msg;
+    }
+
+    public boolean updateResep(Ingredient _bahan, int _quantity, String _satuan) {
+        if (_bahan != null) {
+            setBahan(_bahan);
+            return true;
+        } else {
+            if (_quantity != 0) {
+                if (_satuan != null) {
+                    setSatuan(_satuan);
+                }
+                setQuantity(_quantity);
+            } else {
+                if (_satuan != null) {
+                    setSatuan(_satuan);
+                } else {
+                    return false;
+                }
+            }
         }
-        return "Ingredient : " + ingredientMsg + "\nQuantity : " + getQuantity() + "\nSatuan : " + getSatuan();
+        return false;
+    }
+
+    public boolean insertResep(Ingredient _bahan, int _quantity, String _satuan) {
+        boolean lengkap = false;
+        if (_bahan != null || _quantity != 0 || _satuan != null) {
+            lengkap = true;
+        }
+        if (lengkap) {
+            setBahan(_bahan);
+            setQuantity(_quantity);
+            setSatuan(_satuan);
+            return true;
+        }
+        return false;
     }
 }
