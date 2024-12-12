@@ -17,7 +17,6 @@ public class RegisterView extends JFrame {
     private JPasswordField passwordValue;
     private JButton loginButton, registerButton;
     private Border roundedBorder = BorderFactory.createLineBorder(Color.YELLOW, 2, true);
-    private Border roundedBorderButton = BorderFactory.createLineBorder(Color.BLACK, 2, true);
 
     public RegisterView() {
         super("Login & Register");

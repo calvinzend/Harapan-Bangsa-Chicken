@@ -4,10 +4,16 @@ import java.awt.*;
 
 import javax.swing.*;
 
+import harapanbangsachicken.controller.Login;
+import harapanbangsachicken.model.classes.SingletonManager;
+
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 public class MenuAdmin extends JFrame{
-    private JButton viewTransaksi, viewTotalPendapatan, menu, resep, paket;
-    private JPanel panel;
+    private JButton viewTransaksi, viewTotalPendapatan, menu, resep, paket, logout;
     private JLabel logoLabel;
+    private JPanel panel;
 
     public MenuAdmin(){
         super("Menu");
@@ -21,52 +27,158 @@ public class MenuAdmin extends JFrame{
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.insets = new Insets(10, 10, 10, 10);
 
-        
+        // show image icon
         ImageIcon logoIcon = new ImageIcon("src/harapanbangsachicken/view/gambar/mcd.png");
         Image scaledImage = logoIcon.getImage().getScaledInstance(100, 100, Image.SCALE_SMOOTH);
         logoIcon = new ImageIcon(scaledImage);
-        logoLabel = new JLabel(logoIcon);
+        logoLabel = new JLabel(logoIcon, SwingConstants.CENTER);
 
-        JLabel judulAtas = new JLabel("Pilihan Menu", SwingConstants.CENTER);
         gbc.gridx = 0;
         gbc.gridy = 0;
         gbc.gridwidth = 5; 
+        gbc.anchor = GridBagConstraints.CENTER;
+        panel.add(logoLabel, gbc);
+        
+        // Header
+        JLabel judulAtas = new JLabel("SELAMAT DATANG ADMIN " + SingletonManager.getInstance().getUser().getNamaDepan().toUpperCase(), SwingConstants.CENTER);
+        judulAtas.setFont(new Font("Arial", Font.PLAIN, 28));
+        judulAtas.setForeground(Color.YELLOW);
+
+        gbc.gridx = 0;
+        gbc.gridy++;
+        gbc.gridwidth = 5; 
         panel.add(judulAtas, gbc);
 
-        viewTotalPendapatan = new JButton("Total Pendapatan");
-        gbc.gridx = 0;
-        gbc.gridy = 1;
-        gbc.gridwidth = 1;
-        panel.add(viewTotalPendapatan, gbc);
-
-        viewTransaksi= new JButton("Checkout");
-        gbc.gridx = 1;
-        gbc.gridy = 1;
-        panel.add(viewTransaksi, gbc);
-
-        menu = new JButton("Menu");
-        gbc.gridx = 2;
-        gbc.gridy = 1;
-        panel.add(menu, gbc);
-
-        resep = new JButton("Resep");
-        gbc.gridx = 3;
-        gbc.gridy = 1;
-        panel.add(resep, gbc);
-
-        paket = new JButton("Paket");
-        gbc.gridx = 4;
-        gbc.gridy = 1;
-        panel.add(paket, gbc);
-
+        // Header 2
         JLabel judulBawah = new JLabel("Silakan Pilih Opsi Anda", SwingConstants.CENTER);
+        judulBawah.setFont(new Font("Arial", Font.PLAIN, 20));
+        judulBawah.setForeground(Color.YELLOW);
+
         gbc.gridx = 0;
-        gbc.gridy = 2;
+        gbc.gridy++;
         gbc.gridwidth = 5; 
         panel.add(judulBawah, gbc);
 
-        add(panel);
+        // Menu 1 : Show Total Pendapatan
+        viewTotalPendapatan = new JButton("Total Pendapatan");
+        viewTotalPendapatan.setFont(new Font("Arial", Font.PLAIN, 16));
+        viewTotalPendapatan.setBackground(Color.RED);
+        viewTotalPendapatan.setForeground(Color.YELLOW);
 
+        gbc.gridx = 0;
+        gbc.gridy++;
+        gbc.gridwidth = 1;
+        panel.add(viewTotalPendapatan, gbc);
+
+        // Menu 2 : Show Checkout
+        viewTransaksi= new JButton("Checkout");
+        viewTransaksi.setFont(new Font("Arial", Font.PLAIN, 16));
+        viewTransaksi.setBackground(Color.RED);
+        viewTransaksi.setForeground(Color.YELLOW);
+        
+        gbc.gridx = 1;
+        gbc.gridy = 3;
+        panel.add(viewTransaksi, gbc);
+
+        // Menu 3 : Show List Menu
+        menu = new JButton("List Menu");
+        menu.setFont(new Font("Arial", Font.PLAIN, 16));
+        menu.setBackground(Color.RED);
+        menu.setForeground(Color.YELLOW);
+
+        gbc.gridx = 2;
+        gbc.gridy = 3;
+        panel.add(menu, gbc);
+
+        // Menu 4 : Show List Resep
+        resep = new JButton("List Resep");
+        resep.setFont(new Font("Arial", Font.PLAIN, 16));
+        resep.setBackground(Color.RED);
+        resep.setForeground(Color.YELLOW);
+
+        gbc.gridx = 3;
+        gbc.gridy = 3;
+        panel.add(resep, gbc);
+
+        // Menu 5 : Show List Paket
+        paket = new JButton("List Paket");
+        paket.setFont(new Font("Arial", Font.PLAIN, 16));
+        paket.setBackground(Color.RED);
+        paket.setForeground(Color.YELLOW);
+
+        gbc.gridx = 4;
+        gbc.gridy = 3;
+        panel.add(paket, gbc);
+
+        // Log out Button
+        logout = new JButton("Log out");
+        logout.setFont(new Font("Arial", Font.PLAIN, 16));
+        logout.setBackground(Color.RED);
+        logout.setForeground(Color.YELLOW);
+
+        gbc.gridx = 0;
+        gbc.gridy = 4;
+        panel.add(logout, gbc);
+        
+        
+        add(panel);
+        
         setVisible(true);
+        
+        viewTotalPendapatan.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e){
+                dispose();
+                new TotalPendapatanView();
+            }
+
+        });
+
+        viewTransaksi.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e){
+                dispose();
+                new TransaksiView();
+            }
+
+        });
+
+        menu.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e){
+                dispose();
+                new ListMenuAdminView();
+            }
+
+        });
+
+        resep.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e){
+                dispose();
+                new ResepView();
+            }
+
+        });
+
+        paket.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e){
+                dispose();
+                new PaketView();
+            }
+
+        });
+
+        logout.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e){
+                SingletonManager.getInstance().clearUser();
+                dispose();
+                new Login(new LoginView());
+            }
+
+        });
+
     }
 }
