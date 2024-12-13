@@ -72,12 +72,25 @@ public abstract class User {
         return false;
     }
 
-    public String showProfile(){
-        String hasil = "ID User: " + user_id + "<br>Nama Depan: " + namaDepan + "<br>Nama Belakang: " + namaBelakang + "<br>Email: " + email + "<br>Nomor Telepon: " + noTelp;
+    public String showProfile() {
+        StringBuilder hasil = new StringBuilder("<table>");
+        hasil.append("<tr><td><b>ID User</b></td><td>: ").append(user_id).append("</td></tr>");
+        hasil.append("<tr><td><b>Nama Depan</b></td><td>: ").append(namaDepan).append("</td></tr>");
+        hasil.append("<tr><td><b>Nama Belakang</b></td><td>: ").append(namaBelakang).append("</td></tr>");
+        hasil.append("<tr><td><b>Email</b></td><td>: ").append(email).append("</td></tr>");
+        hasil.append("<tr><td><b>Nomor Telepon</b></td><td>: ").append(noTelp).append("</td></tr>");
+    
         if (this instanceof Customer) {
             Customer customer = (Customer) this;
-            hasil += "<br>Alamat: " + customer.getAlamat() + "<br>Gender: " + customer.getGender()+"<br>Saldo: " + customer.getSaldo() + "<br>Point: " + customer.getSaldo() + "<br>Level: " + customer.getLevel(); 
+            hasil.append("<tr><td><b>Alamat</b></td><td>: ").append(customer.getAlamat()).append("</td></tr>");
+            hasil.append("<tr><td><b>Gender</b></td><td>: ").append(customer.getGender()).append("</td></tr>");
+            hasil.append("<tr><td><b>Saldo</b></td><td>: ").append(customer.getSaldo()).append("</td></tr>");
+            hasil.append("<tr><td><b>Point</b></td><td>: ").append(customer.getPoint()).append("</td></tr>");
+            hasil.append("<tr><td><b>Level</b></td><td>: ").append(customer.getLevel()).append("</td></tr>");
         }
-        return hasil;
+    
+        hasil.append("</table>");
+        return hasil.toString();
     }
+    
 }

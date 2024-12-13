@@ -43,7 +43,9 @@ public class ProfileView extends JFrame{
         back.setFont(new Font("Arial", Font.BOLD, 16));
         back.setBackground(Color.RED);
         back.setForeground(Color.YELLOW);
+        back.setPreferredSize(new Dimension(400, 40));
 
+        frame.add(back);
         frame.add(profile);
 
         GridBagConstraints gbc = new GridBagConstraints();
@@ -57,7 +59,7 @@ public class ProfileView extends JFrame{
 
         gbc.gridx = 0;
         gbc.gridy = 1; 
-        gbc.gridwidth = 1;  
+        gbc.gridwidth = 2;  
         gbc.anchor = GridBagConstraints.CENTER;
         panel.add(frame, gbc);
         

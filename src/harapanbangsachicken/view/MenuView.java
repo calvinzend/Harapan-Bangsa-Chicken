@@ -40,7 +40,6 @@ public class MenuView extends JFrame {
         JLabel judulAtas = new JLabel("SELAMAT DATANG "+ SingletonManager.getInstance().getUser().getNamaDepan().toUpperCase(), SwingConstants.CENTER);
         judulAtas.setFont(new Font("Arial", Font.PLAIN, 28));
         judulAtas.setForeground(Color.YELLOW);
-        judulAtas.setForeground(Color.YELLOW);
         
         gbc.gridx = 0;
         gbc.gridy++;
@@ -50,14 +49,11 @@ public class MenuView extends JFrame {
         JLabel judulBawah = new JLabel("Silakan Pilih Opsi Anda", SwingConstants.CENTER);
         judulBawah.setFont(new Font("Arial", Font.PLAIN, 20));
         judulBawah.setForeground(Color.YELLOW);
-        judulBawah.setForeground(Color.YELLOW);
 
         gbc.gridx = 0;
         gbc.gridy++;
         gbc.gridwidth = 5; 
         pesan.add(judulBawah, gbc);
-
-
 
         showMenu = new JButton("Show Menu");
         gbc.gridx = 0;
