@@ -12,15 +12,17 @@ public class Menu {
     private int menu_id;
     private String nama;
     private int harga;
+    private String gambarPath;
     private ArrayList<Resep> resep;
 
     public Menu() {
     }
 
-    public Menu(int menu_id, String nama, int harga, ArrayList<Resep> resep) {
+    public Menu(int menu_id, String nama, int harga, String gambarPath, ArrayList<Resep> resep) {
         this.menu_id = menu_id;
         this.nama = nama;
         this.harga = harga;
+        this.gambarPath = gambarPath;
         this.resep = resep;
     }
 
@@ -48,6 +50,14 @@ public class Menu {
         this.harga = harga;
     }
 
+    public String getGambarPath() {
+        return gambarPath;
+    }
+
+    public void setGambarPath(String gambarPath) {
+        this.gambarPath = gambarPath;
+    }
+    
     public ArrayList<Resep> getResep() {
         return resep;
     }
@@ -69,6 +79,7 @@ public class Menu {
                             rs.getInt("menu_id"),
                             rs.getString("nama"),
                             rs.getInt("harga"),
+                            rs.getString("picture_path"),
                             null
                         ));
                     }
@@ -78,6 +89,7 @@ public class Menu {
                             rs.getInt("menu_id"),
                             rs.getString("nama"),
                             rs.getInt("harga"),
+                            rs.getString("picture_path"),
                             null,
                             Size.valueOf(rs.getString("size"))
                         ));

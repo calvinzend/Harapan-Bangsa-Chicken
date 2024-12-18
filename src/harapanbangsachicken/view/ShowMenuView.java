@@ -2,6 +2,7 @@ package harapanbangsachicken.view;
 
 import javax.swing.*;
 
+import harapanbangsachicken.model.classes.Keranjang;
 import harapanbangsachicken.model.classes.Menu;
 
 import java.awt.*;
@@ -14,7 +15,7 @@ public class ShowMenuView extends JFrame {
     private JLabel logoLabel;
     private JPanel pesan;
 
-    public ShowMenuView() {
+    public ShowMenuView(ArrayList<Keranjang> listKeranjang) {
         super("Menu");
         setExtendedState(JFrame.MAXIMIZED_BOTH);
         setLocationRelativeTo(null);
@@ -129,8 +130,5 @@ public class ShowMenuView extends JFrame {
 
 
         setVisible(true);
-    }
-    public static void main(String[] args) {
-        new ShowMenuView();
     }
 }

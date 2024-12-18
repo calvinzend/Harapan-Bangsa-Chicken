@@ -129,7 +129,7 @@ public class MenuView extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e){
                 dispose();
-                new ShowMenuView();
+                new ShowMenuView(null);
             }
 
         });

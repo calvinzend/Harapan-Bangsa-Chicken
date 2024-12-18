@@ -7,14 +7,17 @@ public class Paket {
     private String namaPaket;
     private ArrayList<Menu> menu;
     private int harga;
+    private String picture_path;
 
     public Paket() {
     }
 
-    public Paket(String namaPaket, ArrayList<Menu> menu, int harga) {
+    public Paket(int paket_id, String namaPaket, ArrayList<Menu> menu, int harga, String picture_path) {
+        this.paket_id = paket_id;
         this.namaPaket = namaPaket;
         this.menu = menu;
         this.harga = harga;
+        this.picture_path = picture_path;
     }
 
     public int getPaket_id() {
