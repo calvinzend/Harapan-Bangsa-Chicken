@@ -11,8 +11,8 @@ public class Drink extends Menu {
 
     }
 
-    public Drink(int menu_id, String nama, int harga, ArrayList<Resep> resep, Size size) {
-        super(menu_id, nama, harga, resep);
+    public Drink(int menu_id, String nama, int harga, String gambarPath, ArrayList<Resep> resep, Size size) {
+        super(menu_id, nama, harga, gambarPath, resep);
         this.size = size;
     }
 
