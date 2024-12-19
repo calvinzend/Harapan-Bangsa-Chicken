@@ -9,11 +9,12 @@ import javax.swing.*;
 import harapanbangsachicken.model.classes.Drink;
 import harapanbangsachicken.model.classes.Keranjang;
 import harapanbangsachicken.model.classes.Menu;
+import harapanbangsachicken.model.classes.UpdateKeranjang;
 
 public class ShowDaftarMenu extends JFrame {
 
     private JButton backButton, keranjangButton;
-    private ArrayList<Keranjang> keranjang = new ArrayList<>();
+    // private ArrayList<Keranjang> keranjang = new ArrayList<>();
 
     public ShowDaftarMenu(ArrayList<Menu> menu) {
         super("Show Menu");
@@ -41,49 +42,79 @@ public class ShowDaftarMenu extends JFrame {
             JPanel itemPanel = new JPanel();
             itemPanel.setBackground(Color.RED);
             itemPanel.setLayout(new BoxLayout(itemPanel, BoxLayout.Y_AXIS));
-            
+
             JLabel foodLabel = new JLabel(dataMenu.getNama());
             foodLabel.setForeground(Color.YELLOW);
             foodLabel.setBackground(Color.WHITE);
             foodLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
-            
+
             if (dataMenu instanceof Drink) {
-                Drink data = (Drink)dataMenu;
+                Drink data = (Drink) dataMenu;
                 foodLabel.setText(data.getNama() + " - " + data.getSize());
             }
 
             JLabel foodImage = new JLabel(new ImageIcon(dataMenu.getGambarPath()));
             foodImage.setAlignmentX(Component.CENTER_ALIGNMENT);
             foodImage.setPreferredSize(new Dimension(200, 200));
-            
-            JLabel foodPriceLabel = new JLabel(String.valueOf(dataMenu.getHarga()));
+
+            JLabel foodPriceLabel = new JLabel("Rp " + dataMenu.getHarga());
             foodPriceLabel.setBackground(Color.WHITE);
             foodPriceLabel.setForeground(Color.YELLOW);
             foodPriceLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
-            
+
             JPanel quantityPanel = new JPanel();
             quantityPanel.setBackground(Color.RED);
             quantityPanel.setLayout(new FlowLayout());
 
             JButton minusButton = new JButton("-");
+            minusButton.setBackground(Color.RED);
+            minusButton.setForeground(Color.YELLOW);
             JTextField quantityField = new JTextField(3);
             quantityField.setText("0");
+            quantityField.setEditable(false);
             quantityField.setHorizontalAlignment(JTextField.CENTER);
             JButton plusButton = new JButton("+");
+            plusButton.setBackground(Color.RED);
+            plusButton.setForeground(Color.YELLOW);
 
             plusButton.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    quantityField.setText(String.valueOf(Integer.parseInt(quantityField.getText()) + 1));
-                    keranjang.add(new Keranjang(dataMenu, Integer.parseInt(quantityField.getText())));
+                    int currentFieldQuantity = Integer.parseInt(quantityField.getText());
+                    int newQuantity = currentFieldQuantity + 1; 
+                    quantityField.setText(String.valueOf(newQuantity)); 
+                
+                    for (Keranjang k : UpdateKeranjang.getInstance().getKeranjang()) {
+                        if (k.getMenu().getMenu_id() == dataMenu.getMenu_id()) {
+                            k.setJumlah(k.getJumlah() + 1); 
+                            return; 
+                        }
+                    }
+                
+                    UpdateKeranjang.getInstance().getKeranjang().add(new Keranjang(dataMenu, newQuantity));
                 }
-            });
+                });
+
             minusButton.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
- 
-                    quantityField.setText(String.valueOf(Integer.parseInt(quantityField.getText()) - 1));
-
+                    int currentQuantity = Integer.parseInt(quantityField.getText());
+                    int newQuantity = currentQuantity + 1; 
+                    quantityField.setText(String.valueOf(newQuantity)); 
+                    if (currentQuantity > 0) {
+                        quantityField.setText(String.valueOf(currentQuantity - 1));
+                        UpdateKeranjang.getInstance().addKeranjang(
+                            new Keranjang(dataMenu, currentQuantity - 1)
+                        );
+                    }
+                    for (Keranjang k : UpdateKeranjang.getInstance().getKeranjang()) {
+                        if (k.getMenu().getMenu_id() == dataMenu.getMenu_id()) {
+                            k.setJumlah(k.getJumlah() - 1); 
+                            return; 
+                        }
+                    }
+                
+                    UpdateKeranjang.getInstance().getKeranjang().add(new Keranjang(dataMenu, newQuantity));
                 }
             });
 
@@ -99,11 +130,14 @@ public class ShowDaftarMenu extends JFrame {
             menuPanel.add(itemPanel);
         }
 
+
         JScrollPane scrollPane = new JScrollPane(menuPanel);
         scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);
+        scrollPane.getHorizontalScrollBar().setUnitIncrement(10);
         panel2.add(scrollPane, BorderLayout.CENTER);
-
+        
+        
         mainPanel.add(panel2, BorderLayout.CENTER);
 
         keranjangButton = new JButton("Keranjang");
@@ -117,12 +151,12 @@ public class ShowDaftarMenu extends JFrame {
         backButton.setForeground(Color.YELLOW);
         
         keranjangButton.addActionListener(e -> {
-            // new ShowKeranjang(keranjang);
+            new ShowKeranjang();
             dispose();
         });
         
         backButton.addActionListener(e -> {
-            new ShowMenuView(keranjang);
+            new ShowMenuView();
             dispose();
         });
 

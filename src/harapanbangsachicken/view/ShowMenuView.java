@@ -15,7 +15,7 @@ public class ShowMenuView extends JFrame {
     private JLabel logoLabel;
     private JPanel pesan;
 
-    public ShowMenuView(ArrayList<Keranjang> listKeranjang) {
+    public ShowMenuView() {
         super("Menu");
         setExtendedState(JFrame.MAXIMIZED_BOTH);
         setLocationRelativeTo(null);
