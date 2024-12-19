@@ -16,7 +16,7 @@ public class MenuAdmin extends JFrame{
     private JPanel panel;
 
     public MenuAdmin(){
-        super("Menu");
+        super("Menu Admin");
         setExtendedState(JFrame.MAXIMIZED_BOTH);
         setLocationRelativeTo(null);
         setFont(new Font("Arial", Font.BOLD, 30));
@@ -71,43 +71,47 @@ public class MenuAdmin extends JFrame{
         panel.add(viewTotalPendapatan, gbc);
 
         // Menu 2 : Show Checkout
-        viewTransaksi= new JButton("Checkout");
+        viewTransaksi= new JButton("Lihat Transaksi");
         viewTransaksi.setFont(new Font("Arial", Font.PLAIN, 16));
         viewTransaksi.setBackground(Color.RED);
         viewTransaksi.setForeground(Color.YELLOW);
         
         gbc.gridx = 1;
         gbc.gridy = 3;
+        gbc.gridwidth = 1;
         panel.add(viewTransaksi, gbc);
 
         // Menu 3 : Show List Menu
-        menu = new JButton("List Menu");
+        menu = new JButton("Edit Menu");
         menu.setFont(new Font("Arial", Font.PLAIN, 16));
         menu.setBackground(Color.RED);
         menu.setForeground(Color.YELLOW);
 
         gbc.gridx = 2;
         gbc.gridy = 3;
+        gbc.gridwidth = 1;
         panel.add(menu, gbc);
 
         // Menu 4 : Show List Resep
-        resep = new JButton("List Resep");
+        resep = new JButton("Edit Resep");
         resep.setFont(new Font("Arial", Font.PLAIN, 16));
         resep.setBackground(Color.RED);
         resep.setForeground(Color.YELLOW);
 
         gbc.gridx = 3;
         gbc.gridy = 3;
+        gbc.gridwidth = 1;
         panel.add(resep, gbc);
 
         // Menu 5 : Show List Paket
-        paket = new JButton("List Paket");
+        paket = new JButton("Edit Paket");
         paket.setFont(new Font("Arial", Font.PLAIN, 16));
         paket.setBackground(Color.RED);
         paket.setForeground(Color.YELLOW);
 
         gbc.gridx = 4;
         gbc.gridy = 3;
+        gbc.gridwidth = 1;
         panel.add(paket, gbc);
 
         // Log out Button
@@ -116,8 +120,9 @@ public class MenuAdmin extends JFrame{
         logout.setBackground(Color.RED);
         logout.setForeground(Color.YELLOW);
 
-        gbc.gridx = 0;
+        gbc.gridx = 2;
         gbc.gridy = 4;
+        gbc.gridwidth = 1;
         panel.add(logout, gbc);
         
         
