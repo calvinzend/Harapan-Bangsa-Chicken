@@ -6,6 +6,7 @@ import javax.swing.*;
 
 import harapanbangsachicken.controller.Login;
 import harapanbangsachicken.model.classes.SingletonManager;
+import harapanbangsachicken.model.classes.UpdateKeranjang;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;

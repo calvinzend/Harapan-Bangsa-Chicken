@@ -48,9 +48,7 @@ public class UpdateKeranjang {
         }
     }
     
-    
-    public void clearUser() {
-        this.keranjang = null;
+    public void clearKeranjang() {
+        keranjang.clear();
     }
-
 }

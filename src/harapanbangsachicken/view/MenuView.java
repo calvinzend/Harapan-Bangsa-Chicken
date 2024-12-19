@@ -4,6 +4,7 @@ import javax.swing.*;
 
 import harapanbangsachicken.controller.Login;
 import harapanbangsachicken.model.classes.SingletonManager;
+import harapanbangsachicken.model.classes.UpdateKeranjang;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -145,6 +146,7 @@ public class MenuView extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e){
                 SingletonManager.getInstance().clearUser();
+                UpdateKeranjang.getInstance().clearKeranjang();
                 dispose();
                 new Login(new LoginView());
             }

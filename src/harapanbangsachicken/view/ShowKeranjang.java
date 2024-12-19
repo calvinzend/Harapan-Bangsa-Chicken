@@ -13,14 +13,14 @@ import harapanbangsachicken.model.classes.UpdateKeranjang;
 
 public class ShowKeranjang extends JFrame {
     private JButton backButton, showMenu, checkOut;
-    static double totalBelanja = 0;
-
+    private double totalBelanja = 0;
+    
     public ShowKeranjang() {
         super("Show Keranjang");
         setExtendedState(JFrame.MAXIMIZED_BOTH);
         setLocationRelativeTo(null);
         setFont(new Font("Arial", Font.BOLD, 30));
-
+       
         JLabel totalLabel = new JLabel();
         totalLabel.setForeground(Color.YELLOW);
         totalLabel.setFont(new Font("Arial", Font.ITALIC, 30));
