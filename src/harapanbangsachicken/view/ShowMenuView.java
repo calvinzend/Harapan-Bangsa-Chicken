@@ -1,8 +1,6 @@
 package harapanbangsachicken.view;
 
 import javax.swing.*;
-
-import harapanbangsachicken.model.classes.Keranjang;
 import harapanbangsachicken.model.classes.Menu;
 
 import java.awt.*;
@@ -11,7 +9,7 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 public class ShowMenuView extends JFrame {
-    private JButton addToKeranjang, menuMakanan, menuMinuman, menuPaket, keranjang, back;
+    private JButton menuMakanan, menuMinuman, menuPaket, keranjang, back;
     private JLabel logoLabel;
     private JPanel pesan;
 
@@ -82,6 +80,14 @@ public class ShowMenuView extends JFrame {
         gbc.gridy = 3;
         pesan.add(menuPaket, gbc);
 
+        keranjang = new JButton("Keranjang");
+        keranjang.setFont(new Font("Arial", Font.PLAIN, 16));
+        keranjang.setBackground(Color.RED);
+        keranjang.setForeground(Color.YELLOW);
+        gbc.gridx = 3;
+        gbc.gridy = 3;
+        pesan.add(keranjang, gbc);
+
         back= new JButton("Kembali");
         back.setFont(new Font("Arial", Font.PLAIN, 16));
         back.setBackground(Color.RED);
@@ -120,6 +126,13 @@ public class ShowMenuView extends JFrame {
             }
         });
 
+        keranjang.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                new ShowKeranjang();
+                dispose();
+            }
+        });
         back.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {

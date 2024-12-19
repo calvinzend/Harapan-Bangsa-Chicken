@@ -18,7 +18,6 @@ public class ShowDaftarMenu extends JFrame {
 
     public ShowDaftarMenu(ArrayList<Menu> menu) {
         super("Show Menu");
-        System.out.println("masuk");
         setExtendedState(JFrame.MAXIMIZED_BOTH);
         setLocationRelativeTo(null);
         setFont(new Font("Arial", Font.BOLD, 30));
@@ -39,6 +38,12 @@ public class ShowDaftarMenu extends JFrame {
         menuPanel.setBackground(Color.RED);
 
         for (Menu dataMenu : menu) {
+            int keranjangQuantity = 0;
+            for (Keranjang k : UpdateKeranjang.getInstance().getKeranjang()) {
+                if (k.getMenu().getMenu_id() == dataMenu.getMenu_id()) {
+                    keranjangQuantity = k.getJumlah();
+                }
+            }
             JPanel itemPanel = new JPanel();
             itemPanel.setBackground(Color.RED);
             itemPanel.setLayout(new BoxLayout(itemPanel, BoxLayout.Y_AXIS));
@@ -70,7 +75,7 @@ public class ShowDaftarMenu extends JFrame {
             minusButton.setBackground(Color.RED);
             minusButton.setForeground(Color.YELLOW);
             JTextField quantityField = new JTextField(3);
-            quantityField.setText("0");
+            quantityField.setText(String.valueOf(keranjangQuantity));
             quantityField.setEditable(false);
             quantityField.setHorizontalAlignment(JTextField.CENTER);
             JButton plusButton = new JButton("+");
@@ -86,7 +91,7 @@ public class ShowDaftarMenu extends JFrame {
                 
                     for (Keranjang k : UpdateKeranjang.getInstance().getKeranjang()) {
                         if (k.getMenu().getMenu_id() == dataMenu.getMenu_id()) {
-                            k.setJumlah(k.getJumlah() + 1); 
+                            k.setJumlah(newQuantity); 
                             return; 
                         }
                     }
@@ -99,22 +104,22 @@ public class ShowDaftarMenu extends JFrame {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     int currentQuantity = Integer.parseInt(quantityField.getText());
-                    int newQuantity = currentQuantity + 1; 
-                    quantityField.setText(String.valueOf(newQuantity)); 
+                    int newQuantity = 0; 
+                    
                     if (currentQuantity > 0) {
-                        quantityField.setText(String.valueOf(currentQuantity - 1));
-                        UpdateKeranjang.getInstance().addKeranjang(
-                            new Keranjang(dataMenu, currentQuantity - 1)
-                        );
-                    }
-                    for (Keranjang k : UpdateKeranjang.getInstance().getKeranjang()) {
-                        if (k.getMenu().getMenu_id() == dataMenu.getMenu_id()) {
-                            k.setJumlah(k.getJumlah() - 1); 
-                            return; 
+                        newQuantity = currentQuantity - 1;
+                        quantityField.setText(String.valueOf(newQuantity));
+                        for (Keranjang k : UpdateKeranjang.getInstance().getKeranjang()) {
+                            if (k.getMenu().getMenu_id() == dataMenu.getMenu_id()) {
+                                if(newQuantity>0){
+                                    k.setJumlah(newQuantity); 
+                                }else{
+                                    UpdateKeranjang.getInstance().getKeranjang().remove(k);
+                                }
+                                return;
+                            }
                         }
                     }
-                
-                    UpdateKeranjang.getInstance().getKeranjang().add(new Keranjang(dataMenu, newQuantity));
                 }
             });
 
