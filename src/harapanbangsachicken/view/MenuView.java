@@ -66,21 +66,21 @@ public class MenuView extends JFrame {
 
         pesan.add(showMenu, gbc);
 
-        checkout = new JButton("Checkout");
-        gbc.gridx = 1;
-        gbc.gridy = 3;
-        pesan.add(checkout, gbc);
-        checkout.setFont(new Font("Arial", Font.PLAIN, 16));
-        checkout.setBackground(Color.RED);
-        checkout.setForeground(Color.YELLOW);
-
         keranjang = new JButton("Keranjang");
-        gbc.gridx = 2;
+        gbc.gridx = 1;
         gbc.gridy = 3;
         pesan.add(keranjang, gbc);
         keranjang.setFont(new Font("Arial", Font.PLAIN, 16));
         keranjang.setBackground(Color.RED);
         keranjang.setForeground(Color.YELLOW);
+        
+        checkout = new JButton("Checkout");
+        gbc.gridx = 2;
+        gbc.gridy = 3;
+        pesan.add(checkout, gbc);
+        checkout.setFont(new Font("Arial", Font.PLAIN, 16));
+        checkout.setBackground(Color.RED);
+        checkout.setForeground(Color.YELLOW);
 
         checkProfil = new JButton("Check Profil");
         gbc.gridx = 3;
@@ -132,7 +132,13 @@ public class MenuView extends JFrame {
                 dispose();
                 new ShowMenuView();
             }
-
+        });
+        checkout.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e){
+                dispose();
+                new Checkout();
+            }
         });
         keranjang.addActionListener(new ActionListener() {
             @Override

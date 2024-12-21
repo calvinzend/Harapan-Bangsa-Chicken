@@ -1,6 +1,8 @@
 package harapanbangsachicken.model.classes;
 
+import java.sql.Connection;
 import java.sql.Date;
+import java.sql.PreparedStatement;
 import java.util.ArrayList;
 
 public class Transaction {
@@ -72,14 +74,39 @@ public class Transaction {
         this.hargaTotal = hargaTotal;
     }
 
-    @Override
-    public String toString() {
-        String menu = "";
+    public static boolean insertTransaction(Transaction transaction) {
+        String query = "INSERT INTO `transaction`(`transaction_id`, `tanggalPembelian`, `promo_id`, `customer_id`, `potonganPromo`, `hargaTotal`) " +
+                       "VALUES (?, ?, ?, ?, ?, ?)";
 
-        for (Menu msg1 : listMenu) {
-            menu += msg1.toString();
+        try (Connection con = ConnectionManager.getConnection();
+             PreparedStatement st = con.prepareStatement(query)) {
+
+            st.setInt(1, transaction.getTransaction_id());
+            st.setDate(2, new java.sql.Date(transaction.getTanggalPembelian().getTime()));
+            
+            if (transaction.getPemesan() instanceof Customer) {
+                Customer customer = (Customer) transaction.getPemesan();
+                if (customer.getListPromo() != null && !customer.getListPromo().isEmpty()) {
+                    st.setInt(3, customer.getListPromo().get(0).getPromo_id());
+                } else {
+                    st.setNull(3, java.sql.Types.INTEGER);
+                }
+            } else {
+                st.setNull(3, java.sql.Types.INTEGER); 
+            }
+
+            st.setInt(4, transaction.getPemesan().getUser_id());
+            st.setDouble(5, transaction.getPotonganPromo());
+            st.setDouble(6, transaction.getHargaTotal());
+
+            int rowsInserted = st.executeUpdate();
+            return rowsInserted > 0;
+
+        } catch (Exception ex) {
+            System.out.println("Terjadi kesalahan saat menyimpan transaksi: " + ex.getMessage());
+            return false;
         }
-
-        return "\nID Transaction: " + transaction_id + "\nMenu: " + menu + "\nPemesan: " + pemesan + "\nTanggal Pembelian: " + tanggalPembelian + "\nPotongan Promo: " + potonganPromo + "\nHarga Total: " + hargaTotal;
     }
+
+
 }

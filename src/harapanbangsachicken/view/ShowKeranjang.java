@@ -175,6 +175,10 @@ public class ShowKeranjang extends JFrame {
             new ShowMenuView();
             dispose();
         });
+        checkOut.addActionListener(e -> {
+            new Checkout();
+            dispose();
+        });
 
         JPanel buttonPanel = new JPanel();
         buttonPanel.setBackground(Color.RED);

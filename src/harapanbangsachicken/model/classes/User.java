@@ -1,5 +1,8 @@
 package harapanbangsachicken.model.classes;
 
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+
 public abstract class User {
     private int user_id;
     private String namaDepan;
@@ -92,5 +95,7 @@ public abstract class User {
         hasil.append("</table>");
         return hasil.toString();
     }
+
+     
     
 }

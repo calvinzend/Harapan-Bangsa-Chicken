@@ -47,6 +47,13 @@ public class UpdateKeranjang {
             System.out.println("Added new item.");
         }
     }
+    public double getTotalHarga() {
+        double totalHarga = 0;
+        for (Keranjang item : keranjang) {
+            totalHarga += item.getJumlah() * item.getMenu().getHarga();
+        }
+        return totalHarga;
+    }
     
     public void clearKeranjang() {
         keranjang.clear();

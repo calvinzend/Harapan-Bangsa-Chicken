@@ -4,6 +4,10 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.spi.CurrencyNameProvider;
+
+import javax.swing.JOptionPane;
+
 import harapanbangsachicken.model.enums.Level;
 
 public class Customer extends User {
@@ -193,6 +197,58 @@ public class Customer extends User {
         }
         return super.toString() + "\nAlamat: " + alamat + "\nGender: " + gender + "\nSaldo: " + saldo + "\nLevel: " + level + "\nPoint: " + point + "\nHistory: " + historyMsg + "\nPromo: " + promoMsg + "\nReward: " + rewardMsg;
     
+    }
+    public static Boolean Konfirmasi(int response) {
+        if (response == 0) {
+            return true;
+        } else {
+            JOptionPane.showMessageDialog(null,
+                "Checkout dibatalkan.",
+                "Informasi",
+                JOptionPane.INFORMATION_MESSAGE
+            );            
+            return false;
+        }
+    }
+    public void kurangiSaldo(double jumlah) {
+        if (this.saldo >= jumlah) {
+            this.saldo -= jumlah;
+        }
+    }
+
+     public static void Pembayaran(int pilihan) {
+        if (pilihan == 0) {
+            Customer customer = (Customer) SingletonManager.getInstance().getUser();
+            double totalHarga = UpdateKeranjang.getInstance().getTotalHarga();
+
+            if (customer.getSaldo() >= UpdateKeranjang.getInstance().getTotalHarga()) {
+                customer.kurangiSaldo(totalHarga);
+                JOptionPane.showMessageDialog(
+                    null,
+                    "Pembayaran berhasil menggunakan saldo! Saldo tersisa: Rp " + customer.saldo,
+                    "Sukses",
+                    JOptionPane.INFORMATION_MESSAGE
+                );
+
+                UpdateKeranjang.getInstance().clearKeranjang();
+
+            } else {
+                JOptionPane.showMessageDialog(
+                    null,
+                    "Saldo tidak mencukupi untuk melakukan pembayaran.",
+                    "Kesalahan",
+                    JOptionPane.ERROR_MESSAGE
+                );
+            }
+
+        } else if (pilihan == 1) {
+            JOptionPane.showMessageDialog(
+                null,
+                "Pembayaran berhasil menggunakan kartu bank!",
+                "Sukses",
+                JOptionPane.INFORMATION_MESSAGE
+            );
+        }
     }
 
    
