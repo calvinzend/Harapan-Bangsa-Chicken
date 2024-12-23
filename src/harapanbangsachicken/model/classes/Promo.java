@@ -3,6 +3,8 @@ package harapanbangsachicken.model.classes;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.ArrayList;
 
 public class Promo {
     private int promo_id;
@@ -16,27 +18,35 @@ public class Promo {
         this.nominalPromo = nominalPromo;
         this.date = date;
     }
+
     public int getPromo_id() {
         return promo_id;
     }
+
     public void setPromo_id(int promo_id) {
         this.promo_id = promo_id;
     }
+
     public String getNamaPromo() {
         return namaPromo;
     }
+
     public void setNamaPromo(String namaPromo) {
         this.namaPromo = namaPromo;
     }
+
     public double getNominalPromo() {
         return nominalPromo;
     }
+
     public void setNominalPromo(double nominalPromo) {
         this.nominalPromo = nominalPromo;
     }
+
     public Date getDate() {
         return date;
     }
+    
     public void setDate(Date date) {
         this.date = date;
     }
@@ -79,7 +89,6 @@ public class Promo {
         }
     }
 
-    // Method to delete a promo
     public static boolean deletePromo(int promo_id) {
         String query = "DELETE FROM `promo` WHERE `promo_id` = ?";
         try (Connection con = ConnectionManager.getConnection();
@@ -96,4 +105,26 @@ public class Promo {
         }
     }
 
+    public static ArrayList<Promo> getData() {
+        ArrayList<Promo> promoList = new ArrayList<>();
+        String query = "SELECT * FROM promo";
+        try (Connection con = ConnectionManager.getConnection();
+             PreparedStatement st = con.prepareStatement(query)) {
+    
+            try (ResultSet rs = st.executeQuery()) {
+                while (rs.next()) {
+                    promoList.add(new Promo(
+                        rs.getInt("promo_id"),
+                        rs.getString("namaPromo"),
+                        rs.getInt("nominalPromo"),
+                        rs.getDate("promo_date")
+                    ));
+                }
+            }
+            return promoList;
+        } catch (Exception ex) {
+            System.out.println("Terjadi kesalahan: " + ex.getMessage());
+        }
+        return null;
+    }
 }

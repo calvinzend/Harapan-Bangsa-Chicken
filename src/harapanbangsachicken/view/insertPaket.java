@@ -1,5 +1,5 @@
 package harapanbangsachicken.view;
 
-public class insertPaket {
+public class InsertPaket {
     
 }
