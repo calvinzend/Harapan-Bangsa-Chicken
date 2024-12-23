@@ -7,18 +7,21 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
+import harapanbangsachicken.model.classes.Promo;
+
 import java.awt.*;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
-public class ResepView extends JFrame{
+public class PromoView extends JFrame{
     private JPanel frame;
     private JLabel logoLabel, header;
-    private JButton updateResep, insertResep, showResep, backButton;
+    private JButton updatePromo, insertPromo, deletePromo, backButton;
     private GridBagConstraints gbc;
 
-    public ResepView() {
+    public PromoView() {
         super("Menu Admin");
         setExtendedState(JFrame.MAXIMIZED_BOTH);
         setLocationRelativeTo(null);
@@ -50,38 +53,38 @@ public class ResepView extends JFrame{
         gbc.gridwidth = 5;
         frame.add(header, gbc);
 
-        // Button untuk mengubah resep secara spesifik
-        updateResep = new JButton("Update Resep");
-        updateResep.setFont(new Font("Arial", Font.BOLD, 16));
-        updateResep.setBackground(Color.RED);
-        updateResep.setForeground(Color.YELLOW);
+        // Button untuk mengubah promo secara spesifik
+        updatePromo = new JButton("Update Promo");
+        updatePromo.setFont(new Font("Arial", Font.BOLD, 16));
+        updatePromo.setBackground(Color.RED);
+        updatePromo.setForeground(Color.YELLOW);
 
         gbc.gridx = 0;
         gbc.gridy = 2;
         gbc.gridwidth = 1;
-        frame.add(updateResep, gbc);
+        frame.add(updatePromo, gbc);
 
-        // Button untuk menambahkan resep
-        insertResep = new JButton("Tambah Resep");
-        insertResep.setFont(new Font("Arial", Font.BOLD, 16));
-        insertResep.setBackground(Color.RED);
-        insertResep.setForeground(Color.YELLOW);
+        // Button untuk menambahkan promo
+        insertPromo = new JButton("Tambah Promo");
+        insertPromo.setFont(new Font("Arial", Font.BOLD, 16));
+        insertPromo.setBackground(Color.RED);
+        insertPromo.setForeground(Color.YELLOW);
 
         gbc.gridx = 1;
         gbc.gridy = 2;
         gbc.gridwidth = 1;
-        frame.add(insertResep, gbc);
+        frame.add(insertPromo, gbc);
 
-        // Button untuk menghapus resep secara spesifik
-        showResep = new JButton("Show Resep");
-        showResep.setFont(new Font("Arial", Font.BOLD, 16));
-        showResep.setBackground(Color.RED);
-        showResep.setForeground(Color.YELLOW);
+        // Button untuk menghapus promo secara spesifik
+        deletePromo = new JButton("Hapus Promo");
+        deletePromo.setFont(new Font("Arial", Font.BOLD, 16));
+        deletePromo.setBackground(Color.RED);
+        deletePromo.setForeground(Color.YELLOW);
 
         gbc.gridx = 2;
         gbc.gridy = 2;
         gbc.gridwidth = 1;
-        frame.add(showResep, gbc);
+        frame.add(deletePromo, gbc);
 
         // Button untuk kembali ke menu admin
         backButton = new JButton("Kembali");
@@ -98,29 +101,30 @@ public class ResepView extends JFrame{
 
         setVisible(true);
 
-        updateResep.addActionListener(new ActionListener() {
+        updatePromo.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e){
                 dispose();
-                new UpdateResep();
+                new UpdatePromo();
             }
 
         });
 
-        insertResep.addActionListener(new ActionListener() {
+        insertPromo.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e){
                 dispose();
-                new InsertResep();
+                new InsertPromo();
             }
 
         });
 
-        showResep.addActionListener(new ActionListener() {
+        deletePromo.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e){
+                ArrayList<Promo> show = Promo.getData();
                 dispose();
-                
+                new DeletePromo(show);
             }
 
         });

@@ -12,13 +12,13 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class ResepView extends JFrame{
+public class RewardView extends JFrame{
     private JPanel frame;
     private JLabel logoLabel, header;
-    private JButton updateResep, insertResep, showResep, backButton;
+    private JButton updateReward, insertReward, backButton;
     private GridBagConstraints gbc;
 
-    public ResepView() {
+    public RewardView() {
         super("Menu Admin");
         setExtendedState(JFrame.MAXIMIZED_BOTH);
         setLocationRelativeTo(null);
@@ -50,38 +50,27 @@ public class ResepView extends JFrame{
         gbc.gridwidth = 5;
         frame.add(header, gbc);
 
-        // Button untuk mengubah resep secara spesifik
-        updateResep = new JButton("Update Resep");
-        updateResep.setFont(new Font("Arial", Font.BOLD, 16));
-        updateResep.setBackground(Color.RED);
-        updateResep.setForeground(Color.YELLOW);
+        // Button untuk mengubah reward secara spesifik
+        updateReward = new JButton("Update Reward");
+        updateReward.setFont(new Font("Arial", Font.BOLD, 16));
+        updateReward.setBackground(Color.RED);
+        updateReward.setForeground(Color.YELLOW);
 
         gbc.gridx = 0;
         gbc.gridy = 2;
         gbc.gridwidth = 1;
-        frame.add(updateResep, gbc);
+        frame.add(updateReward, gbc);
 
-        // Button untuk menambahkan resep
-        insertResep = new JButton("Tambah Resep");
-        insertResep.setFont(new Font("Arial", Font.BOLD, 16));
-        insertResep.setBackground(Color.RED);
-        insertResep.setForeground(Color.YELLOW);
+        // Button untuk menambahkan reward
+        insertReward = new JButton("Tambah Reward");
+        insertReward.setFont(new Font("Arial", Font.BOLD, 16));
+        insertReward.setBackground(Color.RED);
+        insertReward.setForeground(Color.YELLOW);
 
         gbc.gridx = 1;
         gbc.gridy = 2;
         gbc.gridwidth = 1;
-        frame.add(insertResep, gbc);
-
-        // Button untuk menghapus resep secara spesifik
-        showResep = new JButton("Show Resep");
-        showResep.setFont(new Font("Arial", Font.BOLD, 16));
-        showResep.setBackground(Color.RED);
-        showResep.setForeground(Color.YELLOW);
-
-        gbc.gridx = 2;
-        gbc.gridy = 2;
-        gbc.gridwidth = 1;
-        frame.add(showResep, gbc);
+        frame.add(insertReward, gbc);
 
         // Button untuk kembali ke menu admin
         backButton = new JButton("Kembali");
@@ -98,29 +87,20 @@ public class ResepView extends JFrame{
 
         setVisible(true);
 
-        updateResep.addActionListener(new ActionListener() {
+        updateReward.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e){
                 dispose();
-                new UpdateResep();
+                new UpdateReward();
             }
 
         });
 
-        insertResep.addActionListener(new ActionListener() {
+        insertReward.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e){
                 dispose();
-                new InsertResep();
-            }
-
-        });
-
-        showResep.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e){
-                dispose();
-                
+                new InsertReward();
             }
 
         });

@@ -102,7 +102,7 @@ public class ListMenuAdminView extends JFrame{
             @Override
             public void actionPerformed(ActionEvent e){
                 dispose();
-                new updateMenu();
+                new UpdateMenu();
             }
 
         });
@@ -111,7 +111,7 @@ public class ListMenuAdminView extends JFrame{
             @Override
             public void actionPerformed(ActionEvent e){
                 dispose();
-                new insertMenu();
+                new InsertMenu();
             }
 
         });

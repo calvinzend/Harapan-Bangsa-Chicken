@@ -259,19 +259,11 @@ public class RegisterView extends JFrame {
         return null;
     }
 
-    public void setGenderFemaleValue(JRadioButton genderFemaleValue) {
-        this.genderFemaleValue = genderFemaleValue;
-    }
-
     public String getSaldo() {
         return saldoValue.getText();
     }
 
     public void showMessage(String message) {
         JOptionPane.showMessageDialog(this, message);
-    }
-
-    public static void main(String[] args) {
-        new RegisterView();
     }
 }

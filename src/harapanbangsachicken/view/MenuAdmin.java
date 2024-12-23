@@ -5,14 +5,14 @@ import java.awt.*;
 import javax.swing.*;
 
 import harapanbangsachicken.controller.Login;
+import harapanbangsachicken.model.classes.Reward;
 import harapanbangsachicken.model.classes.SingletonManager;
-import harapanbangsachicken.model.classes.UpdateKeranjang;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class MenuAdmin extends JFrame{
-    private JButton viewTransaksi, viewTotalPendapatan, menu, resep, paket, logout;
+    private JButton viewTransaksi, viewTotalPendapatan, menu, resep, paket, promo, reward, logout;
     private JLabel logoLabel;
     private JPanel panel;
 
@@ -79,7 +79,7 @@ public class MenuAdmin extends JFrame{
         
         gbc.gridx = 1;
         gbc.gridy = 3;
-        gbc.gridwidth = 1;
+        gbc.gridwidth = 2;
         panel.add(viewTransaksi, gbc);
 
         // Menu 3 : Show List Menu
@@ -88,9 +88,9 @@ public class MenuAdmin extends JFrame{
         menu.setBackground(Color.RED);
         menu.setForeground(Color.YELLOW);
 
-        gbc.gridx = 2;
-        gbc.gridy = 3;
-        gbc.gridwidth = 1;
+        gbc.gridx = 0;
+        gbc.gridy = 4;
+        gbc.gridwidth = 2;
         panel.add(menu, gbc);
 
         // Menu 4 : Show List Resep
@@ -101,7 +101,7 @@ public class MenuAdmin extends JFrame{
 
         gbc.gridx = 3;
         gbc.gridy = 3;
-        gbc.gridwidth = 1;
+        gbc.gridwidth = 2;
         panel.add(resep, gbc);
 
         // Menu 5 : Show List Paket
@@ -110,10 +110,32 @@ public class MenuAdmin extends JFrame{
         paket.setBackground(Color.RED);
         paket.setForeground(Color.YELLOW);
 
-        gbc.gridx = 4;
-        gbc.gridy = 3;
-        gbc.gridwidth = 1;
+        gbc.gridx = 2;
+        gbc.gridy = 4;
+        gbc.gridwidth = 2;
         panel.add(paket, gbc);
+
+        // Menu 6 : Show List Promo
+        promo = new JButton("Edit Promo");
+        promo.setFont(new Font("Arial", Font.PLAIN, 16));
+        promo.setBackground(Color.RED);
+        promo.setForeground(Color.YELLOW);
+
+        gbc.gridx = 0;
+        gbc.gridy = 5;
+        gbc.gridwidth = 2;
+        panel.add(promo, gbc);
+
+        // Menu 7 : Show List Reward
+        reward = new JButton("Edit Reward");
+        reward.setFont(new Font("Arial", Font.PLAIN, 16));
+        reward.setBackground(Color.RED);
+        reward.setForeground(Color.YELLOW);
+
+        gbc.gridx = 4;
+        gbc.gridy = 4;
+        gbc.gridwidth = 2;
+        panel.add(reward, gbc);
 
         // Log out Button
         logout = new JButton("Log out");
@@ -121,9 +143,9 @@ public class MenuAdmin extends JFrame{
         logout.setBackground(Color.RED);
         logout.setForeground(Color.YELLOW);
 
-        gbc.gridx = 2;
-        gbc.gridy = 4;
-        gbc.gridwidth = 1;
+        gbc.gridx = 1;
+        gbc.gridy = 5;
+        gbc.gridwidth = 2;
         panel.add(logout, gbc);
         
         
@@ -172,6 +194,24 @@ public class MenuAdmin extends JFrame{
             public void actionPerformed(ActionEvent e){
                 dispose();
                 new PaketView();
+            }
+
+        });
+
+        promo.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e){
+                dispose();
+                new PromoView();
+            }
+
+        });
+
+        reward.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e){
+                dispose();
+                new RewardView();
             }
 
         });

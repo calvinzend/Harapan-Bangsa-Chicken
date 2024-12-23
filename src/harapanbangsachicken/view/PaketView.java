@@ -102,7 +102,7 @@ public class PaketView extends JFrame{
             @Override
             public void actionPerformed(ActionEvent e){
                 dispose();
-                new updatePaket();
+                new UpdatePaket();
             }
 
         });
@@ -111,7 +111,7 @@ public class PaketView extends JFrame{
             @Override
             public void actionPerformed(ActionEvent e){
                 dispose();
-                new insertPaket();
+                new InsertPaket();
             }
 
         });
