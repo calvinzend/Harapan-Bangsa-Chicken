@@ -7,7 +7,7 @@ import harapanbangsachicken.model.classes.Customer;
 
 public class CheckoutController {
 
-    public void Konfirmasi(JFrame parentFrame) {
+    public boolean Konfirmasi(JFrame parentFrame) {
         int response = JOptionPane.showConfirmDialog(
             parentFrame,
             "Apakah Anda yakin ingin melanjutkan ke checkout?",
@@ -17,12 +17,14 @@ public class CheckoutController {
         );
 
         if (Customer.Konfirmasi(response)) {
-            Pembayaran();
+            boolean berhasil = Pembayaran();
+            return berhasil;
         }
-       
+
+        return false;
     }
 
-    public void Pembayaran(){
+    public boolean Pembayaran(){
         String[] options = {"Saldo User", "Kartu (Bank)"};
 
         int pilihan = JOptionPane.showOptionDialog(
@@ -36,6 +38,7 @@ public class CheckoutController {
             options[0]
         );
 
-        Customer.Pembayaran(pilihan);
+        boolean berhasilDibayar = Customer.Pembayaran(pilihan);
+        return berhasilDibayar;
     }
 }

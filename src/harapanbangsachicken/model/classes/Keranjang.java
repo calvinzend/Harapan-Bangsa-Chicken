@@ -13,7 +13,7 @@ public class Keranjang {
         this.jumlah = jumlah;
     }
 
-    public Keranjang(int jumlah, Paket paket) {
+    public Keranjang(Paket paket, int jumlah) {
         this.jumlah = jumlah;
         this.paket = paket;
     }

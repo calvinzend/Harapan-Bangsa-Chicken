@@ -2,6 +2,7 @@ package harapanbangsachicken.view;
 
 import javax.swing.*;
 import harapanbangsachicken.model.classes.Menu;
+import harapanbangsachicken.model.classes.Paket;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -102,11 +103,6 @@ public class ShowMenuView extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 ArrayList<Menu> show = Menu.getData("Food");
-  
-                for (Menu menu : show) {
-                    System.out.println(menu.toString() +"\n");
-                }
-                System.out.println();
                 new ShowDaftarMenu(show);
                 dispose();
             }
@@ -116,13 +112,17 @@ public class ShowMenuView extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 ArrayList<Menu> show = Menu.getData("Drink");
-  
-                for (Menu menu : show) {
-                    System.out.println(menu.toString() +"\n");
-                }
-                System.out.println();
                 new ShowDaftarMenu(show);
                 dispose();
+            }
+        });
+
+        menuPaket.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                ArrayList<Paket> show = Paket.getData();
+                new ShowDaftarPaket(show);
+                dispose();                
             }
         });
 

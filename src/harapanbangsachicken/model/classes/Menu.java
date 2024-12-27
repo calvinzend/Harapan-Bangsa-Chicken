@@ -7,7 +7,6 @@ import java.util.ArrayList;
 
 import harapanbangsachicken.model.enums.Size;
 
-
 public class Menu {
     private int menu_id;
     private String nama;
@@ -57,7 +56,7 @@ public class Menu {
     public void setGambarPath(String gambarPath) {
         this.gambarPath = gambarPath;
     }
-    
+
     public ArrayList<Resep> getResep() {
         return resep;
     }
@@ -71,28 +70,28 @@ public class Menu {
         String query = "SELECT * FROM menu WHERE type = ?";
         try (Connection con = ConnectionManager.getConnection();
                 PreparedStatement st = con.prepareStatement(query)) {
-                st.setString(1, type);
+            st.setString(1, type);
             try (ResultSet rs = st.executeQuery()) {
                 if (type.equals("Food")) {
                     while (rs.next()) {
-                        menuList.add(new Food(
-                            rs.getInt("menu_id"),
-                            rs.getString("nama"),
-                            rs.getInt("harga"),
-                            rs.getString("picture_path"),
-                            null
-                        ));
+                        int menu_id = rs.getInt("menu_id");
+                        String nama = rs.getString("nama");
+                        int harga = rs.getInt("harga");
+                        String pic_path = rs.getString("picture_path");
+                        ArrayList<Resep> resep = Resep.getData(menu_id);
+
+                        menuList.add(new Food(menu_id, nama, harga, pic_path, resep));
                     }
-                } else if(type.equals("Drink")) {
+                } else if (type.equals("Drink")) {
                     while (rs.next()) {
-                        menuList.add(new Drink(
-                            rs.getInt("menu_id"),
-                            rs.getString("nama"),
-                            rs.getInt("harga"),
-                            rs.getString("picture_path"),
-                            null,
-                            Size.valueOf(rs.getString("size"))
-                        ));
+                        int menu_id = rs.getInt("menu_id");
+                        String nama = rs.getString("nama");
+                        int harga = rs.getInt("harga");
+                        String pic_path = rs.getString("picture_path");
+                        ArrayList<Resep> resep = Resep.getData(menu_id);
+                        Size size = Size.valueOf(rs.getString("size"));
+
+                        menuList.add(new Drink(menu_id, nama, harga, pic_path, resep, size));
                     }
                 }
             }
@@ -102,7 +101,30 @@ public class Menu {
         return menuList;
     }
 
-    public String toString(){
+    public static Menu getDataById(int id) {
+        Menu m = null;
+        String query = "SELECT * FROM menu WHERE menu_id = ?";
+        try (Connection con = ConnectionManager.getConnection();
+                PreparedStatement st = con.prepareStatement(query)) {
+            st.setInt(1, id);
+            try (ResultSet rs = st.executeQuery()) {
+                if (rs.next()) {
+                    int menu_id = rs.getInt("menu_id");
+                    String nama = rs.getString("nama");
+                    int harga = rs.getInt("harga");
+                    String pic_path = rs.getString("picture_path");
+                    ArrayList<Resep> resep = Resep.getData(menu_id);
+
+                    m = new Food(menu_id, nama, harga, pic_path, resep);
+                }
+            }
+        } catch (Exception ex) {
+            System.out.println("Terjadi kesalahan: " + ex.getMessage());
+        }
+        return m;
+    }
+
+    public String toString() {
         return "ID Menu: " + getMenu_id() + "\nNama : " + getNama() + "\nHarga: " + getHarga();
     }
 }

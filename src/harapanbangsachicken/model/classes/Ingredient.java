@@ -1,5 +1,9 @@
 package harapanbangsachicken.model.classes;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+
 public class Ingredient {
     private int ing_id;
     private String ingredientName;
@@ -49,16 +53,53 @@ public class Ingredient {
     }
 
     public String toString() {
-        return "ID Ingredient: " + getIng_id() + "\nName : " + getIngredientName() + "\nStock : " + getStock() + "\nSatuan : " + getSatuan();
+        return "ID Ingredient: " + getIng_id() + "\nName : " + getIngredientName() + "\nStock : " + getStock()
+                + "\nSatuan : " + getSatuan();
     }
 
-    //Fungsi untuk meanambah Quantity, dilakukan secara manual oleh admin
+    public static Ingredient getData(int id) {
+        Ingredient ingredient = null;
+        String query = "SELECT * FROM ingredient where ing_id = ?";
+        try (Connection con = ConnectionManager.getConnection();
+                PreparedStatement st = con.prepareStatement(query)) {
+            st.setInt(1, id);
+            try (ResultSet rs = st.executeQuery()) {
+                if (rs.next()) {
+                    int ing_id = rs.getInt("ing_id");
+                    String name = rs.getString("ingredient_name");
+                    double stock = rs.getDouble("stock");
+                    String satuan = rs.getString("satuan");
+
+                    ingredient = new Ingredient(ing_id, name, stock, satuan);
+                }
+            }
+        } catch (Exception ex) {
+            System.out.println("Terjadi kesalahan: " + ex.getMessage());
+        }
+        return ingredient;
+    }
+
+    public static boolean updateStock(double newStock, int id) {
+        String query = "UPDATE ingredient SET stock = ? WHERE ing_id = ?";
+        try (Connection con = ConnectionManager.getConnection();
+                PreparedStatement st = con.prepareStatement(query)) {
+            st.setDouble(1, newStock);
+            st.setInt(2, id);
+            int rowsUpdated = st.executeUpdate();
+            return rowsUpdated > 0;
+        } catch (Exception ex) {
+            System.out.println("Terjadi kesalahan: " + ex.getMessage());
+        }
+        return false;
+    }
+
+    // Fungsi untuk menambah Quantity, dilakukan secara manual oleh admin
     public boolean insertQuantity(double quantity) {
         setStock(getStock() + quantity);
         return true;
     }
 
-    //Fungsi untuk mengurangi Ingredient setiap kali ada pemakaian ingredient
+    // Fungsi untuk mengurangi Ingredient setiap kali ada pemakaian ingredient
     public boolean deleteQuantity(double quantity) {
         if (getStock() >= quantity) {
             setStock(getStock() - quantity);
@@ -68,7 +109,7 @@ public class Ingredient {
         }
     }
 
-    public String checkStock(){
+    public String checkStock() {
         String str = "Jumlah Stock tersisa = " + getStock() + " " + getSatuan();
         return str;
     }

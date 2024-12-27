@@ -1,5 +1,8 @@
 package harapanbangsachicken.model.classes;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.util.ArrayList;
 
 public class Paket {
@@ -50,6 +53,54 @@ public class Paket {
 
     public void setHarga(int harga) {
         this.harga = harga;
+    }
+
+    public String getPicture_path() {
+        return picture_path;
+    }
+
+    public void setPicture_path(String picture_path) {
+        this.picture_path = picture_path;
+    }
+
+    public static ArrayList<Paket> getData() {
+        ArrayList<Paket> paketList = new ArrayList<>();
+        String query = "SELECT * FROM paket";
+        try (Connection con = ConnectionManager.getConnection();
+                PreparedStatement st = con.prepareStatement(query)) {
+            try (ResultSet rs = st.executeQuery()) {
+                while (rs.next()) {
+                    int paket_id = rs.getInt("paket_id");
+                    String nama = rs.getString("nama_paket");
+                    ArrayList<Menu> menu = Paket.getPaketMenu(paket_id);
+                    int harga = rs.getInt("harga");
+                    String pic_path = rs.getString("picture_path");
+
+                    paketList.add(new Paket(paket_id, nama, menu, harga, pic_path));
+                }
+            }
+        } catch (Exception ex) {
+            System.out.println("Terjadi kesalahan: " + ex.getMessage());
+        }
+        return paketList;
+    }
+
+    public static ArrayList<Menu> getPaketMenu(int id) {
+        ArrayList<Menu> menuList = new ArrayList<>();
+        String query = "SELECT * FROM paketmenu where paket_id = ?";
+        try (Connection con = ConnectionManager.getConnection();
+                PreparedStatement st = con.prepareStatement(query)) {
+                    st.setInt(1, id);
+            try (ResultSet rs = st.executeQuery()) {
+                while (rs.next()) {
+                    int menu_id = rs.getInt("menu_id");
+                    menuList.add(Menu.getDataById(menu_id));
+                }
+            }
+        } catch (Exception ex) {
+            System.out.println("Terjadi kesalahan: " + ex.getMessage());
+        }
+        return menuList;
     }
 
 }
