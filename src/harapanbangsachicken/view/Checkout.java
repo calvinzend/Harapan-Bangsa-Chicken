@@ -6,7 +6,11 @@ import harapanbangsachicken.model.classes.Drink;
 import harapanbangsachicken.model.classes.Keranjang;
 import harapanbangsachicken.model.classes.UpdateKeranjang;
 import harapanbangsachicken.controller.CheckoutController;
+import harapanbangsachicken.controller.StockController;
+
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 public class Checkout extends JFrame {
@@ -46,8 +50,23 @@ public class Checkout extends JFrame {
             JPanel itemPanel = new JPanel(new BorderLayout());
             itemPanel.setBackground(Color.RED);
             itemPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+
+            String img = "";
+            String nama = "";
+            double harga = 0;
+            int jumlah = item.getJumlah();
+
+            if(item.getMenu() != null){
+                img = item.getMenu().getGambarPath();
+                nama = item.getMenu().getNama();
+                harga = item.getMenu().getHarga();
+            } else {
+                img = item.getPaket().getPicture_path();
+                nama = item.getPaket().getNamaPaket();
+                harga = item.getPaket().getHarga();
+            }
         
-            ImageIcon originalIcon = new ImageIcon(item.getMenu().getGambarPath());
+            ImageIcon originalIcon = new ImageIcon(img);
             Image scaledImage = originalIcon.getImage().getScaledInstance(50, 50, Image.SCALE_SMOOTH);
             ImageIcon scaledIcon = new ImageIcon(scaledImage);
 
@@ -63,7 +82,7 @@ public class Checkout extends JFrame {
             detailsPanel.setLayout(new BoxLayout(detailsPanel, BoxLayout.Y_AXIS));
             detailsPanel.setBackground(Color.RED);
 
-            JLabel nameLabel = new JLabel(item.getMenu().getNama());
+            JLabel nameLabel = new JLabel(nama);
             nameLabel.setFont(new Font("Arial", Font.BOLD, 16));
             nameLabel.setForeground(Color.YELLOW);
             detailsPanel.add(nameLabel);
@@ -73,11 +92,11 @@ public class Checkout extends JFrame {
                 nameLabel.setText(data.getNama() + " - " + data.getSize());
             }
         
-            JLabel priceLabel = new JLabel("Harga: Rp " + item.getMenu().getHarga());
+            JLabel priceLabel = new JLabel("Harga: Rp " + harga);
             priceLabel.setForeground(Color.YELLOW);
             detailsPanel.add(priceLabel);
         
-            JLabel quantityLabel = new JLabel("Jumlah: " + item.getJumlah());
+            JLabel quantityLabel = new JLabel("Jumlah: " + jumlah);
             quantityLabel.setForeground(Color.YELLOW);
             detailsPanel.add(quantityLabel);
         
@@ -85,7 +104,7 @@ public class Checkout extends JFrame {
         
             JPanel totalPricePanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
             totalPricePanel.setBackground(Color.RED);
-            totalHarga = item.getJumlah() * item.getMenu().getHarga();
+            totalHarga = jumlah * harga;
             JLabel totalPriceLabel = new JLabel("Total: Rp " + totalHarga);
             totalPriceLabel.setFont(new Font("Arial", Font.BOLD, 14));
             totalPriceLabel.setForeground(Color.YELLOW);
@@ -147,8 +166,22 @@ public class Checkout extends JFrame {
             dispose();
         });
        
-        CheckoutController checkoutController = new CheckoutController();
-        checkoutButton.addActionListener(e -> checkoutController.Konfirmasi(this));
+        ArrayList<Keranjang> finalKeranjang = new ArrayList<>(keranjang);
+        
+        checkoutButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                CheckoutController checkoutController = new CheckoutController();
+                StockController stockController = new StockController();
+
+                boolean statusPembayaran = checkoutController.Konfirmasi(Checkout.this);
+                if (statusPembayaran) {
+                    stockController.updateStock(finalKeranjang);
+                    new MenuView();
+                    dispose();
+                }
+            }
+        });
 
         mainPanel.add(actionPanel);
 

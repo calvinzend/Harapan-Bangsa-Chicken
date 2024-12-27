@@ -7,17 +7,16 @@ import java.util.ArrayList;
 import javax.swing.*;
 
 import harapanbangsachicken.controller.StockController;
-import harapanbangsachicken.model.classes.Drink;
 import harapanbangsachicken.model.classes.Keranjang;
-import harapanbangsachicken.model.classes.Menu;
+import harapanbangsachicken.model.classes.Paket;
 import harapanbangsachicken.model.classes.UpdateKeranjang;
 
-public class ShowDaftarMenu extends JFrame {
+public class ShowDaftarPaket extends JFrame {
 
     private JButton backButton, keranjangButton;
 
-    public ShowDaftarMenu(ArrayList<Menu> menu) {
-        super("Show Menu");
+    public ShowDaftarPaket(ArrayList<Paket> paket) {
+        super("Show Paket");
         setExtendedState(JFrame.MAXIMIZED_BOTH);
         setLocationRelativeTo(null);
         setFont(new Font("Arial", Font.BOLD, 30));
@@ -29,20 +28,22 @@ public class ShowDaftarMenu extends JFrame {
         JPanel panel2 = new JPanel(new BorderLayout());
         panel2.setOpaque(false);
 
-        JLabel header = new JLabel("Daftar Menu", SwingConstants.CENTER);
+        JLabel header = new JLabel("Daftar Paket", SwingConstants.CENTER);
         header.setFont(new Font("Arial", Font.PLAIN, 28));
         header.setForeground(Color.YELLOW);
         panel2.add(header, BorderLayout.NORTH);
 
-        JPanel menuPanel = new JPanel(new GridLayout(2, 0, 10, 10));
-        menuPanel.setBackground(Color.RED);
+        JPanel paketPanel = new JPanel(new GridLayout(2, 0, 10, 10));
+        paketPanel.setBackground(Color.RED);
 
-        for (Menu dataMenu : menu) {
+        for (Paket paketMenu : paket) {
             int keranjangQuantity = 0;
             for (Keranjang k : UpdateKeranjang.getInstance().getKeranjang()) {
-                if (k.getMenu() != null) {
-                    if (k.getMenu().getMenu_id() == dataMenu.getMenu_id()) {
-                        keranjangQuantity = k.getJumlah();
+                if (k.getMenu() == null) {
+                    if (k.getPaket() != null) {
+                        if (k.getPaket().getPaket_id() == paketMenu.getPaket_id()) {
+                            keranjangQuantity = k.getJumlah();
+                        }
                     }
                 }
             }
@@ -50,21 +51,16 @@ public class ShowDaftarMenu extends JFrame {
             itemPanel.setBackground(Color.RED);
             itemPanel.setLayout(new BoxLayout(itemPanel, BoxLayout.Y_AXIS));
 
-            JLabel foodLabel = new JLabel(dataMenu.getNama());
+            JLabel foodLabel = new JLabel(paketMenu.getNamaPaket());
             foodLabel.setForeground(Color.YELLOW);
             foodLabel.setBackground(Color.WHITE);
             foodLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-            if (dataMenu instanceof Drink) {
-                Drink data = (Drink) dataMenu;
-                foodLabel.setText(data.getNama() + " - " + data.getSize());
-            }
-
-            JLabel foodImage = new JLabel(new ImageIcon(dataMenu.getGambarPath()));
+            JLabel foodImage = new JLabel(new ImageIcon(paketMenu.getPicture_path()));
             foodImage.setAlignmentX(Component.CENTER_ALIGNMENT);
             foodImage.setPreferredSize(new Dimension(200, 200));
 
-            JLabel foodPriceLabel = new JLabel("Rp " + dataMenu.getHarga());
+            JLabel foodPriceLabel = new JLabel("Rp " + paketMenu.getHarga());
             foodPriceLabel.setBackground(Color.WHITE);
             foodPriceLabel.setForeground(Color.YELLOW);
             foodPriceLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -89,15 +85,15 @@ public class ShowDaftarMenu extends JFrame {
             plusButton.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    if (stockController.checkStockMenu(dataMenu)) {
+                    if (stockController.checkStockPaket(paketMenu)) {
                         int currentFieldQuantity = Integer.parseInt(quantityField.getText());
                         int newQuantity = currentFieldQuantity + 1;
                         quantityField.setText(String.valueOf(newQuantity));
 
                         for (Keranjang k : UpdateKeranjang.getInstance().getKeranjang()) {
-                            if (k.getPaket() == null) {
-                                if (k.getMenu() != null) {
-                                    if (k.getMenu().getMenu_id() == dataMenu.getMenu_id()) {
+                            if (k.getMenu() == null) {
+                                if (k.getPaket() != null) {
+                                    if (k.getPaket().getPaket_id() == paketMenu.getPaket_id()) {
                                         k.setJumlah(newQuantity);
                                         return;
                                     }
@@ -105,7 +101,7 @@ public class ShowDaftarMenu extends JFrame {
                             }
                         }
 
-                        UpdateKeranjang.getInstance().getKeranjang().add(new Keranjang(dataMenu, newQuantity));
+                        UpdateKeranjang.getInstance().getKeranjang().add(new Keranjang(paketMenu, newQuantity));
 
                     } else {
                         showMessage("Stock tidak cukup!");
@@ -123,9 +119,9 @@ public class ShowDaftarMenu extends JFrame {
                         newQuantity = currentQuantity - 1;
                         quantityField.setText(String.valueOf(newQuantity));
                         for (Keranjang k : UpdateKeranjang.getInstance().getKeranjang()) {
-                            if (k.getPaket() == null) {
-                                if (k.getMenu() != null) {
-                                    if (k.getMenu().getMenu_id() == dataMenu.getMenu_id()) {
+                            if (k.getMenu() == null) {
+                                if (k.getPaket() != null) {
+                                    if (k.getPaket().getPaket_id() == paketMenu.getPaket_id()) {
                                         if (newQuantity > 0) {
                                             k.setJumlah(newQuantity);
                                         } else {
@@ -135,6 +131,7 @@ public class ShowDaftarMenu extends JFrame {
                                     }
                                 }
                             }
+
                         }
                     }
                 }
@@ -149,10 +146,10 @@ public class ShowDaftarMenu extends JFrame {
             itemPanel.add(foodPriceLabel);
             itemPanel.add(quantityPanel);
 
-            menuPanel.add(itemPanel);
+            paketPanel.add(itemPanel);
         }
 
-        JScrollPane scrollPane = new JScrollPane(menuPanel);
+        JScrollPane scrollPane = new JScrollPane(paketPanel);
         scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);
         scrollPane.getHorizontalScrollBar().setUnitIncrement(10);

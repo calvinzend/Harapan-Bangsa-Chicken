@@ -7,6 +7,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.*;
 
+import harapanbangsachicken.controller.StockController;
 import harapanbangsachicken.model.classes.Drink;
 import harapanbangsachicken.model.classes.Keranjang;
 import harapanbangsachicken.model.classes.UpdateKeranjang;
@@ -14,13 +15,13 @@ import harapanbangsachicken.model.classes.UpdateKeranjang;
 public class ShowKeranjang extends JFrame {
     private JButton backButton, showMenu, checkOut;
     private double totalBelanja = 0;
-    
+
     public ShowKeranjang() {
         super("Show Keranjang");
         setExtendedState(JFrame.MAXIMIZED_BOTH);
         setLocationRelativeTo(null);
         setFont(new Font("Arial", Font.BOLD, 30));
-       
+
         JLabel totalLabel = new JLabel();
         totalLabel.setForeground(Color.YELLOW);
         totalLabel.setFont(new Font("Arial", Font.ITALIC, 30));
@@ -50,17 +51,32 @@ public class ShowKeranjang extends JFrame {
             itemPanel.setBackground(Color.RED);
             itemPanel.setLayout(new BoxLayout(itemPanel, BoxLayout.Y_AXIS));
 
-            JLabel foodLabel = new JLabel(dataKeranjang.getMenu().getNama());
+            String nama = "";
+            String img = "";
+            double totalHarga = 0;
+            int quantity = dataKeranjang.getJumlah();
+
+            if (dataKeranjang.getMenu() != null) {
+                if (dataKeranjang.getMenu() instanceof Drink) {
+                    Drink data = (Drink) dataKeranjang.getMenu();
+                    nama = data.getNama() + " - " + data.getSize();
+                } else {
+                    nama = dataKeranjang.getMenu().getNama();
+                }
+                img = dataKeranjang.getMenu().getGambarPath();
+                totalHarga = dataKeranjang.getJumlah() * dataKeranjang.getMenu().getHarga();
+            } else {
+                nama = dataKeranjang.getPaket().getNamaPaket();
+                img = dataKeranjang.getPaket().getPicture_path();
+                totalHarga = dataKeranjang.getJumlah() * dataKeranjang.getPaket().getHarga();
+            }
+
+            JLabel foodLabel = new JLabel(nama);
             foodLabel.setForeground(Color.YELLOW);
             foodLabel.setBackground(Color.WHITE);
             foodLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-            if (dataKeranjang.getMenu() instanceof Drink) {
-                Drink data = (Drink) dataKeranjang.getMenu();
-                foodLabel.setText(data.getNama() + " - " + data.getSize());
-            }
-
-            JLabel foodImage = new JLabel(new ImageIcon(dataKeranjang.getMenu().getGambarPath()));
+            JLabel foodImage = new JLabel(new ImageIcon(img));
             foodImage.setAlignmentX(Component.CENTER_ALIGNMENT);
             foodImage.setPreferredSize(new Dimension(200, 200));
 
@@ -72,15 +88,14 @@ public class ShowKeranjang extends JFrame {
             minusButton.setBackground(Color.RED);
             minusButton.setForeground(Color.YELLOW);
             JTextField quantityField = new JTextField(3);
-            quantityField.setText(String.valueOf(dataKeranjang.getJumlah()));
+            quantityField.setText(String.valueOf(quantity));
             quantityField.setEditable(false);
             quantityField.setHorizontalAlignment(JTextField.CENTER);
             JButton plusButton = new JButton("+");
             plusButton.setBackground(Color.RED);
             plusButton.setForeground(Color.YELLOW);
 
-            double totalHarga = dataKeranjang.getJumlah() * dataKeranjang.getMenu().getHarga();
-            JLabel foodPriceLabel = new JLabel("Total Rp " + String.valueOf(String.valueOf(totalHarga)));
+            JLabel foodPriceLabel = new JLabel("Total Rp " + totalHarga);
             totalBelanja += totalHarga;
             totalLabel.setText("Total Belanja : Rp " + String.valueOf(totalBelanja));
 
@@ -88,30 +103,57 @@ public class ShowKeranjang extends JFrame {
             foodPriceLabel.setForeground(Color.YELLOW);
             foodPriceLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
 
+            StockController stockController = new StockController();
+
             plusButton.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    int newQuantity = Integer.parseInt(quantityField.getText()) + 1;
-                    quantityField.setText(String.valueOf(newQuantity));
-                    dataKeranjang.setJumlah(newQuantity);
-                    UpdateKeranjang.getInstance().addKeranjang(dataKeranjang);
-                    foodPriceLabel.setText("Total Rp " + (newQuantity * dataKeranjang.getMenu().getHarga()));
-                    totalBelanja += 1 * dataKeranjang.getMenu().getHarga();
-                    totalLabel.setText("Total Belanja : Rp " + String.valueOf(totalBelanja));
+                    if (stockController.checkStockKeranjang(dataKeranjang)) {
+                        int newQuantity = Integer.parseInt(quantityField.getText()) + 1;
+                        quantityField.setText(String.valueOf(newQuantity));
+                        dataKeranjang.setJumlah(newQuantity);
+                        UpdateKeranjang.getInstance().addKeranjang(dataKeranjang);
+                        double newTotal = 0;
+                        if (dataKeranjang.getMenu() != null) {
+                            newTotal = newQuantity * dataKeranjang.getMenu().getHarga();
+                            totalBelanja += 1 * dataKeranjang.getMenu().getHarga();
+                        } else {
+                            newTotal = newQuantity * dataKeranjang.getPaket().getHarga();
+                            totalBelanja += 1 * dataKeranjang.getPaket().getHarga();
+                        }
+                        foodPriceLabel.setText("Total Rp " + newTotal);
+                        totalLabel.setText("Total Belanja : Rp " + String.valueOf(totalBelanja));
+                    } else {
+                        showMessage("Stock tidak cukup!");
+                    }
+
                 }
             });
             minusButton.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     int currentQuantity = Integer.parseInt(quantityField.getText());
-                    totalBelanja -= 1 * dataKeranjang.getMenu().getHarga();
+
+                    if (dataKeranjang.getMenu() != null) {
+                        totalBelanja -= 1 * dataKeranjang.getMenu().getHarga();
+                    } else {
+                        totalBelanja -= 1 * dataKeranjang.getPaket().getHarga();
+                    }
                     totalLabel.setText("Total Belanja : Rp " + String.valueOf(totalBelanja));
+
                     if (currentQuantity > 1) {
                         int newQuantity = currentQuantity - 1;
                         quantityField.setText(String.valueOf(newQuantity));
                         dataKeranjang.setJumlah(newQuantity);
                         UpdateKeranjang.getInstance().addKeranjang(dataKeranjang);
-                        foodPriceLabel.setText("Total Rp " + (newQuantity * dataKeranjang.getMenu().getHarga()));
+                        
+                        double newTotal = 0;
+                        if (dataKeranjang.getMenu() != null) {
+                            newTotal = newQuantity * dataKeranjang.getMenu().getHarga();
+                        } else {
+                            newTotal = newQuantity * dataKeranjang.getPaket().getHarga();
+                        }
+                        foodPriceLabel.setText("Total Rp " + newTotal);
                     } else {
                         UpdateKeranjang.getInstance().getKeranjang().remove(dataKeranjang);
                         menuPanel.remove(itemPanel);
@@ -189,5 +231,9 @@ public class ShowKeranjang extends JFrame {
 
         add(mainPanel);
         setVisible(true);
+    }
+
+    public void showMessage(String message) {
+        JOptionPane.showMessageDialog(this, message);
     }
 }

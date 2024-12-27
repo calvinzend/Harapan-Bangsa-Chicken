@@ -1,14 +1,19 @@
 package harapanbangsachicken.model.classes;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.ArrayList;
+
 public class Resep {
     private Ingredient bahan;
-    private int quantity;
+    private double quantity;
     private String satuan;
 
     public Resep() {
     }
 
-    public Resep(Ingredient bahan, int quantity, String satuan) {
+    public Resep(Ingredient bahan, double quantity, String satuan) {
         this.bahan = bahan;
         this.quantity = quantity;
         this.satuan = satuan;
@@ -22,11 +27,11 @@ public class Resep {
         this.bahan = bahan;
     }
 
-    public int getQuantity() {
+    public double getQuantity() {
         return quantity;
     }
 
-    public void setQuantity(int quantity) {
+    public void setQuantity(double quantity) {
         this.quantity = quantity;
     }
 
@@ -40,6 +45,29 @@ public class Resep {
 
     public String toString() {
         return "Ingredient : " + getBahan() + "\nQuantity : " + getQuantity() + "\nSatuan : " + getSatuan();
+    }
+
+    public static ArrayList<Resep> getData(int menu_id) {
+        ArrayList<Resep> resepList = new ArrayList<>();
+        String query = "SELECT * FROM resep WHERE menu_id = ?";
+        try (Connection con = ConnectionManager.getConnection();
+                PreparedStatement st = con.prepareStatement(query)) {
+                st.setInt(1, menu_id);
+            try (ResultSet rs = st.executeQuery()) {
+                    while (rs.next()) {
+                        int ing_id = rs.getInt("ing_id");
+                        double quantity = rs.getDouble("quantity");
+                        String satuan = rs.getString("satuan");
+                        Ingredient ingredient = Ingredient.getData(ing_id);
+
+                        resepList.add(new Resep(ingredient, quantity, satuan));
+                    }
+                
+            }
+        } catch (Exception ex) {
+            System.out.println("Terjadi kesalahan: " + ex.getMessage());
+        }
+        return resepList;
     }
 
     public String showResep() {
@@ -83,5 +111,9 @@ public class Resep {
             return true;
         }
         return false;
+    }
+
+    public boolean reduceIngredientStock(double newQuantity, int _id){
+        return Ingredient.updateStock(newQuantity, _id);
     }
 }
