@@ -176,6 +176,7 @@ public class Checkout extends JFrame {
 
                 boolean statusPembayaran = checkoutController.Konfirmasi(Checkout.this);
                 if (statusPembayaran) {
+                    UpdateKeranjang.getInstance().clearKeranjang();
                     stockController.updateStock(finalKeranjang);
                     new MenuView();
                     dispose();

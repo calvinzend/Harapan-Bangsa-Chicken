@@ -11,19 +11,19 @@ public class StockController {
     public void updateStock(ArrayList<Keranjang> keranjang) {
         for (Keranjang k : keranjang) {
             if (k.getMenu() != null) {
-                updateStockMenu(k.getMenu());
+                updateStockMenu(k.getMenu(), k.getJumlah());
             }else{
                 for (Menu m : k.getPaket().getMenu()) {
-                    updateStockMenu(m);
+                    updateStockMenu(m, k.getJumlah());
                 }
             }
         }
     }
 
-    public void updateStockMenu(Menu m) {
+    public void updateStockMenu(Menu m, int jumlah) {
         for (Resep r : m.getResep()) {
             if (r.getBahan().getStock() > 0) {
-                double newStock = r.getBahan().getStock() - r.getQuantity();
+                double newStock = r.getBahan().getStock() - (r.getQuantity() * jumlah);
                 r.reduceIngredientStock(newStock, r.getBahan().getIng_id());
             } else {
                 System.out.println("error, Stock tidak cukup!");
