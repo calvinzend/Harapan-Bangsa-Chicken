@@ -2,13 +2,14 @@ package harapanbangsachicken.view;
 
 import java.awt.*;
 import java.util.ArrayList;
-
+import java.util.Iterator;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.*;
 
 import harapanbangsachicken.controller.StockController;
 import harapanbangsachicken.model.classes.Drink;
+import harapanbangsachicken.model.classes.Food;
 import harapanbangsachicken.model.classes.Keranjang;
 import harapanbangsachicken.model.classes.UpdateKeranjang;
 
@@ -146,7 +147,7 @@ public class ShowKeranjang extends JFrame {
                         quantityField.setText(String.valueOf(newQuantity));
                         dataKeranjang.setJumlah(newQuantity);
                         UpdateKeranjang.getInstance().addKeranjang(dataKeranjang);
-                        
+
                         double newTotal = 0;
                         if (dataKeranjang.getMenu() != null) {
                             newTotal = newQuantity * dataKeranjang.getMenu().getHarga();
@@ -217,9 +218,66 @@ public class ShowKeranjang extends JFrame {
             new ShowMenuView();
             dispose();
         });
-        checkOut.addActionListener(e -> {
-            new Checkout();
-            dispose();
+        // checkOut.addActionListener(e -> {
+        // new Checkout();
+        // dispose();
+        // });
+        checkOut.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                ArrayList<Keranjang> keranjang = UpdateKeranjang.getInstance().getKeranjang();
+                StockController stockController = new StockController();
+                ArrayList<Keranjang> invalidItem = stockController.checkStockFinal(keranjang);
+                if (invalidItem.size() != 0) {
+                    String msg = "";
+                    int i = 1;
+                    for (Keranjang invalid : invalidItem) {
+                        String nama = "";
+                        if (invalid.getMenu() != null) {
+                            if (invalid.getMenu() instanceof Food) {
+                                nama = invalid.getMenu().getNama();
+                            } else {
+                                Drink menu = (Drink) invalid.getMenu();
+                                nama = menu.getNama() + "-" + menu.getSize();
+                            }
+                        } else {
+                            nama = invalid.getPaket().getNamaPaket();
+                        }
+                        msg += "\n" + i + "." + nama + " x" + invalid.getJumlah();
+                        i++;
+                    }
+                    boolean remove = removeInvalidItem(msg);
+                    if (remove) {
+                        for (Keranjang invalid : invalidItem) {
+                            if (invalid.getMenu() != null) {
+                                Iterator<Keranjang> iterator = keranjang.iterator();
+                                while (iterator.hasNext()) {
+                                    Keranjang k = iterator.next();
+                                    if (invalid.getMenu().getNama().equals(k.getMenu().getNama()) && invalid.getMenu().getHarga() == k.getMenu().getHarga()) {
+                                        iterator.remove();
+                                    }
+                                }
+                            } else {
+                                Iterator<Keranjang> iterator = keranjang.iterator();
+                                while (iterator.hasNext()) {
+                                    Keranjang k = iterator.next();
+                                    if (invalid.getPaket().getNamaPaket().equals(k.getPaket().getNamaPaket()) && invalid.getPaket().getHarga() == k.getPaket().getHarga()) {
+                                        iterator.remove();
+                                    }
+                                }
+                            }
+                        }
+                        new Checkout();
+                        dispose();
+                    } else {
+                        new ShowKeranjang();
+                        dispose();
+                    }
+                } else {
+                    new Checkout();
+                    dispose();
+                }
+            }
         });
 
         JPanel buttonPanel = new JPanel();
@@ -235,5 +293,16 @@ public class ShowKeranjang extends JFrame {
 
     public void showMessage(String message) {
         JOptionPane.showMessageDialog(this, message);
+    }
+
+    public boolean removeInvalidItem(String massage) {
+        int result = JOptionPane.showConfirmDialog(this,
+                "Sorry, this item is not available \n" + massage + "\nRemove it?", "Stock not available!",
+                JOptionPane.YES_NO_OPTION);
+        if (result == JOptionPane.YES_OPTION) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }

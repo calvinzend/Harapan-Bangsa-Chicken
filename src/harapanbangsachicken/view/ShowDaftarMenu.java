@@ -89,8 +89,8 @@ public class ShowDaftarMenu extends JFrame {
             plusButton.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    if (stockController.checkStockMenu(dataMenu)) {
-                        int currentFieldQuantity = Integer.parseInt(quantityField.getText());
+                    int currentFieldQuantity = Integer.parseInt(quantityField.getText());
+                    if (stockController.checkStockMenu(dataMenu, currentFieldQuantity + 1)) {
                         int newQuantity = currentFieldQuantity + 1;
                         quantityField.setText(String.valueOf(newQuantity));
 
