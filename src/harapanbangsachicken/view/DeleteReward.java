@@ -1,5 +1,4 @@
 package harapanbangsachicken.view;
-
 import javax.swing.*;
 import javax.swing.border.Border;
 
@@ -10,15 +9,15 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
-public class UpdateReward extends JFrame{
+public class DeleteReward extends JFrame{
     private JPanel frame, input;
-    private JLabel logoLabel, idReward, namaReward, minimalPoinReward;
-    private JTextField idRewardValue, namaRewardValue, minimalPoinRewardValue;
+    private JLabel logoLabel, idReward;
+    private JTextField idRewardValue;
     private JButton submitReward, backButton;
     private Border roundedBorder = BorderFactory.createLineBorder(Color.YELLOW, 2, true);
 
-    public UpdateReward() {
-        super("Update Reward");
+    public DeleteReward() {
+        super("Delete Reward");
         setExtendedState(JFrame.MAXIMIZED_BOTH);
         setLocationRelativeTo(null);
         setFont(new Font("Arial", Font.BOLD, 30));
@@ -36,8 +35,8 @@ public class UpdateReward extends JFrame{
         logoIcon = new ImageIcon(scaledImage);
         logoLabel = new JLabel(logoIcon);
     
-        // label id reward
-        input.add(idReward = new JLabel("Insert ID Reward that you want to update  :"));
+        // label input id reward
+        input.add(idReward = new JLabel("Insert ID Reward that you want to delete :"));
         idReward.setFont(new Font("Arial", Font.PLAIN, 16));
         idReward.setForeground(Color.YELLOW);
     
@@ -49,34 +48,6 @@ public class UpdateReward extends JFrame{
         idRewardValue.setBackground(Color.WHITE);
         idRewardValue.setForeground(Color.BLACK);
         input.add(idRewardValue);
-
-        // label nama reward
-        input.add(namaReward = new JLabel("New Reward Name                                  :"));
-        namaReward.setFont(new Font("Arial", Font.PLAIN, 16));
-        namaReward.setForeground(Color.YELLOW);
-    
-        // input nama reward
-        namaRewardValue = new JTextField(10);
-        namaRewardValue.setBorder(roundedBorder);
-        namaRewardValue.setPreferredSize(new Dimension(300, 40));
-        namaRewardValue.setFont(new Font("Arial", Font.PLAIN, 16));
-        namaRewardValue.setBackground(Color.WHITE);
-        namaRewardValue.setForeground(Color.BLACK);
-        input.add(namaRewardValue);
-
-        // label minimal poin reward
-        input.add(minimalPoinReward = new JLabel("New Minimal Poin Reward                        :"));
-        minimalPoinReward.setFont(new Font("Arial", Font.PLAIN, 16));
-        minimalPoinReward.setForeground(Color.YELLOW);
-    
-        // input minimal poin reward
-        minimalPoinRewardValue = new JTextField(10);
-        minimalPoinRewardValue.setBorder(roundedBorder);
-        minimalPoinRewardValue.setPreferredSize(new Dimension(300, 40));
-        minimalPoinRewardValue.setFont(new Font("Arial", Font.PLAIN, 16));
-        minimalPoinRewardValue.setBackground(Color.WHITE);
-        minimalPoinRewardValue.setForeground(Color.BLACK);
-        input.add(minimalPoinRewardValue);
 
         // Submit button
         submitReward = new JButton("Submit");
@@ -115,8 +86,8 @@ public class UpdateReward extends JFrame{
         backButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                dispose();
                 ArrayList<Reward> show = Reward.getData();
+                dispose();
                 new RewardView(show); 
             }
         });
@@ -124,14 +95,6 @@ public class UpdateReward extends JFrame{
 
     public String getIdReward() {
         return idRewardValue.getText();
-    }
-
-    public String getNamaReward() {
-        return namaRewardValue.getText();
-    }
-
-    public String getMinimalPoinReward() {
-        return minimalPoinRewardValue.getText();
     }
 
     public JButton getBackButton() {

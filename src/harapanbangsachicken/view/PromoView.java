@@ -1,12 +1,17 @@
 package harapanbangsachicken.view;
 
-import javax.swing.ImageIcon;
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.SwingConstants;
+import javax.swing.border.Border;
+import javax.swing.table.DefaultTableModel;
 
+import harapanbangsachicken.controller.PromoAdminController;
 import harapanbangsachicken.model.classes.Promo;
 
 import java.awt.*;
@@ -16,42 +21,59 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 public class PromoView extends JFrame{
-    private JPanel frame;
-    private JLabel logoLabel, header;
+    private JPanel mainPanel, panel2, buttonPanel;
+    private JLabel header;
+    private JTable promoTable;
+    private DefaultTableModel tableModel;
     private JButton updatePromo, insertPromo, deletePromo, backButton;
-    private GridBagConstraints gbc;
+    private Border roundedBorder = BorderFactory.createLineBorder(Color.YELLOW, 2, true);
 
-    public PromoView() {
+    public PromoView(ArrayList<Promo> promo) {
         super("Menu Admin");
         setExtendedState(JFrame.MAXIMIZED_BOTH);
         setLocationRelativeTo(null);
         setFont(new Font("Arial", Font.BOLD, 30));
 
-        frame = new JPanel(new GridBagLayout());
-        frame.setBackground(Color.RED);
+        mainPanel = new JPanel();
+        mainPanel.setLayout(new BorderLayout());
+        mainPanel.setBackground(Color.RED);
 
-        // show image icon
-        ImageIcon logoIcon = new ImageIcon("src/harapanbangsachicken/view/gambar/mcd.png");
-        Image scaledImage = logoIcon.getImage().getScaledInstance(100, 100, Image.SCALE_SMOOTH);
-        logoIcon = new ImageIcon(scaledImage);
-        logoLabel = new JLabel(logoIcon, SwingConstants.CENTER);
+        panel2 = new JPanel(new BorderLayout());
+        panel2.setOpaque(false);
 
-        gbc = new GridBagConstraints();
-        gbc.fill = GridBagConstraints.HORIZONTAL;
-        gbc.insets = new Insets(10, 10, 10, 10);
-
-        gbc.gridx = 0;
-        gbc.gridy = 0;
-        gbc.gridwidth = 5;
-        frame.add(logoLabel, gbc);
-
-        header = new JLabel("Silahkan Pilih Opsi Anda", SwingConstants.CENTER);
+        header = new JLabel("Info Promo", SwingConstants.CENTER);
         header.setFont(new Font("Arial", Font.PLAIN, 28));
         header.setForeground(Color.YELLOW);
+        panel2.add(header, BorderLayout.NORTH);
 
-        gbc.gridy = 1;
-        gbc.gridwidth = 5;
-        frame.add(header, gbc);
+        String[] columnNames = {"Promo ID", "Promo Name", "Promo Nominal", "Tanggal Expired"};
+        tableModel = new DefaultTableModel(columnNames, 0);
+        promoTable = new JTable(tableModel);
+        promoTable.setBackground(Color.RED);
+        promoTable.setForeground(Color.YELLOW);
+        promoTable.setFont(new Font("Arial", Font.PLAIN, 15));
+        promoTable.setRowHeight(50);
+
+        for (Promo prm : promo) {
+            
+            Object[] rowData = {
+                prm.getPromo_id(),
+                prm.getNamaPromo(),
+                prm.getNominalPromo(),
+                prm.getDate()
+            };
+        
+            tableModel.addRow(rowData);
+        }
+
+        JScrollPane scrollPane = new JScrollPane(promoTable);
+        scrollPane.setBorder(roundedBorder);
+        scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+        scrollPane.getVerticalScrollBar().setUnitIncrement(10);
+        panel2.add(scrollPane, BorderLayout.CENTER);
+
+        mainPanel.add(panel2, BorderLayout.CENTER);
 
         // Button untuk mengubah promo secara spesifik
         updatePromo = new JButton("Update Promo");
@@ -59,45 +81,33 @@ public class PromoView extends JFrame{
         updatePromo.setBackground(Color.RED);
         updatePromo.setForeground(Color.YELLOW);
 
-        gbc.gridx = 0;
-        gbc.gridy = 2;
-        gbc.gridwidth = 1;
-        frame.add(updatePromo, gbc);
-
         // Button untuk menambahkan promo
-        insertPromo = new JButton("Tambah Promo");
+        insertPromo = new JButton("Insert Promo");
         insertPromo.setFont(new Font("Arial", Font.BOLD, 16));
         insertPromo.setBackground(Color.RED);
         insertPromo.setForeground(Color.YELLOW);
 
-        gbc.gridx = 1;
-        gbc.gridy = 2;
-        gbc.gridwidth = 1;
-        frame.add(insertPromo, gbc);
-
-        // Button untuk menghapus promo secara spesifik
-        deletePromo = new JButton("Hapus Promo");
+        // Button untuk menghapus promo
+        deletePromo = new JButton("Delete Promo");
         deletePromo.setFont(new Font("Arial", Font.BOLD, 16));
         deletePromo.setBackground(Color.RED);
         deletePromo.setForeground(Color.YELLOW);
 
-        gbc.gridx = 2;
-        gbc.gridy = 2;
-        gbc.gridwidth = 1;
-        frame.add(deletePromo, gbc);
-
         // Button untuk kembali ke menu admin
-        backButton = new JButton("Kembali");
+        backButton = new JButton("Back");
         backButton.setFont(new Font("Arial", Font.PLAIN, 16));
         backButton.setBackground(Color.RED);
         backButton.setForeground(Color.YELLOW);
 
-        gbc.gridx = 0;
-        gbc.gridy = 3;
-        gbc.gridwidth = 1;
-        frame.add(backButton, gbc);
+        buttonPanel = new JPanel();
+        buttonPanel.setBackground(Color.RED);
+        buttonPanel.add(insertPromo);
+        buttonPanel.add(updatePromo);
+        buttonPanel.add(deletePromo);
+        buttonPanel.add(backButton);
+        mainPanel.add(buttonPanel, BorderLayout.SOUTH);
 
-        add(frame);
+        add(mainPanel);
 
         setVisible(true);
 
@@ -105,7 +115,7 @@ public class PromoView extends JFrame{
             @Override
             public void actionPerformed(ActionEvent e){
                 dispose();
-                new UpdatePromo();
+                new PromoAdminController(new UpdatePromo());
             }
 
         });
@@ -114,7 +124,7 @@ public class PromoView extends JFrame{
             @Override
             public void actionPerformed(ActionEvent e){
                 dispose();
-                new InsertPromo();
+                new PromoAdminController(new InsertPromo());
             }
 
         });
@@ -122,11 +132,10 @@ public class PromoView extends JFrame{
         deletePromo.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e){
-                ArrayList<Promo> show = Promo.getData();
                 dispose();
-                new DeletePromo(show);
+                new PromoAdminController(new DeletePromo());
             }
-
+            
         });
 
         backButton.addActionListener(new ActionListener() {

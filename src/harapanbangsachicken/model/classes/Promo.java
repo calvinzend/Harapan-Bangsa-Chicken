@@ -51,7 +51,7 @@ public class Promo {
         this.date = date;
     }
 
-   public static boolean addPromo(Promo promo) {
+    public static boolean addPromo(Promo promo) {
         String query = "INSERT INTO `promo`(`promo_id`, `namaPromo`, `nominalPromo`, `promo_date`) VALUES (?, ?, ?, ?)";
         try (Connection con = ConnectionManager.getConnection();
              PreparedStatement st = con.prepareStatement(query)) {
