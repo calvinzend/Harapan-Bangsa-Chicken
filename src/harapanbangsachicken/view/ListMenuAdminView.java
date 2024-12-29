@@ -42,7 +42,7 @@ public class ListMenuAdminView extends JFrame{
         gbc.gridwidth = 5;
         frame.add(logoLabel, gbc);
 
-        header = new JLabel("Silahkan Pilih Opsi Anda", SwingConstants.CENTER);
+        header = new JLabel("Choose Your Option", SwingConstants.CENTER);
         header.setFont(new Font("Arial", Font.PLAIN, 28));
         header.setForeground(Color.YELLOW);
 
@@ -62,7 +62,7 @@ public class ListMenuAdminView extends JFrame{
         frame.add(updateMenu, gbc);
 
         // Button untuk menambahkan menu
-        insertMenu = new JButton("Tambah Menu");
+        insertMenu = new JButton("Insert Menu");
         insertMenu.setFont(new Font("Arial", Font.BOLD, 16));
         insertMenu.setBackground(Color.RED);
         insertMenu.setForeground(Color.YELLOW);
@@ -73,7 +73,7 @@ public class ListMenuAdminView extends JFrame{
         frame.add(insertMenu, gbc);
 
         // Button untuk menghapus menu secara spesifik
-        deleteMenu = new JButton("Hapus Menu");
+        deleteMenu = new JButton("Delete Menu");
         deleteMenu.setFont(new Font("Arial", Font.BOLD, 16));
         deleteMenu.setBackground(Color.RED);
         deleteMenu.setForeground(Color.YELLOW);
@@ -84,7 +84,7 @@ public class ListMenuAdminView extends JFrame{
         frame.add(deleteMenu, gbc);
 
         // Button untuk kembali ke menu admin
-        backButton = new JButton("Kembali");
+        backButton = new JButton("Back");
         backButton.setFont(new Font("Arial", Font.PLAIN, 16));
         backButton.setBackground(Color.RED);
         backButton.setForeground(Color.YELLOW);

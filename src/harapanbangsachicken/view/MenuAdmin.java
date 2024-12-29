@@ -5,11 +5,13 @@ import java.awt.*;
 import javax.swing.*;
 
 import harapanbangsachicken.controller.Login;
+import harapanbangsachicken.model.classes.Promo;
 import harapanbangsachicken.model.classes.Reward;
 import harapanbangsachicken.model.classes.SingletonManager;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 public class MenuAdmin extends JFrame{
     private JButton viewTransaksi, viewTotalPendapatan, menu, resep, paket, promo, reward, logout;
@@ -41,7 +43,7 @@ public class MenuAdmin extends JFrame{
         panel.add(logoLabel, gbc);
         
         // Header
-        JLabel judulAtas = new JLabel("SELAMAT DATANG ADMIN " + SingletonManager.getInstance().getUser().getNamaDepan().toUpperCase(), SwingConstants.CENTER);
+        JLabel judulAtas = new JLabel("WELCOME ADMIN " + SingletonManager.getInstance().getUser().getNamaDepan().toUpperCase(), SwingConstants.CENTER);
         judulAtas.setFont(new Font("Arial", Font.PLAIN, 28));
         judulAtas.setForeground(Color.YELLOW);
 
@@ -51,7 +53,7 @@ public class MenuAdmin extends JFrame{
         panel.add(judulAtas, gbc);
 
         // Header 2
-        JLabel judulBawah = new JLabel("Silakan Pilih Opsi Anda", SwingConstants.CENTER);
+        JLabel judulBawah = new JLabel("Choose Your Option", SwingConstants.CENTER);
         judulBawah.setFont(new Font("Arial", Font.PLAIN, 20));
         judulBawah.setForeground(Color.YELLOW);
 
@@ -61,7 +63,7 @@ public class MenuAdmin extends JFrame{
         panel.add(judulBawah, gbc);
 
         // Menu 1 : Show Total Pendapatan
-        viewTotalPendapatan = new JButton("Total Pendapatan");
+        viewTotalPendapatan = new JButton("Total Income");
         viewTotalPendapatan.setFont(new Font("Arial", Font.PLAIN, 16));
         viewTotalPendapatan.setBackground(Color.RED);
         viewTotalPendapatan.setForeground(Color.YELLOW);
@@ -72,7 +74,7 @@ public class MenuAdmin extends JFrame{
         panel.add(viewTotalPendapatan, gbc);
 
         // Menu 2 : Show Checkout
-        viewTransaksi= new JButton("Lihat Transaksi");
+        viewTransaksi= new JButton("Transaction View");
         viewTransaksi.setFont(new Font("Arial", Font.PLAIN, 16));
         viewTransaksi.setBackground(Color.RED);
         viewTransaksi.setForeground(Color.YELLOW);
@@ -201,8 +203,9 @@ public class MenuAdmin extends JFrame{
         promo.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e){
+                ArrayList<Promo> show = Promo.getData();
                 dispose();
-                new PromoView();
+                new PromoView(show);
             }
 
         });
@@ -211,7 +214,8 @@ public class MenuAdmin extends JFrame{
             @Override
             public void actionPerformed(ActionEvent e){
                 dispose();
-                new RewardView();
+                ArrayList<Reward> show = Reward.getData();
+                new RewardView(show);
             }
 
         });

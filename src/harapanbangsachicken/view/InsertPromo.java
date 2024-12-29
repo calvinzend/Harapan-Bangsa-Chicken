@@ -4,9 +4,12 @@ import javax.swing.border.Border;
 
 import com.toedter.calendar.JDateChooser;
 
+import harapanbangsachicken.model.classes.Promo;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 public class InsertPromo extends JFrame{
     private JPanel frame, input;
@@ -36,7 +39,7 @@ public class InsertPromo extends JFrame{
         logoLabel = new JLabel(logoIcon);
     
         // label nama promo
-        input.add(namaPromo = new JLabel("Nama Promo              :"));
+        input.add(namaPromo = new JLabel("Promo Name           :"));
         namaPromo.setFont(new Font("Arial", Font.PLAIN, 16));
         namaPromo.setForeground(Color.YELLOW);
     
@@ -50,7 +53,7 @@ public class InsertPromo extends JFrame{
         input.add(namaPromoValue);
 
         // label nominal promo
-        input.add(nominalPromo = new JLabel("Nominal Promo           :"));
+        input.add(nominalPromo = new JLabel("Promo Nominal        :"));
         nominalPromo.setFont(new Font("Arial", Font.PLAIN, 16));
         nominalPromo.setForeground(Color.YELLOW);
     
@@ -64,7 +67,7 @@ public class InsertPromo extends JFrame{
         input.add(nominalPromoValue);
 
         // label tanggal promo
-        input.add(tanggalPromo = new JLabel("Tanggal Kadaluarsa    :"));
+        input.add(tanggalPromo = new JLabel("Expired Date           :"));
         tanggalPromo.setFont(new Font("Arial", Font.PLAIN, 16));
         tanggalPromo.setForeground(Color.YELLOW);
     
@@ -84,7 +87,7 @@ public class InsertPromo extends JFrame{
         submitPromo.setForeground(Color.YELLOW);
 
         // back button
-        backButton = new JButton("Kembali");
+        backButton = new JButton("Back");
         backButton.setFont(new Font("Arial", Font.BOLD, 16));
         backButton.setBackground(Color.RED);
         backButton.setForeground(Color.YELLOW);
@@ -115,7 +118,8 @@ public class InsertPromo extends JFrame{
             @Override
             public void actionPerformed(ActionEvent e) {
                 dispose();
-                new PromoView(); 
+                ArrayList<Promo> show = Promo.getData();
+                new PromoView(show); 
             }
         });
     }
@@ -128,8 +132,8 @@ public class InsertPromo extends JFrame{
         return nominalPromoValue.getText();
     }
 
-    public String getTanggalPromo() {
-        return tanggalPromoValue.getDateFormatString();
+    public JDateChooser getTanggalPromo() {
+        return tanggalPromoValue;
     }
 
     public JButton getBackButton() {

@@ -43,7 +43,7 @@ public class TotalPendapatanView extends JFrame{
         frame.add(logoLabel, gbc);
 
         // JLabel untuk Show Total Pendapatan
-        showPendapatan = new JLabel("-- Total pendapatan yang diterima oleh Harapan Bangsa Chicken --");
+        showPendapatan = new JLabel("-- Total Income of Harapan Bangsa Chicken --");
         showPendapatan.setFont(new Font("Arial", Font.PLAIN, 28));
         showPendapatan.setForeground(Color.YELLOW);
 
