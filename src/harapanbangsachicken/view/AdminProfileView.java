@@ -9,15 +9,15 @@ import javax.swing.border.Border;
 
 import harapanbangsachicken.model.classes.SingletonManager;
 
-public class ProfileView extends JFrame{
+public class AdminProfileView extends JFrame{
 
     private JPanel frame, panel;
     private JLabel logoLabel;
     private JButton back;
     private Border roundedBorderButton = BorderFactory.createLineBorder(Color.BLACK, 2, true);
 
-    public ProfileView() {
-        super("Show Profile");
+    public AdminProfileView() {
+        super("Show Admin Profile");
         setExtendedState(JFrame.MAXIMIZED_BOTH);
         setLocationRelativeTo(null);
 
@@ -38,14 +38,13 @@ public class ProfileView extends JFrame{
         profile.setBackground(Color.RED);
         profile.setForeground(Color.YELLOW);
 
-        back =  new JButton("Back");
+        back =  new JButton("      Back      ");
         back.setBorder(roundedBorderButton);
         back.setFont(new Font("Arial", Font.BOLD, 16));
         back.setBackground(Color.RED);
         back.setForeground(Color.YELLOW);
         back.setPreferredSize(new Dimension(400, 40));
 
-        frame.add(back);
         frame.add(profile);
 
         GridBagConstraints gbc = new GridBagConstraints();
@@ -64,7 +63,12 @@ public class ProfileView extends JFrame{
         panel.add(frame, gbc);
         
         panel.add(Box.createRigidArea(new Dimension(0, 10)));
-        panel.add(back);
+        
+        gbc.gridx = 0;
+        gbc.gridy = 2; 
+        gbc.gridwidth = 4;  
+        gbc.anchor = GridBagConstraints.CENTER;
+        panel.add(back, gbc);
 
         add(panel);
 
@@ -72,7 +76,7 @@ public class ProfileView extends JFrame{
             @Override
             public void actionPerformed(ActionEvent e){
                 dispose();
-                new MenuView();
+                new MenuAdmin();
             }
         });
 

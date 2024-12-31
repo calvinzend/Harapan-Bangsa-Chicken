@@ -7,7 +7,6 @@ import javax.swing.JOptionPane;
 import harapanbangsachicken.model.classes.Reward;
 import harapanbangsachicken.view.DeleteReward;
 import harapanbangsachicken.view.InsertReward;
-import harapanbangsachicken.view.MenuAdmin;
 import harapanbangsachicken.view.RewardView;
 import harapanbangsachicken.view.UpdateReward;
 

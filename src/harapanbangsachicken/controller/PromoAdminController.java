@@ -8,7 +8,6 @@ import javax.swing.JOptionPane;
 import harapanbangsachicken.model.classes.Promo;
 import harapanbangsachicken.view.DeletePromo;
 import harapanbangsachicken.view.InsertPromo;
-import harapanbangsachicken.view.MenuAdmin;
 import harapanbangsachicken.view.PromoView;
 import harapanbangsachicken.view.UpdatePromo;
 
