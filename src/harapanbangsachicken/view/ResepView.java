@@ -72,7 +72,7 @@ public class ResepView extends JFrame{
         gbc.gridwidth = 1;
         frame.add(insertResep, gbc);
 
-        // Button untuk menghapus resep secara spesifik
+        // Button untuk menampilkan resep secara spesifik
         showResep = new JButton("Show Resep");
         showResep.setFont(new Font("Arial", Font.BOLD, 16));
         showResep.setBackground(Color.RED);

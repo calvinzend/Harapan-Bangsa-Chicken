@@ -14,7 +14,7 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 public class MenuAdmin extends JFrame{
-    private JButton viewTransaksi, viewTotalPendapatan, menu, resep, paket, promo, reward, logout;
+    private JButton viewTransaksi, viewTotalPendapatan, menu, resep, paket, promo, reward, profile, logout;
     private JLabel logoLabel;
     private JPanel panel;
 
@@ -139,13 +139,24 @@ public class MenuAdmin extends JFrame{
         gbc.gridwidth = 2;
         panel.add(reward, gbc);
 
+        // Menu 8 : Show Profile Admin
+        profile = new JButton("Show Profile");
+        profile.setFont(new Font("Arial", Font.PLAIN, 16));
+        profile.setBackground(Color.RED);
+        profile.setForeground(Color.YELLOW);
+
+        gbc.gridx = 2;
+        gbc.gridy = 5;
+        gbc.gridwidth = 2;
+        panel.add(profile, gbc);
+
         // Log out Button
         logout = new JButton("Log out");
         logout.setFont(new Font("Arial", Font.PLAIN, 16));
         logout.setBackground(Color.RED);
         logout.setForeground(Color.YELLOW);
 
-        gbc.gridx = 1;
+        gbc.gridx = 4;
         gbc.gridy = 5;
         gbc.gridwidth = 2;
         panel.add(logout, gbc);
@@ -216,6 +227,16 @@ public class MenuAdmin extends JFrame{
                 dispose();
                 ArrayList<Reward> show = Reward.getData();
                 new RewardView(show);
+            }
+
+        });
+
+        profile.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e){
+                System.out.println(SingletonManager.getInstance().getUser().showProfile());
+                dispose();
+                new AdminProfileView();
             }
 
         });
