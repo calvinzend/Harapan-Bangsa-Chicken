@@ -3,6 +3,7 @@ package harapanbangsachicken.model.classes;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.ArrayList;
 
 public class Ingredient {
     private int ing_id;
@@ -112,5 +113,84 @@ public class Ingredient {
     public String checkStock() {
         String str = "Jumlah Stock tersisa = " + getStock() + " " + getSatuan();
         return str;
+    }
+
+    // =============================================================================================
+
+    public static boolean addIngredient(Ingredient ingredient) {
+        String query = "INSERT INTO `ingredient`(`ing_id`, `ingredient_name`, `stock`, `satuan`) VALUES (?, ?, ?, ?)";
+        try (Connection con = ConnectionManager.getConnection();
+             PreparedStatement st = con.prepareStatement(query)) {
+
+            st.setInt(1, ingredient.getIng_id());
+            st.setString(2, ingredient.getIngredientName());
+            st.setDouble(3, ingredient.getStock());
+            st.setString(4, ingredient.getSatuan());
+
+            int rowsInserted = st.executeUpdate();
+            return rowsInserted > 0;
+
+        } catch (Exception ex) {
+            System.out.println("Terjadi kesalahan saat menambahkan ingredient: " + ex.getMessage());
+            return false;
+        }
+    }
+
+    public static boolean updateIngredient(Ingredient ingredient) {
+        String query = "UPDATE `ingredient` SET `ingredient_name` = ?, `stock` = ?, `satuan` = ? WHERE `ing_id` = ?";
+        try (Connection con = ConnectionManager.getConnection();
+             PreparedStatement st = con.prepareStatement(query)) {
+
+            st.setString(1, ingredient.getIngredientName());
+            st.setDouble(2, ingredient.getStock());
+            st.setString(3, ingredient.getSatuan());
+            st.setInt(4, ingredient.getIng_id());
+
+            int rowsUpdated = st.executeUpdate();
+            return rowsUpdated > 0;
+
+        } catch (Exception ex) {
+            System.out.println("Terjadi kesalahan saat memperbarui ingredient: " + ex.getMessage());
+            return false;
+        }
+    }
+
+    public static boolean deleteIngredient(int ing_id) {
+        String query = "DELETE FROM `ingredient` WHERE `ing_id` = ?";
+        try (Connection con = ConnectionManager.getConnection();
+             PreparedStatement st = con.prepareStatement(query)) {
+
+            st.setInt(1, ing_id);
+
+            int rowsDeleted = st.executeUpdate();
+            return rowsDeleted > 0;
+
+        } catch (Exception ex) {
+            System.out.println("Terjadi kesalahan saat menghapus ingredient: " + ex.getMessage());
+            return false;
+        }
+    }
+
+    public static ArrayList<Ingredient> getDatas() {
+        ArrayList<Ingredient> ingredientList = new ArrayList<>();
+        String query = "SELECT * FROM ingredient";
+        try (Connection con = ConnectionManager.getConnection();
+             PreparedStatement st = con.prepareStatement(query)) {
+    
+            try (ResultSet rs = st.executeQuery()) {
+                while (rs.next()) {
+                    ingredientList.add(new Ingredient(
+                        rs.getInt("ing_id"),
+                        rs.getString("ingredient_name"),
+                        rs.getDouble("stock"),
+                        rs.getString("satuan")
+                    ));
+                }
+            }
+            return ingredientList;
+        } catch (Exception ex) {
+            System.out.println("Terjadi kesalahan: " + ex.getMessage());
+        }
+        return null;
     }
 }

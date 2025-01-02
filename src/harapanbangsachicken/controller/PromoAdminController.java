@@ -89,7 +89,7 @@ public class PromoAdminController {
                 ArrayList<Promo> show = Promo.getData();
                 new PromoView(show);
             } else {
-                delete.showMessage("Promo gagal dihapus! Silakan coba lagi.");
+                delete.showMessage("Promo tidak terdata / gagal dihapus! Silakan coba lagi.");
             }
         } catch (NumberFormatException ex) {
             JOptionPane.showMessageDialog(null, "Terjadi Kesalahan!", "Error", JOptionPane.ERROR_MESSAGE);
@@ -132,7 +132,7 @@ public class PromoAdminController {
                 ArrayList<Promo> show = Promo.getData();
                 new PromoView(show);
             } else {
-                update.showMessage("Promo gagal diupdate! Silakan coba lagi.");
+                update.showMessage("Promo tidak terdata / gagal diupdate! Silakan coba lagi.");
             }
         } catch (NumberFormatException ex) {
             JOptionPane.showMessageDialog(null, "Terjadi Kesalahan!", "Error", JOptionPane.ERROR_MESSAGE);
