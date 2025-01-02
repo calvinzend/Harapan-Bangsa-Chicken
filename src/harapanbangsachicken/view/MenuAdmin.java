@@ -5,6 +5,7 @@ import java.awt.*;
 import javax.swing.*;
 
 import harapanbangsachicken.controller.Login;
+import harapanbangsachicken.model.classes.Ingredient;
 import harapanbangsachicken.model.classes.Promo;
 import harapanbangsachicken.model.classes.Reward;
 import harapanbangsachicken.model.classes.SingletonManager;
@@ -14,7 +15,7 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 public class MenuAdmin extends JFrame{
-    private JButton viewTransaksi, viewTotalPendapatan, menu, resep, paket, promo, reward, profile, logout;
+    private JButton viewTransaksi, viewTotalPendapatan, menu, ingredient, paket, promo, reward, profile, logout;
     private JLabel logoLabel;
     private JPanel panel;
 
@@ -95,16 +96,16 @@ public class MenuAdmin extends JFrame{
         gbc.gridwidth = 2;
         panel.add(menu, gbc);
 
-        // Menu 4 : Show List Resep
-        resep = new JButton("Edit Resep");
-        resep.setFont(new Font("Arial", Font.PLAIN, 16));
-        resep.setBackground(Color.RED);
-        resep.setForeground(Color.YELLOW);
+        // Menu 4 : Show List Ingredient
+        ingredient = new JButton("Edit Ingredient");
+        ingredient.setFont(new Font("Arial", Font.PLAIN, 16));
+        ingredient.setBackground(Color.RED);
+        ingredient.setForeground(Color.YELLOW);
 
         gbc.gridx = 3;
         gbc.gridy = 3;
         gbc.gridwidth = 2;
-        panel.add(resep, gbc);
+        panel.add(ingredient, gbc);
 
         // Menu 5 : Show List Paket
         paket = new JButton("Edit Paket");
@@ -193,11 +194,12 @@ public class MenuAdmin extends JFrame{
 
         });
 
-        resep.addActionListener(new ActionListener() {
+        ingredient.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e){
+                ArrayList<Ingredient> show = Ingredient.getDatas();
                 dispose();
-                new ResepView();
+                new IngredientView(show);
             }
 
         });
