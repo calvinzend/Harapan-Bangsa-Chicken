@@ -97,7 +97,7 @@ public class MenuAdmin extends JFrame{
         gbc.gridwidth = 2;
         panel.add(menu, gbc);
 
-        // Menu 4 : Show List Resep
+        // Menu 4 : Show List Ingredient
         resep = new JButton("Edit Resep");
         resep.setFont(new Font("Arial", Font.PLAIN, 16));
         resep.setBackground(Color.RED);

@@ -81,7 +81,7 @@ public class RewardAdminController {
                 ArrayList<Reward> show = Reward.getData();
                 new RewardView(show);
             } else {
-                delete.showMessage("Reward gagal dihapus! Silakan coba lagi.");
+                delete.showMessage("Reward tidak terdata / gagal dihapus! Silakan coba lagi.");
             }
         } catch (NumberFormatException ex) {
             JOptionPane.showMessageDialog(null, "Terjadi Kesalahan!", "Error", JOptionPane.ERROR_MESSAGE);
@@ -117,7 +117,7 @@ public class RewardAdminController {
                 ArrayList<Reward> show = Reward.getData();
                 new RewardView(show);
             } else {
-                update.showMessage("Reward gagal diupdate! Silakan coba lagi.");
+                update.showMessage("Reward tidak terdata / gagal diupdate! Silakan coba lagi.");
             }
         } catch (NumberFormatException ex) {
             JOptionPane.showMessageDialog(null, "Terjadi Kesalahan!", "Error", JOptionPane.ERROR_MESSAGE);
