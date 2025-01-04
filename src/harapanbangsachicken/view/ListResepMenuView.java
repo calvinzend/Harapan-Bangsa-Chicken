@@ -8,19 +8,19 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
-import harapanbangsachicken.controller.MenuEditAdminController;
-import harapanbangsachicken.model.classes.Drink;
+import harapanbangsachicken.controller.ResepAdminController;
 import harapanbangsachicken.model.classes.Menu;
+import harapanbangsachicken.model.classes.Resep;
 
-public class ListMenuAdminView extends JFrame {
+public class ListResepMenuView extends JFrame {
     private JPanel mainPanel, panel2, buttonPanel;
     private JLabel header;
-    private JTable menuTable;
+    private JTable resepTable;
     private DefaultTableModel tableModel;
     private JButton backButton, insertNewButton;
 
-    public ListMenuAdminView(ArrayList<Menu> listMenu) {
-        super("Edit Menu Admin");
+    public ListResepMenuView(final int menu_id) {
+        super("Edit Resep Admin");
 
         setExtendedState(JFrame.MAXIMIZED_BOTH);
         setLocationRelativeTo(null);
@@ -32,70 +32,60 @@ public class ListMenuAdminView extends JFrame {
         panel2 = new JPanel(new BorderLayout());
         panel2.setOpaque(false);
 
-        header = new JLabel("Menu List", SwingConstants.CENTER);
+        header = new JLabel("Resep List", SwingConstants.CENTER);
         header.setFont(new Font("Arial", Font.PLAIN, 28));
         header.setForeground(Color.YELLOW);
         panel2.add(header, BorderLayout.NORTH);
 
-        String[] columnNames = { "ID", "Name", "Price", "Size", "Gambar", "View Recipe", "Update", "Delete" };
+        Menu menu = Menu.getDataById(menu_id);
+
+        String[] columnNames = { "Menu Id", "Ingridient Id", "Ingridient name", "Quantity", "Satuan", "Update",
+                "Delete" };
         tableModel = new DefaultTableModel(columnNames, 0);
-        menuTable = new JTable(tableModel) {
+        resepTable = new JTable(tableModel) {
             @Override
             public boolean isCellEditable(int row, int column) {
                 return column >= 5;
             }
         };
-        for (Menu m : listMenu) {
-            int menu_id = m.getMenu_id();
-            String nama = m.getNama();
-            int harga = m.getHarga();
-            String size = "-";
-            String gambarPath = m.getGambarPath();
 
-            if (m instanceof Drink) {
-                Drink d = (Drink) m;
-                size = String.valueOf(d.getSize());
-            }
+        for (Resep r : menu.getResep()) {
+            int ing_id = r.getBahan().getIng_id();
+            String ing_name = r.getBahan().getIngredientName();
+            double quantity = r.getQuantity();
+            String satuan = r.getSatuan();
+
             tableModel.addRow(new Object[] {
                     menu_id,
-                    nama,
-                    harga,
-                    size,
-                    gambarPath,
-                    "View Recipe",
+                    ing_id,
+                    ing_name,
+                    quantity,
+                    satuan,
                     "Update",
                     "Delete"
             });
         }
 
-        menuTable.getColumn("View Recipe").setCellRenderer(new ButtonRenderer());
-        menuTable.getColumn("Update").setCellRenderer(new ButtonRenderer());
-        menuTable.getColumn("Delete").setCellRenderer(new ButtonRenderer());
+        resepTable.getColumn("Update").setCellRenderer(new ButtonRenderer());
+        resepTable.getColumn("Delete").setCellRenderer(new ButtonRenderer());
 
-        menuTable.getColumn("View Recipe").setCellEditor(new ButtonEditor(new JButton("Recipe"), menuTable, e -> {
-            int menuId = Integer.valueOf(e.getActionCommand());
-            new ListResepMenuView(menuId);
+        resepTable.getColumn("Update").setCellEditor(new ButtonEditor(new JButton("Update"), resepTable, e -> {
+            int ing_id = Integer.valueOf(e.getActionCommand());
+            new UpdateResepAdmin(menu_id, ing_id);
             dispose();
         }));
 
-        menuTable.getColumn("Update").setCellEditor(new ButtonEditor(new JButton("Update"), menuTable, e -> {
-            int menuId = Integer.valueOf(e.getActionCommand());
-            new UpdateMenu(menuId);
-            dispose();
-        }));
-
-        menuTable.getColumn("Delete").setCellEditor(new ButtonEditor(new JButton("Delete"), menuTable, e -> {
-            int menuId = Integer.valueOf(e.getActionCommand());
-            String msg = new MenuEditAdminController().deleteMenu(menuId);
+        resepTable.getColumn("Delete").setCellEditor(new ButtonEditor(new JButton("Delete"), resepTable, e -> {
+            int ing_id = Integer.valueOf(e.getActionCommand());
+            String msg = new ResepAdminController().deleteResep(menu_id, ing_id);
             if (msg != null) {
                 showMessage(msg);
-                ArrayList<Menu> show = Menu.getData();
-                new ListMenuAdminView(show);
+                new ListResepMenuView(menu_id);
                 dispose();
             }
         }));
 
-        JScrollPane scrollPane = new JScrollPane(menuTable);
+        JScrollPane scrollPane = new JScrollPane(resepTable);
         panel2.add(scrollPane, BorderLayout.CENTER);
 
         mainPanel.add(panel2, BorderLayout.CENTER);
@@ -103,13 +93,14 @@ public class ListMenuAdminView extends JFrame {
         // Back button
         backButton = new JButton("Back");
 
-        // Add new Button
-        insertNewButton = new JButton("Add New");
+        // Insert button
+        insertNewButton = new JButton("Add Resep");
 
         buttonPanel = new JPanel();
         buttonPanel.setBackground(Color.RED);
         buttonPanel.add(backButton);
         buttonPanel.add(insertNewButton);
+
         mainPanel.add(buttonPanel, BorderLayout.SOUTH);
 
         add(mainPanel);
@@ -118,7 +109,8 @@ public class ListMenuAdminView extends JFrame {
         backButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                new MenuAdmin();
+                ArrayList<Menu> menu = Menu.getData();
+                new ListMenuAdminView(menu);
                 dispose();
             }
         });
@@ -126,7 +118,7 @@ public class ListMenuAdminView extends JFrame {
         insertNewButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                new InsertMenu();
+                new InsertResep(menu_id);
                 dispose();
             }
         });
@@ -160,10 +152,10 @@ public class ListMenuAdminView extends JFrame {
             this.button.addActionListener(e -> {
                 int row = table.getEditingRow();
                 if (row >= 0) {
-                    Object menuIdObj = table.getValueAt(row, 0);
+                    Object menuIdObj = table.getValueAt(row, 1);
                     if (menuIdObj != null) {
-                        String menuId = menuIdObj.toString();
-                        actionListener.actionPerformed(new ActionEvent(this, ActionEvent.ACTION_PERFORMED, menuId));
+                        String ingId = menuIdObj.toString();
+                        actionListener.actionPerformed(new ActionEvent(this, ActionEvent.ACTION_PERFORMED, ingId));
                     }
                 }
                 fireEditingStopped();

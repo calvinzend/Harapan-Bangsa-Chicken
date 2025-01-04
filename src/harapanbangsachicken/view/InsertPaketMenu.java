@@ -4,6 +4,7 @@ import javax.swing.*;
 import javax.swing.border.Border;
 
 import harapanbangsachicken.controller.PaketEditAdminController;
+import harapanbangsachicken.model.classes.Drink;
 import harapanbangsachicken.model.classes.Menu;
 import harapanbangsachicken.model.classes.Paket;
 
@@ -11,16 +12,18 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.HashMap;
 
-public class InsertPaket extends JFrame {
+public class InsertPaketMenu extends JFrame {
     private JPanel frame, input;
-    private JLabel logoLabel, namaLabel, hargaLabel, pictureLabel;
-    private JTextField namaField, hargaField, picturePathField;
-    private JButton submitButton, backButton, selectPictureButton;
+    private JLabel logoLabel, namaLabel, menuIdLabel, sizeLabel, pictureLabel;
+    private JTextField menuIdField, sizeField, picturePathField;
+    private JComboBox<String> namaMenuCombo;
+    private JButton submitButton, backButton;
     private Border roundedBorder = BorderFactory.createLineBorder(Color.YELLOW, 2, true);
 
-    public InsertPaket() {
-        super("Insert Paket");
+    public InsertPaketMenu(int id_paket) {
+        super("Insert Paket Menu");
         setExtendedState(JFrame.MAXIMIZED_BOTH);
         setLocationRelativeTo(null);
         setFont(new Font("Arial", Font.BOLD, 30));
@@ -48,6 +51,16 @@ public class InsertPaket extends JFrame {
         gbc.anchor = GridBagConstraints.CENTER;
         input.add(logoLabel, gbc);
 
+        HashMap<Integer, String> menuOpt = new HashMap<>();
+
+        ArrayList<Menu> menuList = Menu.getData();
+
+        for (Menu m : menuList) {
+            menuOpt.put(m.getMenu_id(), m.getNama());
+        }
+
+        String[] option = menuOpt.values().toArray(new String[0]);
+
         // label nama
         namaLabel = new JLabel("Nama :");
         namaLabel.setFont(new Font("Arial", Font.PLAIN, 16));
@@ -58,41 +71,66 @@ public class InsertPaket extends JFrame {
         gbc.gridwidth = 1;
         input.add(namaLabel, gbc);
 
-        // field nama
-        namaField = new JTextField();
-        namaField.setBorder(roundedBorder);
-        namaField.setPreferredSize(new Dimension(300, 40));
-        namaField.setFont(new Font("Arial", Font.PLAIN, 16));
-        namaField.setBackground(Color.WHITE);
-        namaField.setForeground(Color.BLACK);
+        // Combo box namaMenu
+        namaMenuCombo = new JComboBox<>(option);
+        namaMenuCombo.setBorder(roundedBorder);
+        namaMenuCombo.setPreferredSize(new Dimension(300, 40));
+        namaMenuCombo.setFont(new Font("Arial", Font.PLAIN, 16));
+        namaMenuCombo.setBackground(Color.WHITE);
+        namaMenuCombo.setForeground(Color.BLACK);
 
         gbc.gridx = 1;
         gbc.gridy = 1;
         gbc.gridwidth = 1;
-        input.add(namaField, gbc);
+        input.add(namaMenuCombo, gbc);
 
-        // label harga
-        hargaLabel = new JLabel("Harga :");
-        hargaLabel.setFont(new Font("Arial", Font.PLAIN, 16));
-        hargaLabel.setForeground(Color.YELLOW);
+        // label ID
+        menuIdLabel = new JLabel("Menu Id :");
+        menuIdLabel.setFont(new Font("Arial", Font.PLAIN, 16));
+        menuIdLabel.setForeground(Color.YELLOW);
 
         gbc.gridx = 0;
         gbc.gridy = 2;
         gbc.gridwidth = 1;
-        input.add(hargaLabel, gbc);
+        input.add(menuIdLabel, gbc);
 
-        // input harga
-        hargaField = new JTextField();
-        hargaField.setBorder(roundedBorder);
-        hargaField.setPreferredSize(new Dimension(300, 40));
-        hargaField.setFont(new Font("Arial", Font.PLAIN, 16));
-        hargaField.setBackground(Color.WHITE);
-        hargaField.setForeground(Color.BLACK);
+        // input ID
+        menuIdField = new JTextField();
+        menuIdField.setBorder(roundedBorder);
+        menuIdField.setPreferredSize(new Dimension(300, 40));
+        menuIdField.setFont(new Font("Arial", Font.PLAIN, 16));
+        menuIdField.setBackground(Color.WHITE);
+        menuIdField.setForeground(Color.BLACK);
+        menuIdField.setEditable(false);
 
         gbc.gridx = 1;
         gbc.gridy = 2;
         gbc.gridwidth = 1;
-        input.add(hargaField, gbc);
+        input.add(menuIdField, gbc);
+
+        // label Size Minuman
+        sizeLabel = new JLabel("Size :");
+        sizeLabel.setFont(new Font("Arial", Font.PLAIN, 16));
+        sizeLabel.setForeground(Color.YELLOW);
+
+        gbc.gridx = 0;
+        gbc.gridy = 3;
+        gbc.gridwidth = 1;
+        input.add(sizeLabel, gbc);
+
+        // input Size Minuman
+        sizeField = new JTextField();
+        sizeField.setBorder(roundedBorder);
+        sizeField.setPreferredSize(new Dimension(300, 40));
+        sizeField.setFont(new Font("Arial", Font.PLAIN, 16));
+        sizeField.setBackground(Color.WHITE);
+        sizeField.setForeground(Color.BLACK);
+        sizeField.setEditable(false);
+
+        gbc.gridx = 1;
+        gbc.gridy = 3;
+        gbc.gridwidth = 1;
+        input.add(sizeField, gbc);
 
         // Label for Picture
         pictureLabel = new JLabel("Picture Path:");
@@ -100,7 +138,7 @@ public class InsertPaket extends JFrame {
         pictureLabel.setForeground(Color.YELLOW);
 
         gbc.gridx = 0;
-        gbc.gridy = 3;
+        gbc.gridy = 4;
         gbc.gridwidth = 1;
         input.add(pictureLabel, gbc);
 
@@ -111,21 +149,12 @@ public class InsertPaket extends JFrame {
         picturePathField.setFont(new Font("Arial", Font.PLAIN, 16));
         picturePathField.setBackground(Color.WHITE);
         picturePathField.setForeground(Color.BLACK);
+        picturePathField.setEditable(false);
 
         gbc.gridx = 1;
-        gbc.gridy = 3;
+        gbc.gridy = 4;
         gbc.gridwidth = 1;
         input.add(picturePathField, gbc);
-
-        // Button to open file chooser
-        selectPictureButton = new JButton("Select New Picture");
-        selectPictureButton.setFont(new Font("Arial", Font.PLAIN, 14));
-        selectPictureButton.setBackground(Color.RED);
-        selectPictureButton.setForeground(Color.YELLOW);
-        gbc.gridx = 2;
-        gbc.gridy = 3;
-        gbc.gridwidth = 1;
-        input.add(selectPictureButton, gbc);
 
         // Submit button
         submitButton = new JButton("Submit");
@@ -141,12 +170,12 @@ public class InsertPaket extends JFrame {
 
         // Submit and Back Buttons
         gbc.gridx = 0;
-        gbc.gridy = 4;
+        gbc.gridy = 5;
         gbc.gridwidth = 2;
         input.add(submitButton, gbc);
 
         gbc.gridx = 2;
-        gbc.gridy = 4;
+        gbc.gridy = 5;
         gbc.gridwidth = 1;
         input.add(backButton, gbc);
 
@@ -156,51 +185,52 @@ public class InsertPaket extends JFrame {
 
         setVisible(true);
 
-        selectPictureButton.addActionListener(e -> {
-            JFileChooser fileChooser = new JFileChooser();
-            fileChooser.setDialogTitle("Choose a Picture");
-            fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+        namaMenuCombo.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String selected_Menu = String.valueOf(namaMenuCombo.getSelectedItem());
 
-            int result = fileChooser.showOpenDialog(this);
-            if (result == JFileChooser.APPROVE_OPTION) {
-                String selectedFilePath = fileChooser.getSelectedFile().getAbsolutePath();
-                picturePathField.setText(selectedFilePath);
+                Integer newId = new PaketEditAdminController().getKeyByValue(menuOpt, selected_Menu);
+                Menu menu = Menu.getDataById(newId);
+
+                menuIdField.setText(String.valueOf(newId));
+                if (menu instanceof Drink) {
+                    Drink drink = (Drink) menu;
+                    sizeField.setText(String.valueOf(drink.getSize()));
+                }
+                picturePathField.setText(menu.getGambarPath());
             }
         });
 
         submitButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String nama = namaField.getText();
-                int harga = Integer.parseInt(hargaField.getText());
-                String gambar = picturePathField.getText();
+                Integer menuId = Integer.parseInt(menuIdField.getText());
 
-                PaketEditAdminController paketControl = new PaketEditAdminController();
-
-                if (paketControl.fieldNotEmpty(nama, harga, gambar)) {
-                    Paket newPaket = new Paket(nama, harga, gambar);
-                    Integer newPaketId = paketControl.insertPaket(newPaket);
-                    if (newPaketId != null) {
-                        showMessage("Paket berhasil ditambahkan");
-                        showMessage("Mohon edit menu paket");
-                        new ShowPaketMenu(newPaketId);
+                if (menuId > 0) {
+                    if (new PaketEditAdminController().insertMenuToPaket(id_paket, menuId)) {
+                        showMessage("Menu Berhasil dimasukkan ke Paket");
+                        new ShowPaketMenu(id_paket);
                         dispose();
                     } else {
-                        showMessage("Tidak dapat memasukkan data!");
+                        showMessage("Error!, menu gagal ditambahkan ke paket");
                     }
                 } else {
-                    showMessage("Mohon ISI semua field!");
+                    showMessage("Mohon Isi semua Field!");
                 }
+
             }
         });
 
         backButton.addActionListener(new ActionListener() {
+
             @Override
             public void actionPerformed(ActionEvent e) {
-                ArrayList<Menu> show = Menu.getData();
+                ArrayList<Menu> show = Paket.getPaketMenu(id_paket);
+                new PaketMenuEdit(show, id_paket);
                 dispose();
-                new ListMenuAdminView(show);
             }
+
         });
     }
 

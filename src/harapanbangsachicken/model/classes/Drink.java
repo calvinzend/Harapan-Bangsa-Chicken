@@ -16,16 +16,23 @@ public class Drink extends Menu {
         this.size = size;
     }
 
+    // Constructor drink tanpa resep
+    public Drink(int menu_id, String nama, int harga, String gambarPath, Size size) {
+        super(menu_id, nama, harga, gambarPath);
+        this.size = size;
+    }
+
+    // Constructor drink tanpa id dan resep
+    public Drink(String nama, int harga, String gambarPath, Size size) {
+        super(nama, harga, gambarPath);
+        this.size = size;
+    }
+
     public Size getSize() {
         return size;
     }
 
     public void setSize(Size size) {
         this.size = size;
-    }
-
-    @Override
-    public String toString() {
-        return super.toString() + "\nSize: " + size;
     }
 }

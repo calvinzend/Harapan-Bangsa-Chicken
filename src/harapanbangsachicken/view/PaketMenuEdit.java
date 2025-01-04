@@ -8,18 +8,19 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
-import harapanbangsachicken.controller.MenuEditAdminController;
+import harapanbangsachicken.controller.PaketEditAdminController;
 import harapanbangsachicken.model.classes.Drink;
 import harapanbangsachicken.model.classes.Menu;
+import harapanbangsachicken.model.classes.Paket;
 
-public class ListMenuAdminView extends JFrame {
+public class PaketMenuEdit extends JFrame {
     private JPanel mainPanel, panel2, buttonPanel;
     private JLabel header;
     private JTable menuTable;
     private DefaultTableModel tableModel;
     private JButton backButton, insertNewButton;
 
-    public ListMenuAdminView(ArrayList<Menu> listMenu) {
+    public PaketMenuEdit(final ArrayList<Menu> listMenu, final int paketId) {
         super("Edit Menu Admin");
 
         setExtendedState(JFrame.MAXIMIZED_BOTH);
@@ -37,7 +38,7 @@ public class ListMenuAdminView extends JFrame {
         header.setForeground(Color.YELLOW);
         panel2.add(header, BorderLayout.NORTH);
 
-        String[] columnNames = { "ID", "Name", "Price", "Size", "Gambar", "View Recipe", "Update", "Delete" };
+        String[] columnNames = { "Menu Id", "Name", "Price", "Size", "Gambar", "View Recipe", "Update", "Delete" };
         tableModel = new DefaultTableModel(columnNames, 0);
         menuTable = new JTable(tableModel) {
             @Override
@@ -45,10 +46,11 @@ public class ListMenuAdminView extends JFrame {
                 return column >= 5;
             }
         };
+
         for (Menu m : listMenu) {
             int menu_id = m.getMenu_id();
             String nama = m.getNama();
-            int harga = m.getHarga();
+            double harga = m.getHarga();
             String size = "-";
             String gambarPath = m.getGambarPath();
 
@@ -56,13 +58,14 @@ public class ListMenuAdminView extends JFrame {
                 Drink d = (Drink) m;
                 size = String.valueOf(d.getSize());
             }
+
             tableModel.addRow(new Object[] {
                     menu_id,
                     nama,
                     harga,
                     size,
                     gambarPath,
-                    "View Recipe",
+                    "Recipe",
                     "Update",
                     "Delete"
             });
@@ -86,11 +89,11 @@ public class ListMenuAdminView extends JFrame {
 
         menuTable.getColumn("Delete").setCellEditor(new ButtonEditor(new JButton("Delete"), menuTable, e -> {
             int menuId = Integer.valueOf(e.getActionCommand());
-            String msg = new MenuEditAdminController().deleteMenu(menuId);
-            if (msg != null) {
+            String msg = new PaketEditAdminController().deletePaketMenu(paketId, menuId);
+            if(msg != null){
                 showMessage(msg);
-                ArrayList<Menu> show = Menu.getData();
-                new ListMenuAdminView(show);
+                ArrayList<Menu> show = Paket.getData(paketId).getMenu(); 
+                new PaketMenuEdit(show, paketId);
                 dispose();
             }
         }));

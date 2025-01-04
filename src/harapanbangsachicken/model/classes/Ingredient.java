@@ -80,6 +80,28 @@ public class Ingredient {
         return ingredient;
     }
 
+    public static ArrayList<Ingredient> getData() {
+        ArrayList<Ingredient> ingredients = new ArrayList<>();
+        String query = "SELECT * FROM ingredient";
+        try (Connection con = ConnectionManager.getConnection();
+                PreparedStatement st = con.prepareStatement(query)) {
+
+            try (ResultSet rs = st.executeQuery()) {
+                while (rs.next()) {
+                    int ing_id = rs.getInt("ing_id");
+                    String name = rs.getString("ingredient_name");
+                    double stock = rs.getDouble("stock");
+                    String satuan = rs.getString("satuan");
+
+                    ingredients.add(new Ingredient(ing_id, name, stock, satuan));
+                }
+            }
+        } catch (Exception ex) {
+            System.out.println("Terjadi kesalahan: " + ex.getMessage());
+        }
+        return ingredients;
+    }
+
     public static boolean updateStock(double newStock, int id) {
         String query = "UPDATE ingredient SET stock = ? WHERE ing_id = ?";
         try (Connection con = ConnectionManager.getConnection();
