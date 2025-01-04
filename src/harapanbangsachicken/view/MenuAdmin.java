@@ -5,6 +5,8 @@ import java.awt.*;
 import javax.swing.*;
 
 import harapanbangsachicken.controller.Login;
+import harapanbangsachicken.model.classes.Menu;
+import harapanbangsachicken.model.classes.Paket;
 import harapanbangsachicken.model.classes.Promo;
 import harapanbangsachicken.model.classes.Reward;
 import harapanbangsachicken.model.classes.SingletonManager;
@@ -187,8 +189,9 @@ public class MenuAdmin extends JFrame{
         menu.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e){
+                ArrayList<Menu> show = Menu.getData();
                 dispose();
-                new ListMenuAdminView();
+                new ListMenuAdminView(show);
             }
 
         });
@@ -197,7 +200,7 @@ public class MenuAdmin extends JFrame{
             @Override
             public void actionPerformed(ActionEvent e){
                 dispose();
-                new ResepView();
+                // new ResepView();
             }
 
         });
@@ -205,8 +208,9 @@ public class MenuAdmin extends JFrame{
         paket.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e){
+                ArrayList<Paket> show = Paket.getData();
                 dispose();
-                new PaketView();
+                new ListPaketAdminView(show);
             }
 
         });

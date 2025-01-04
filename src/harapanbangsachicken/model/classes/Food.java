@@ -8,6 +8,11 @@ public class Food extends Menu {
         super(menu_id, nama, harga, gambarPath, resep);
     }
 
+        // Constructor Food tanpa id dan resep
+    public Food(String nama, int harga, String gambarPath) {
+        super(nama, harga, gambarPath);
+    }
+
     @Override
     public String toString() {
         return super.toString();

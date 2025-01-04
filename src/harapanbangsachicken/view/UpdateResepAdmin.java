@@ -3,6 +3,7 @@ package harapanbangsachicken.view;
 import javax.swing.*;
 import javax.swing.border.Border;
 
+import harapanbangsachicken.controller.ResepAdminController;
 import harapanbangsachicken.model.classes.Ingredient;
 import harapanbangsachicken.model.classes.Resep;
 
@@ -12,7 +13,7 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class InsertResep extends JFrame {
+public class UpdateResepAdmin extends JFrame {
     private JPanel frame, input;
     private JLabel logoLabel, ingNameLabel, ingIdLabel, quantityLabel, satuanLabel;
     private JTextField ingIdField, quantityField, satuanField;
@@ -20,8 +21,8 @@ public class InsertResep extends JFrame {
     private JButton submitButton, backButton;
     private Border roundedBorder = BorderFactory.createLineBorder(Color.YELLOW, 2, true);
 
-    public InsertResep(final int idMenu) {
-        super("New Resep");
+    public UpdateResepAdmin(final int idMenu, final int idIng) {
+        super("Update Resep");
         setExtendedState(JFrame.MAXIMIZED_BOTH);
         setLocationRelativeTo(null);
         setFont(new Font("Arial", Font.BOLD, 30));
@@ -48,6 +49,8 @@ public class InsertResep extends JFrame {
         gbc.gridwidth = 5;
         input.add(logoLabel, gbc);
 
+        Resep currentResep = Resep.getData(idMenu, idIng);
+
         HashMap<Integer, String> ingredientOpt = new HashMap<>();
 
         ArrayList<Ingredient> ingredientList = Ingredient.getData();
@@ -70,6 +73,7 @@ public class InsertResep extends JFrame {
 
         // Combo nama
         ingCombo = new JComboBox<>(option);
+        ingCombo.setSelectedItem(currentResep.getBahan().getIngredientName());
         ingCombo.setBorder(roundedBorder);
         ingCombo.setPreferredSize(new Dimension(300, 40));
         ingCombo.setFont(new Font("Arial", Font.PLAIN, 16));
@@ -92,7 +96,7 @@ public class InsertResep extends JFrame {
         input.add(ingIdLabel, gbc);
 
         // input ingredient id
-        ingIdField = new JTextField();
+        ingIdField = new JTextField(String.valueOf(idIng));
         ingIdField.setBorder(roundedBorder);
         ingIdField.setPreferredSize(new Dimension(300, 40));
         ingIdField.setFont(new Font("Arial", Font.PLAIN, 16));
@@ -116,7 +120,7 @@ public class InsertResep extends JFrame {
         input.add(quantityLabel, gbc);
 
         // input Quantity
-        quantityField = new JTextField();
+        quantityField = new JTextField(String.valueOf(currentResep.getQuantity()));
         quantityField.setBorder(roundedBorder);
         quantityField.setPreferredSize(new Dimension(300, 40));
         quantityField.setFont(new Font("Arial", Font.PLAIN, 16));
@@ -139,7 +143,7 @@ public class InsertResep extends JFrame {
         input.add(satuanLabel, gbc);
 
         // TextField to display the selected file path
-        satuanField = new JTextField();
+        satuanField = new JTextField(currentResep.getSatuan());
         satuanField.setBorder(roundedBorder);
         satuanField.setPreferredSize(new Dimension(300, 40));
         satuanField.setFont(new Font("Arial", Font.PLAIN, 16));
@@ -151,17 +155,6 @@ public class InsertResep extends JFrame {
         gbc.gridy = 4;
         gbc.gridwidth = 1;
         input.add(satuanField, gbc);
-
-        // // Button to open file chooser
-        // selectPictureButton = new JButton("Select New Picture");
-        // selectPictureButton.setFont(new Font("Arial", Font.PLAIN, 14));
-        // selectPictureButton.setBackground(Color.RED);
-        // selectPictureButton.setForeground(Color.YELLOW);
-
-        // gbc.gridx = 1;
-        // gbc.gridy = 3;
-        // gbc.gridwidth = 1;
-        // input.add(picturePathField, gbc);
 
         // Submit button
         submitButton = new JButton("Submit");
@@ -197,17 +190,21 @@ public class InsertResep extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 String selected_ingredient = String.valueOf(ingCombo.getSelectedItem());
 
-                int newIngId = getKeyByValue(ingredientOpt, selected_ingredient);
-                String satuan = null;
-                for (Ingredient i : ingredientList) {
-                    if (i.getIng_id() == newIngId) {
-                        satuan = i.getSatuan();
-                        break;
+                Integer newIngId = new ResepAdminController().getKeyByValue(ingredientOpt, selected_ingredient);
+                if(newIngId != null){
+                    String satuan = null;
+                    for (Ingredient i : ingredientList) {
+                        if (i.getIng_id() == newIngId) {
+                            satuan = i.getSatuan();
+                            break;
+                        }
                     }
-                }
 
-                ingIdField.setText(String.valueOf(newIngId));
-                satuanField.setText(satuan);
+                    ingIdField.setText(String.valueOf(newIngId));
+                    satuanField.setText(satuan);
+                }else{
+                    showMessage("Error, Tidak dapat memilih menu!");
+                }
             }
         });
 
@@ -219,20 +216,17 @@ public class InsertResep extends JFrame {
                 double newQuantity = Double.parseDouble(quantityField.getText());
                 String newSatuan = satuanField.getText();
 
-                
-                if(newIngId != 0 || newIngName != null || newQuantity != 0 || newSatuan != null){
-                    Resep newResep = new Resep(Ingredient.getData(newIngId), newQuantity, newSatuan); 
-                    if (Resep.insertData(idMenu, newResep)) {
-                        showMessage("Insert Menu Berhasil!");
-                        dispose();
+                if(new ResepAdminController().fieldNotEmpty(newIngId, newIngName, newQuantity, newSatuan)){
+                    if (new ResepAdminController().insertDataResep(idMenu, idIng, newIngId, newIngName, newQuantity, newSatuan)) {
+                        showMessage("Update Menu Berhasil!");
                         new ListResepMenuView(idMenu);
+                        dispose();
                     } else {
-                        showMessage("Insert Menu gagal!");
+                        showMessage("Update Menu gagal!");
                     }
                 }else{
                     showMessage("Mohon ISI semua field!");
                 }
-
             }
         });
 
@@ -247,14 +241,5 @@ public class InsertResep extends JFrame {
 
     public void showMessage(String message) {
         JOptionPane.showMessageDialog(this, message);
-    }
-
-    public int getKeyByValue(HashMap<Integer, String> map, String value) {
-        for (Integer key : map.keySet()) {
-            if (map.get(key) == value) {
-                return key;
-            }
-        }
-        return -1;
     }
 }

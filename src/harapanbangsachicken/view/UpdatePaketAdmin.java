@@ -4,7 +4,6 @@ import javax.swing.*;
 import javax.swing.border.Border;
 
 import harapanbangsachicken.controller.PaketEditAdminController;
-import harapanbangsachicken.model.classes.Menu;
 import harapanbangsachicken.model.classes.Paket;
 
 import java.awt.*;
@@ -12,15 +11,15 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
-public class InsertPaket extends JFrame {
+public class UpdatePaketAdmin extends JFrame {
     private JPanel frame, input;
     private JLabel logoLabel, namaLabel, hargaLabel, pictureLabel;
     private JTextField namaField, hargaField, picturePathField;
     private JButton submitButton, backButton, selectPictureButton;
     private Border roundedBorder = BorderFactory.createLineBorder(Color.YELLOW, 2, true);
 
-    public InsertPaket() {
-        super("Insert Paket");
+    public UpdatePaketAdmin(int paket_id) {
+        super("Update Paket");
         setExtendedState(JFrame.MAXIMIZED_BOTH);
         setLocationRelativeTo(null);
         setFont(new Font("Arial", Font.BOLD, 30));
@@ -36,17 +35,18 @@ public class InsertPaket extends JFrame {
         gbc.insets = new Insets(10, 10, 10, 10);
         gbc.fill = GridBagConstraints.HORIZONTAL;
 
-        // show image icon
+        // set logo MCD
         ImageIcon logoIcon = new ImageIcon("src/harapanbangsachicken/view/gambar/mcd.png");
         Image scaledImage = logoIcon.getImage().getScaledInstance(100, 100, Image.SCALE_SMOOTH);
         logoIcon = new ImageIcon(scaledImage);
-        logoLabel = new JLabel(logoIcon, SwingConstants.CENTER);
+        logoLabel = new JLabel(logoIcon);
 
         gbc.gridx = 0;
         gbc.gridy = 0;
         gbc.gridwidth = 5;
-        gbc.anchor = GridBagConstraints.CENTER;
         input.add(logoLabel, gbc);
+
+        Paket paket = Paket.getData(paket_id);
 
         // label nama
         namaLabel = new JLabel("Nama :");
@@ -59,7 +59,7 @@ public class InsertPaket extends JFrame {
         input.add(namaLabel, gbc);
 
         // field nama
-        namaField = new JTextField();
+        namaField = new JTextField(paket.getNamaPaket());
         namaField.setBorder(roundedBorder);
         namaField.setPreferredSize(new Dimension(300, 40));
         namaField.setFont(new Font("Arial", Font.PLAIN, 16));
@@ -82,7 +82,7 @@ public class InsertPaket extends JFrame {
         input.add(hargaLabel, gbc);
 
         // input harga
-        hargaField = new JTextField();
+        hargaField = new JTextField(String.valueOf(paket.getHarga()));
         hargaField.setBorder(roundedBorder);
         hargaField.setPreferredSize(new Dimension(300, 40));
         hargaField.setFont(new Font("Arial", Font.PLAIN, 16));
@@ -105,7 +105,7 @@ public class InsertPaket extends JFrame {
         input.add(pictureLabel, gbc);
 
         // TextField to display the selected file path
-        picturePathField = new JTextField();
+        picturePathField = new JTextField(paket.getPicture_path());
         picturePathField.setBorder(roundedBorder);
         picturePathField.setPreferredSize(new Dimension(300, 40));
         picturePathField.setFont(new Font("Arial", Font.PLAIN, 16));
@@ -178,16 +178,14 @@ public class InsertPaket extends JFrame {
                 PaketEditAdminController paketControl = new PaketEditAdminController();
 
                 if (paketControl.fieldNotEmpty(nama, harga, gambar)) {
-                    Paket newPaket = new Paket(nama, harga, gambar);
-                    Integer newPaketId = paketControl.insertPaket(newPaket);
-                    if (newPaketId != null) {
-                        showMessage("Paket berhasil ditambahkan");
-                        showMessage("Mohon edit menu paket");
-                        new ShowPaketMenu(newPaketId);
+                    Paket newPaket = new Paket(paket_id, nama, harga, gambar);
+                    String msg = new PaketEditAdminController().updatePaket(newPaket);
+                    showMessage(msg);
+                    if (msg == "Update paket berhasil!") {
+                        ArrayList<Paket> show = Paket.getData();
+                        new ListPaketAdminView(show);
                         dispose();
-                    } else {
-                        showMessage("Tidak dapat memasukkan data!");
-                    }
+                    }   
                 } else {
                     showMessage("Mohon ISI semua field!");
                 }
@@ -197,9 +195,9 @@ public class InsertPaket extends JFrame {
         backButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                ArrayList<Menu> show = Menu.getData();
+                ArrayList<Paket> show = Paket.getData();
                 dispose();
-                new ListMenuAdminView(show);
+                new ListPaketAdminView(show);
             }
         });
     }
