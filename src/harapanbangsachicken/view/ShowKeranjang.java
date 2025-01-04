@@ -215,7 +215,7 @@ public class ShowKeranjang extends JFrame {
         });
 
         backButton.addActionListener(e -> {
-            new ShowMenuView();
+            new MenuView();
             dispose();
         });
         // checkOut.addActionListener(e -> {

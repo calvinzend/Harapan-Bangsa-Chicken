@@ -223,11 +223,11 @@ public class InsertResep extends JFrame {
                 if(newIngId != 0 || newIngName != null || newQuantity != 0 || newSatuan != null){
                     Resep newResep = new Resep(Ingredient.getData(newIngId), newQuantity, newSatuan); 
                     if (Resep.insertData(idMenu, newResep)) {
-                        showMessage("Insert Menu Berhasil!");
+                        showMessage("Insert Resep Berhasil!");
                         dispose();
                         new ListResepMenuView(idMenu);
                     } else {
-                        showMessage("Insert Menu gagal!");
+                        showMessage("Insert Resep gagal!");
                     }
                 }else{
                     showMessage("Mohon ISI semua field!");
