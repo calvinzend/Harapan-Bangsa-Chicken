@@ -4,7 +4,9 @@ import javax.swing.*;
 
 import harapanbangsachicken.model.classes.Drink;
 import harapanbangsachicken.model.classes.Keranjang;
+import harapanbangsachicken.model.classes.Promo;
 import harapanbangsachicken.model.classes.UpdateKeranjang;
+import harapanbangsachicken.view.PromoMenu.ButtonEditor;
 import harapanbangsachicken.controller.CheckoutController;
 import harapanbangsachicken.controller.StockController;
 
@@ -115,6 +117,19 @@ public class Checkout extends JFrame {
         
             cartPanel.add(itemPanel);
         }
+        StringBuilder claimedPromoList = new StringBuilder();
+        int totalPromo = 0;
+        for (Promo promo : ButtonEditor.getClaimedPromos()) {
+            claimedPromoList.append(promo.getNamaPromo())
+                             .append(" - Nominal: ")
+                             .append(promo.getNominalPromo())
+                             .append("\n");
+            totalPromo += promo.getNominalPromo();
+        }
+        JLabel promoLabel = new JLabel(claimedPromoList.toString());
+        promoLabel.setFont(new Font("Arial", Font.BOLD, 16));
+        promoLabel.setForeground(Color.YELLOW);
+        cartPanel.add(promoLabel);
 
         JScrollPane cartScrollPane = new JScrollPane(cartPanel);
         cartScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
@@ -129,7 +144,12 @@ public class Checkout extends JFrame {
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(5, 5, 5, 5);
 
-        JLabel totalLabel = new JLabel("Total Belanja: Rp " + String.valueOf(totalBelanja));
+        double harga = totalBelanja-totalPromo;
+        if (harga < 0) {
+            harga = 0;
+        }
+
+        JLabel totalLabel = new JLabel("Total Belanja: Rp " + String.valueOf(harga));
         totalLabel.setFont(new Font("Arial", Font.BOLD, 16));
         totalLabel.setForeground(Color.YELLOW);
 
@@ -151,8 +171,17 @@ public class Checkout extends JFrame {
         kembaliButton.setFont(new Font("Arial", Font.BOLD, 16));
         kembaliButton.setBackground(Color.RED);
         kembaliButton.setForeground(Color.YELLOW);
+       
+
+        JButton promoButton = new JButton("Promo");
+        promoButton.setFont(new Font("Arial", Font.PLAIN, 16));
+        promoButton.setBackground(Color.RED);
+        promoButton.setForeground(Color.YELLOW);
 
         buttonPanel.add(kembaliButton);
+        if (!keranjang.isEmpty()) {
+            buttonPanel.add(promoButton);
+        }
         buttonPanel.add(checkoutButton);
 
         gbc.gridx = 1;
@@ -182,6 +211,15 @@ public class Checkout extends JFrame {
                     dispose();
                 }
             }
+        });
+
+        promoButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e){
+                dispose();
+               new PromoMenu();
+            }
+
         });
 
         mainPanel.add(actionPanel);

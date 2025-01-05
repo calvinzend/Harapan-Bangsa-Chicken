@@ -127,4 +127,33 @@ public class Promo {
         }
         return null;
     }
+    public static ArrayList<Promo> getData(int userId) {
+        ArrayList<Promo> promoList = new ArrayList<>();
+        String query = """
+            SELECT p.promo_id, p.namaPromo, p.nominalPromo, p.promo_date 
+            FROM customer_promo cp
+            JOIN promo p ON cp.promo_id = p.promo_id
+            WHERE cp.customer_id = ?
+            """;
+        try (Connection con = ConnectionManager.getConnection();
+             PreparedStatement st = con.prepareStatement(query)) {
+                
+            st.setInt(1, userId);
+    
+            try (ResultSet rs = st.executeQuery()) {
+                while (rs.next()) {
+                    promoList.add(new Promo(
+                        rs.getInt("promo_id"),
+                        rs.getString("namaPromo"),
+                        rs.getInt("nominalPromo"),
+                        rs.getDate("promo_date")
+                    ));
+                }
+            }
+            return promoList;
+        } catch (Exception ex) {
+            System.out.println("Terjadi kesalahan: " + ex.getMessage());
+        }
+        return null;
+    }
 }
