@@ -219,6 +219,8 @@ public class Checkout extends JFrame {
                     int point = customer.getPoint();
                     point += 100;
                     customer.setPoint(point);  
+
+                    Customer.updateCustomerPoint();
                   
                     UpdateKeranjang.getInstance().clearKeranjang();  
                     stockController.updateStock(finalKeranjang);  

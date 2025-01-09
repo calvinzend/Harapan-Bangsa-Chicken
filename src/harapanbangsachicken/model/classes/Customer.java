@@ -299,6 +299,43 @@ public class Customer extends User {
             throw new RuntimeException("Failed to update saldo in the database.");
         }
     }
+
+
+    public static boolean updateCustomerLevel() {
+        String query = "UPDATE customer SET lvl = ? WHERE user_id = ?";
+        try (Connection con = ConnectionManager.getConnection();
+             PreparedStatement st = con.prepareStatement(query)) {
+    
+            Customer customer = (Customer) SingletonManager.getInstance().getUser();
+
+            st.setString(1, customer.getLevel().toString());
+            st.setInt(2, customer.getUser_id());
+    
+            int rowsUpdated = st.executeUpdate();
+            return rowsUpdated > 0;
+        } catch (Exception ex) {
+            System.out.println("Terjadi kesalahan saat memperbarui level dan poin: " + ex.getMessage());
+        }
+        return false;
+    }
+
+    public static boolean updateCustomerPoint() {
+        String query = "UPDATE customer SET poin = ? WHERE user_id = ?";
+        try (Connection con = ConnectionManager.getConnection();
+             PreparedStatement st = con.prepareStatement(query)) {
+    
+            Customer customer = (Customer) SingletonManager.getInstance().getUser();
+
+            st.setInt(1, customer.getPoint());
+            st.setInt(2, customer.getUser_id());
+    
+            int rowsUpdated = st.executeUpdate();
+            return rowsUpdated > 0;
+        } catch (Exception ex) {
+            System.out.println("Terjadi kesalahan saat memperbarui level dan poin: " + ex.getMessage());
+        }
+        return false;
+    }
     
    
 }

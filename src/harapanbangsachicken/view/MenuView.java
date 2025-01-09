@@ -11,7 +11,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class MenuView extends JFrame {
-    private JButton keranjang, checkout, showMenu, checkProfil, reward, checkTransaksi, saldo ,logout;
+    private JButton keranjang, checkout, showMenu, checkProfil, reward, checkTransaksi, saldo, level, lastTransaksi ,logout;
     private JLabel logoLabel;
     private JPanel pesan;
 
@@ -114,8 +114,24 @@ public class MenuView extends JFrame {
         saldo.setBackground(Color.RED);
         saldo.setForeground(Color.YELLOW);
 
-        logout = new JButton("Log out");
+        level = new JButton("Level");
         gbc.gridx = 2;
+        gbc.gridy = 4;
+        pesan.add(level, gbc);
+        level.setFont(new Font("Arial", Font.PLAIN, 16));
+        level.setBackground(Color.RED);
+        level.setForeground(Color.YELLOW);
+
+        lastTransaksi = new JButton("Last Transaksi");
+        gbc.gridx = 3;
+        gbc.gridy = 4;
+        pesan.add(lastTransaksi, gbc);
+        lastTransaksi.setFont(new Font("Arial", Font.PLAIN, 16));
+        lastTransaksi.setBackground(Color.RED);
+        lastTransaksi.setForeground(Color.YELLOW);
+
+        logout = new JButton("Log out");
+        gbc.gridx = 4;
         gbc.gridy = 4;
         pesan.add(logout, gbc);
         logout.setFont(new Font("Arial", Font.PLAIN, 16));
@@ -182,6 +198,24 @@ public class MenuView extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e){
                 new SaldoView();
+                dispose();
+            }
+
+        });
+
+        level.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e){
+                new LevelMenu();
+                dispose();
+            }
+
+        });
+
+        lastTransaksi.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e){
+                new InfoPembayaran();
                 dispose();
             }
 
