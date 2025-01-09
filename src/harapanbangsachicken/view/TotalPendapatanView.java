@@ -7,6 +7,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
+import harapanbangsachicken.model.classes.Admin;
+
 import java.awt.*;
 
 import java.awt.event.ActionEvent;
@@ -14,7 +16,7 @@ import java.awt.event.ActionListener;
 
 public class TotalPendapatanView extends JFrame{
     private JPanel frame;
-    private JLabel logoLabel, showPendapatan;
+    private JLabel logoLabel, showPendapatan, incomeLabel;
     private JButton backButton;
     private GridBagConstraints gbc;
 
@@ -43,14 +45,24 @@ public class TotalPendapatanView extends JFrame{
         frame.add(logoLabel, gbc);
 
         // JLabel untuk Show Total Pendapatan
-        showPendapatan = new JLabel("-- Total Income of Harapan Bangsa Chicken --");
+        double income = Admin.getTotalRevenue();
+        showPendapatan = new JLabel("-- Total Income of Harapan Bangsa Chicken -- ");
         showPendapatan.setFont(new Font("Arial", Font.PLAIN, 28));
         showPendapatan.setForeground(Color.YELLOW);
-
+        
         gbc.gridx = 0;
         gbc.gridy = 1;
         gbc.gridwidth = 5;
         frame.add(showPendapatan, gbc);
+
+        incomeLabel = new JLabel("Rp. "+income+"  ");
+        incomeLabel.setFont(new Font("Arial", Font.PLAIN, 28));
+        incomeLabel.setForeground(Color.YELLOW);
+
+        gbc.gridx = 1;
+        gbc.gridy = 2;
+        gbc.gridwidth = 5;
+        frame.add(incomeLabel, gbc);
 
 
         backButton = new JButton("Kembali");
@@ -59,7 +71,7 @@ public class TotalPendapatanView extends JFrame{
         backButton.setForeground(Color.YELLOW);
 
         gbc.gridx = 0;
-        gbc.gridy = 2;
+        gbc.gridy = 3;
         gbc.gridwidth = 3;
         frame.add(backButton, gbc);
 

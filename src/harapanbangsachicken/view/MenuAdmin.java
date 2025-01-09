@@ -182,7 +182,7 @@ public class MenuAdmin extends JFrame{
             @Override
             public void actionPerformed(ActionEvent e){
                 dispose();
-                new TransaksiView();
+                new TransaksiViewAdmin();
             }
 
         });
