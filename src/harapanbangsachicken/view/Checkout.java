@@ -2,9 +2,12 @@ package harapanbangsachicken.view;
 
 import javax.swing.*;
 
+import harapanbangsachicken.model.classes.CheckoutResult;
+import harapanbangsachicken.model.classes.Customer;
 import harapanbangsachicken.model.classes.Drink;
 import harapanbangsachicken.model.classes.Keranjang;
 import harapanbangsachicken.model.classes.Promo;
+import harapanbangsachicken.model.classes.SingletonManager;
 import harapanbangsachicken.model.classes.UpdateKeranjang;
 import harapanbangsachicken.view.PromoMenu.ButtonEditor;
 import harapanbangsachicken.controller.CheckoutController;
@@ -17,6 +20,7 @@ import java.util.ArrayList;
 
 public class Checkout extends JFrame {
     private double totalBelanja;
+
     public Checkout() {
         super("Checkout");
         setExtendedState(JFrame.MAXIMIZED_BOTH);
@@ -117,19 +121,20 @@ public class Checkout extends JFrame {
         
             cartPanel.add(itemPanel);
         }
-        StringBuilder claimedPromoList = new StringBuilder();
         int totalPromo = 0;
+        ArrayList<Promo> promoList = ButtonEditor.getClaimedPromos();
         for (Promo promo : ButtonEditor.getClaimedPromos()) {
+            StringBuilder claimedPromoList = new StringBuilder();
             claimedPromoList.append(promo.getNamaPromo())
                              .append(" - Nominal: ")
                              .append(promo.getNominalPromo())
                              .append("\n");
             totalPromo += promo.getNominalPromo();
+            JLabel promoLabel = new JLabel(claimedPromoList.toString());
+            promoLabel.setFont(new Font("Arial", Font.BOLD, 16));
+            promoLabel.setForeground(Color.YELLOW);
+            cartPanel.add(promoLabel);
         }
-        JLabel promoLabel = new JLabel(claimedPromoList.toString());
-        promoLabel.setFont(new Font("Arial", Font.BOLD, 16));
-        promoLabel.setForeground(Color.YELLOW);
-        cartPanel.add(promoLabel);
 
         JScrollPane cartScrollPane = new JScrollPane(cartPanel);
         cartScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
@@ -149,6 +154,7 @@ public class Checkout extends JFrame {
             harga = 0;
         }
 
+        UpdateKeranjang.getInstance().setTotalHarga(harga);
         JLabel totalLabel = new JLabel("Total Belanja: Rp " + String.valueOf(harga));
         totalLabel.setFont(new Font("Arial", Font.BOLD, 16));
         totalLabel.setForeground(Color.YELLOW);
@@ -196,36 +202,44 @@ public class Checkout extends JFrame {
         });
        
         ArrayList<Keranjang> finalKeranjang = new ArrayList<>(keranjang);
+        double finalharga = harga;
         
         checkoutButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 CheckoutController checkoutController = new CheckoutController();
                 StockController stockController = new StockController();
+        
+                CheckoutResult.initializeInstance(finalKeranjang, promoList, finalharga);
 
                 boolean statusPembayaran = checkoutController.Konfirmasi(Checkout.this);
                 if (statusPembayaran) {
-                    UpdateKeranjang.getInstance().clearKeranjang();
-                    stockController.updateStock(finalKeranjang);
-                    new MenuView();
+                    Customer customer = (Customer) SingletonManager.getInstance().getUser();
+        
+                    int point = customer.getPoint();
+                    point += 100;
+                    customer.setPoint(point);  
+                  
+                    UpdateKeranjang.getInstance().clearKeranjang();  
+                    stockController.updateStock(finalKeranjang);  
+                    new InfoPembayaran(); 
                     dispose();
                 }
             }
         });
 
         promoButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e){
-                dispose();
-               new PromoMenu();
-            }
 
-        });
-
-        mainPanel.add(actionPanel);
-
-        add(new JScrollPane(mainPanel));
-        setVisible(true);
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        dispose();
+        new PromoMenu();
     }
+
+});
+
+mainPanel.add(actionPanel);
+
+add(new JScrollPane(mainPanel));setVisible(true);}
 
 }

@@ -11,7 +11,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class MenuView extends JFrame {
-    private JButton keranjang, checkout, showMenu, checkProfil, reward, checkTransaksi,logout;
+    private JButton keranjang, checkout, showMenu, checkProfil, reward, checkTransaksi, saldo ,logout;
     private JLabel logoLabel;
     private JPanel pesan;
 
@@ -106,8 +106,16 @@ public class MenuView extends JFrame {
         checkTransaksi.setBackground(Color.RED);
         checkTransaksi.setForeground(Color.YELLOW);
 
-        logout = new JButton("Log out");
+        saldo = new JButton("Saldo");
         gbc.gridx = 1;
+        gbc.gridy = 4;
+        pesan.add(saldo, gbc);
+        saldo.setFont(new Font("Arial", Font.PLAIN, 16));
+        saldo.setBackground(Color.RED);
+        saldo.setForeground(Color.YELLOW);
+
+        logout = new JButton("Log out");
+        gbc.gridx = 2;
         gbc.gridy = 4;
         pesan.add(logout, gbc);
         logout.setFont(new Font("Arial", Font.PLAIN, 16));
@@ -126,6 +134,7 @@ public class MenuView extends JFrame {
                 new ProfileView();
             }
         });
+
         showMenu.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e){
@@ -133,6 +142,7 @@ public class MenuView extends JFrame {
                 new ShowMenuView();
             }
         });
+
         checkout.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e){
@@ -140,6 +150,7 @@ public class MenuView extends JFrame {
                 new Checkout();
             }
         });
+
         keranjang.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e){
@@ -149,6 +160,33 @@ public class MenuView extends JFrame {
 
         });
  
+        reward.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e){
+                dispose();
+                new RewardMenu();
+            }
+
+        });
+ 
+        checkTransaksi.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e){
+                new TransaksiView();
+                dispose();
+            }
+
+        });
+
+        saldo.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e){
+                new SaldoView();
+                dispose();
+            }
+
+        });
+        
         logout.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e){

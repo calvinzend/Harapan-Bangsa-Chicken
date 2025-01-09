@@ -3,7 +3,9 @@ package harapanbangsachicken.model.classes;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
+
 
 import javax.swing.JOptionPane;
 
@@ -215,40 +217,88 @@ public class Customer extends User {
         }
     }
 
-     public static void Pembayaran(int pilihan) {
+     public static boolean Pembayaran(int pilihan) {
         if (pilihan == 0) {
-            Customer customer = (Customer) SingletonManager.getInstance().getUser();
-            double totalHarga = UpdateKeranjang.getInstance().getTotalHarga();
 
-            if (customer.getSaldo() >= UpdateKeranjang.getInstance().getTotalHarga()) {
-                customer.kurangiSaldo(totalHarga);
-                JOptionPane.showMessageDialog(
-                    null,
-                    "Pembayaran berhasil menggunakan saldo! Saldo tersisa: Rp " + customer.saldo,
-                    "Sukses",
-                    JOptionPane.INFORMATION_MESSAGE
-                );
-
-                UpdateKeranjang.getInstance().clearKeranjang();
-
-            } else {
-                JOptionPane.showMessageDialog(
-                    null,
-                    "Saldo tidak mencukupi untuk melakukan pembayaran.",
-                    "Kesalahan",
-                    JOptionPane.ERROR_MESSAGE
-                );
-            }
+            E_Money eMoney = new E_Money();
+            
+            return eMoney.prosesPembayaran();
 
         } else if (pilihan == 1) {
-            JOptionPane.showMessageDialog(
-                null,
-                "Pembayaran berhasil menggunakan kartu bank!",
-                "Sukses",
-                JOptionPane.INFORMATION_MESSAGE
-            );
+
+          Card card= new Card();
+          return card.prosesPembayaran();
+
+        }
+        return false;
+    }
+
+    
+    
+    
+    public static ArrayList<Transaction> getDataHistory(int userId) {
+        String query = "SELECT t.transaction_id, t.tanggalPembelian, t.potonganPromo, t.hargaTotal " +
+                       "FROM history h " +
+                       "JOIN transaction t ON t.transaction_id = h.transaction_id " +
+                       "WHERE h.customer_id = ?";
+        ArrayList<Transaction> historyList = new ArrayList<>();
+    
+        try (Connection con = ConnectionManager.getConnection();
+             PreparedStatement st = con.prepareStatement(query)) {
+            
+            st.setInt(1, userId); 
+            try (ResultSet rs = st.executeQuery()) {
+                while (rs.next()) {
+                    Transaction transaction = new E_Money();
+                    transaction.setTransaction_id(rs.getInt("transaction_id"));
+                    transaction.setTanggalPembelian(rs.getDate("tanggalPembelian"));
+                    transaction.setPotonganPromo(rs.getDouble("potonganPromo"));
+                    transaction.setHargaTotal(rs.getDouble("hargaTotal"));
+
+    
+                    historyList.add(transaction);
+                }
+            }
+        } catch (Exception ex) {
+            System.out.println("Terjadi kesalahan: " + ex.getMessage());
+        }
+    
+        return historyList; 
+    }
+
+    public void addSaldo(double amount) {
+        if (amount > 0) {
+            this.saldo += amount;
+            updateSaldoInDatabase();
+        } else {
+            throw new IllegalArgumentException("Jumlah saldo yang ditambahkan harus lebih besar dari 0.");
         }
     }
 
+    public void updateSaldo(double amount) {
+        if (amount >= 0) {
+            this.saldo = amount;
+            updateSaldoInDatabase();
+        } else {
+            throw new IllegalArgumentException("Saldo harus lebih besar atau sama dengan 0.");
+        }
+    }
+
+    private void updateSaldoInDatabase() {
+        String sql = "UPDATE customer SET saldo = ? WHERE user_id = ?";
+        
+        try (Connection conn = ConnectionManager.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setDouble(1, this.saldo);
+            stmt.setInt(2, this.getUser_id());
+            stmt.executeUpdate();
+            
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException("Failed to update saldo in the database.");
+        }
+    }
+    
    
 }

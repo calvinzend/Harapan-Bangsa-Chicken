@@ -50,7 +50,12 @@ public class RewardAdminController {
 
             String namaReward = view.getNamaReward();
     
-            Reward reward = new Reward(0, namaReward, minimalPoin);
+            //BUILDER
+            Reward reward = new Reward.RewardBuilder()
+            .setRewardId(0) 
+            .setRewardName(namaReward)
+            .setMinimalPoint(minimalPoin) 
+            .build(); 
     
             if (Reward.addReward(reward)) {
                 view.showMessage("Reward berhasil ditambahkan!");
@@ -109,7 +114,12 @@ public class RewardAdminController {
 
             int idReward = Integer.parseInt(update.getIdReward().trim());
     
-            Reward reward = new Reward(idReward, namaReward, minimalPoin);
+            //BUIDLDER
+            Reward reward = new Reward.RewardBuilder()
+            .setRewardId(idReward) 
+            .setRewardName(namaReward) 
+            .setMinimalPoint(minimalPoin) 
+            .build(); 
     
             if (Reward.updateReward(reward)) {
                 update.showMessage("Reward berhasil diupdate!");

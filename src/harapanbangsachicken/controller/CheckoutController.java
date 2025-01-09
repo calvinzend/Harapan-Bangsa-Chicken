@@ -1,9 +1,11 @@
 package harapanbangsachicken.controller;
 
 import javax.swing.*;
+import harapanbangsachicken.model.classes.*;
+import harapanbangsachicken.view.InfoPembayaran;
 
-import harapanbangsachicken.model.classes.Customer;
-
+import java.util.Date;
+import java.util.ArrayList;
 
 public class CheckoutController {
 
@@ -17,14 +19,13 @@ public class CheckoutController {
         );
 
         if (Customer.Konfirmasi(response)) {
-            boolean berhasil = Pembayaran();
-            return berhasil;
+            return Pembayaran();
         }
 
         return false;
     }
 
-    public boolean Pembayaran(){
+    public boolean Pembayaran() {
         String[] options = {"Saldo User", "Kartu (Bank)"};
 
         int pilihan = JOptionPane.showOptionDialog(
@@ -39,6 +40,45 @@ public class CheckoutController {
         );
 
         boolean berhasilDibayar = Customer.Pembayaran(pilihan);
-        return berhasilDibayar;
+
+        if (berhasilDibayar) {
+            CheckoutResult checkoutResult = CheckoutResult.getInstance();
+            ArrayList<Keranjang> keranjangList = checkoutResult.getKeranjang();
+            ArrayList<Promo> promoList = checkoutResult.getPromos();
+            double harga = checkoutResult.getHarga();
+
+            ArrayList<Menu> menus = new ArrayList<>();
+            for (Keranjang keranjang : keranjangList) {
+                menus.add(keranjang.getMenu());
+            }
+            
+
+            Transaction transaction = new E_Money();
+            transaction.setPemesan(SingletonManager.getInstance().getUser());
+            transaction.setTanggalPembelian(new java.sql.Date(new Date().getTime()));
+            transaction.setListMenu(menus);
+            transaction.setPotonganPromo(totalPotonganPromo(promoList));
+            transaction.setHargaTotal(harga);
+
+            boolean berhasilDisimpan = Transaction.insertTransaction(transaction, keranjangList, promoList);
+
+            if (berhasilDisimpan) {
+                    JOptionPane.showMessageDialog(null, "Pembayaran berhasil, data transaksi tersimpan, dan history tercatat.");
+                   return true;
+            } else {
+                JOptionPane.showMessageDialog(null, "Pembayaran gagal. Silakan coba lagi.");
+                return false;
+            }
+        }
+        return false;
     }
+
+    private double totalPotonganPromo(ArrayList<Promo> promos) {
+        double total = 0;
+        for (Promo promo : promos) {
+            total += promo.getNominalPromo();
+        }
+        return total;
+    }
+   
 }

@@ -22,7 +22,7 @@ public class PromoMenu {
         frame.setFont(new Font("Arial",Font.BOLD,30));;
         frame.setLayout(new BorderLayout());
 
-        ArrayList<Promo> promoList = PromoController.PromoController();
+        ArrayList<Promo> promoList = PromoController.getAvailablePromos();
        
         JLabel headerLabel = new JLabel("View Promo", JLabel.CENTER);
         headerLabel.setFont(new Font("Arial", Font.BOLD, 24));
@@ -109,25 +109,25 @@ public class PromoMenu {
         private JFrame frame;
         private ArrayList<Promo> promoList;
         private static ArrayList<Promo> claimedPromos = new ArrayList<>();
-        
+    
         public ButtonEditor(JCheckBox checkBox, JFrame frame, ArrayList<Promo> promoList) {
             super(checkBox);
             this.frame = frame;
             this.promoList = promoList;
-            this.claimedPromos = new ArrayList<>(); 
-        
+            this.claimedPromos = new ArrayList<>();
+    
             button = new JButton();
             button.setOpaque(true);
             button.setBackground(Color.RED);
             button.setForeground(Color.BLACK);
             button.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-        
+    
             button.addActionListener((ActionEvent e) -> {
-                int row = table.convertRowIndexToModel(table.getEditingRow()); 
-                
+                int row = table.convertRowIndexToModel(table.getEditingRow());
+    
                 if (row >= 0 && row < promoList.size()) {
                     Promo promo = promoList.get(row);
-                    
+    
                     if (claimedPromos.contains(promo)) {
                         JOptionPane.showMessageDialog(frame, "Promo '" + promo.getNamaPromo() + "' sudah diklaim sebelumnya!");
                     } else {
@@ -137,38 +137,40 @@ public class PromoMenu {
                 } else {
                     JOptionPane.showMessageDialog(frame, "Kesalahan: Promo tidak ditemukan!");
                 }
-        
-                fireEditingStopped();
+    
+                fireEditingStopped();  
             });
         }
+    
         public static ArrayList<Promo> getClaimedPromos() {
             return claimedPromos;
         }
-        
+    
         @Override
         public Component getTableCellEditorComponent(JTable table, Object value, boolean isSelected, int row, int column) {
-            this.table = table; 
+            this.table = table;
             label = (value == null) ? "" : value.toString();
             button.setText(label);
             clicked = true;
             return button;
         }
-        
+    
         @Override
         public Object getCellEditorValue() {
             return label;
         }
-        
+    
         @Override
         public boolean stopCellEditing() {
             clicked = false;
             return super.stopCellEditing();
         }
-        
+    
         @Override
         protected void fireEditingStopped() {
             super.fireEditingStopped();
         }
     }
+    
     
 }

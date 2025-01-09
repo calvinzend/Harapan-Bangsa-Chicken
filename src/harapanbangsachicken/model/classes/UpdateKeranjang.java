@@ -5,6 +5,15 @@ import java.util.ArrayList;
 public class UpdateKeranjang {
     private static UpdateKeranjang instance;
     private ArrayList<Keranjang> keranjang;
+    private double totalHarga;
+
+    public void setTotalHarga(double totalHarga) {
+        this.totalHarga = totalHarga;
+    }
+
+    public double getTotalHarga() {
+        return totalHarga;
+    }
 
     UpdateKeranjang() {
         keranjang = new ArrayList<>();
@@ -61,18 +70,6 @@ public class UpdateKeranjang {
             keranjang.add(item);
             System.out.println("Added new item.");
         }
-    }
-
-    public double getTotalHarga() {
-        double totalHarga = 0;
-        for (Keranjang item : keranjang) {
-            if (item.getMenu() != null) {
-                totalHarga += item.getJumlah() * item.getMenu().getHarga();
-            } else {
-                totalHarga += item.getJumlah() * item.getPaket().getHarga();
-            }
-        }
-        return totalHarga;
     }
 
     public void clearKeranjang() {

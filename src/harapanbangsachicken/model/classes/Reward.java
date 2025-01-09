@@ -1,8 +1,10 @@
 package harapanbangsachicken.model.classes;
 
+import java.beans.Statement;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class Reward {
@@ -10,16 +12,16 @@ public class Reward {
     private String rewardName;
     private int minimalPoint;
 
-    public Reward(int reward_id, String rewardName, int minimalPoint) {
-        this.reward_id = reward_id;
-        this.rewardName = rewardName;
-        this.minimalPoint = minimalPoint;
+    private Reward(RewardBuilder builder) {
+        this.reward_id = builder.reward_id;
+        this.rewardName = builder.rewardName;
+        this.minimalPoint = builder.minimalPoint;
     }
-    
+
     public int getReward_id() {
         return reward_id;
     }
-    
+
     public void setReward_id(int reward_id) {
         this.reward_id = reward_id;
     }
@@ -92,19 +94,19 @@ public class Reward {
         }
     }
 
-     public static ArrayList<Reward> getData() {
+    public static ArrayList<Reward> getData() {
         ArrayList<Reward> rewardList = new ArrayList<>();
         String query = "SELECT * FROM reward";
         try (Connection con = ConnectionManager.getConnection();
              PreparedStatement st = con.prepareStatement(query)) {
-    
+
             try (ResultSet rs = st.executeQuery()) {
                 while (rs.next()) {
-                    rewardList.add(new Reward(
-                        rs.getInt("reward_id"),
-                        rs.getString("name"),
-                        rs.getInt("minimalPoin")
-                    ));
+                    rewardList.add(new Reward.RewardBuilder()
+                            .setRewardId(rs.getInt("reward_id"))
+                            .setRewardName(rs.getString("name"))
+                            .setMinimalPoint(rs.getInt("minimalPoin"))
+                            .build());
                 }
             }
             return rewardList;
@@ -118,4 +120,73 @@ public class Reward {
     public String toString() {
         return "ID Reward: " + reward_id + "\nNama Reward: " + rewardName + "\nMinimal Poin: " + minimalPoint;
     }
+
+    public static class RewardBuilder {
+        private int reward_id;
+        private String rewardName;
+        private int minimalPoint;
+
+        public RewardBuilder setRewardId(int reward_id) {
+            this.reward_id = reward_id;
+            return this;
+        }
+
+        public RewardBuilder setRewardName(String rewardName) {
+            this.rewardName = rewardName;
+            return this;
+        }
+
+        public RewardBuilder setMinimalPoint(int minimalPoint) {
+            this.minimalPoint = minimalPoint;
+            return this;
+        }
+
+        public Reward build() {
+            return new Reward(this);
+        }
+    }
+
+    public static boolean claimReward(int userId, int rewardId, int minimalPoin) {
+        Connection con = null;
+        try {
+            con = ConnectionManager.getConnection();
+    
+            String queryUser = "SELECT poin FROM customer WHERE user_id = ?";
+            PreparedStatement stmtUser = con.prepareStatement(queryUser);
+            stmtUser.setInt(1, userId);
+            ResultSet rs = stmtUser.executeQuery();
+    
+            if (rs.next()) {
+                int userPoints = rs.getInt("poin");
+                if (userPoints >= minimalPoin) {
+                    String updateUser = "UPDATE customer SET poin = poin - ? WHERE user_id = ?";
+                    PreparedStatement stmtUpdate = con.prepareStatement(updateUser);
+                    stmtUpdate.setInt(1, minimalPoin);
+                    stmtUpdate.setInt(2, userId);
+                    stmtUpdate.executeUpdate();
+
+    
+                    String deleteRewardQuery = "DELETE FROM reward WHERE reward_id = ?";
+                    PreparedStatement stmtDelete = con.prepareStatement(deleteRewardQuery);
+                    stmtDelete.setInt(1, rewardId);
+                    stmtDelete.executeUpdate();
+    
+                    return true; 
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            if (con != null) {
+                try {
+                    con.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return false;
+    }
+    
+    
 }
