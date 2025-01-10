@@ -20,7 +20,7 @@ public class InfoPembayaran extends JFrame {
     private Border roundedBorderButton = BorderFactory.createLineBorder(Color.BLACK, 2, true);
 
     public InfoPembayaran() {
-        super("Info Pembayaran");
+        super("Info");
         setExtendedState(JFrame.MAXIMIZED_BOTH);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -35,7 +35,7 @@ public class InfoPembayaran extends JFrame {
         logoLabel = new JLabel(logoIcon);
 
         // Title setup
-        JLabel titleLabel = new JLabel("Informasi Pembelian");
+        JLabel titleLabel = new JLabel("Purchasing Information");
         titleLabel.setFont(new Font("Arial", Font.BOLD, 30));
         titleLabel.setForeground(Color.YELLOW);
 
@@ -52,7 +52,7 @@ public class InfoPembayaran extends JFrame {
 
         if (transaction != null) {
             String transactionInfo = String.format(
-                "<html><div style='text-align: center;'>ID Transaksi: %d<br>Tanggal: %s<br>Total Harga: Rp %s<br>Potongan Promo: Rp %s</div></html>",
+                "<html><div style='text-align: center;'>Transaction ID: %d<br>Date: %s<br>Total Price: Rp %s<br>Promotional Pieces: Rp %s</div></html>",
                 transaction.getTransaction_id(),
                 transaction.getTanggalPembelian(),
                 numberFormat.format(transaction.getHargaTotal()),

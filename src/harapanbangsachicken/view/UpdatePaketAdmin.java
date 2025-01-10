@@ -73,7 +73,7 @@ public class UpdatePaketAdmin extends JFrame {
         input.add(namaField, gbc);
 
         // label harga
-        hargaLabel = new JLabel("Harga :");
+        hargaLabel = new JLabel("Price :");
         hargaLabel.setFont(new Font("Arial", Font.PLAIN, 16));
         hargaLabel.setForeground(Color.YELLOW);
 

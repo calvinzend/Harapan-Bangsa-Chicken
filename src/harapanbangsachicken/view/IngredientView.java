@@ -61,6 +61,7 @@ public class IngredientView extends JFrame{
         ingredientTable.setForeground(Color.YELLOW);
         ingredientTable.setFont(new Font("Arial", Font.PLAIN, 15));
         ingredientTable.setRowHeight(25);
+        ingredientTable.setGridColor(Color.WHITE);
         ingredientTable.getTableHeader().setFont(new Font("Arial", Font.BOLD, 18));
         ingredientTable.getTableHeader().setBackground(Color.RED);
         ingredientTable.getTableHeader().setForeground(Color.YELLOW);

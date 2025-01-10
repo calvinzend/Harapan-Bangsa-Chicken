@@ -61,6 +61,7 @@ public class RewardView extends JFrame{
         rewardTable.setForeground(Color.YELLOW);
         rewardTable.setFont(new Font("Arial", Font.PLAIN, 15));
         rewardTable.setRowHeight(25);
+        rewardTable.setGridColor(Color.WHITE);
         rewardTable.getTableHeader().setFont(new Font("Arial", Font.BOLD, 18));
         rewardTable.getTableHeader().setBackground(Color.RED);
         rewardTable.getTableHeader().setForeground(Color.YELLOW);

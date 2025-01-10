@@ -37,7 +37,7 @@ public class ShowPaketMenu extends JFrame {
         panel2 = new JPanel(new BorderLayout());
         panel2.setOpaque(false);
 
-        header = new JLabel("Paket List", SwingConstants.CENTER);
+        header = new JLabel("Package List", SwingConstants.CENTER);
         header.setFont(new Font("Arial", Font.PLAIN, 28));
         header.setForeground(Color.YELLOW);
         panel2.add(header, BorderLayout.NORTH);
@@ -110,9 +110,13 @@ public class ShowPaketMenu extends JFrame {
 
         // Back button
         backButton = new JButton("Back");
+        backButton.setBackground(Color.RED);
+        backButton.setForeground(Color.YELLOW);
 
         // Add new Button
         insertNewButton = new JButton("Add New");
+        insertNewButton.setBackground(Color.RED);
+        insertNewButton.setForeground(Color.YELLOW);
 
         buttonPanel = new JPanel();
         buttonPanel.setBackground(Color.RED);

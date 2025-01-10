@@ -39,7 +39,7 @@ public class MenuView extends JFrame {
         gbc.anchor = GridBagConstraints.CENTER;
         pesan.add(logoLabel, gbc);
 
-        JLabel judulAtas = new JLabel("SELAMAT DATANG "+ SingletonManager.getInstance().getUser().getNamaDepan().toUpperCase(), SwingConstants.CENTER);
+        JLabel judulAtas = new JLabel("WELCOME "+ SingletonManager.getInstance().getUser().getNamaDepan().toUpperCase(), SwingConstants.CENTER);
         judulAtas.setFont(new Font("Arial", Font.PLAIN, 28));
         judulAtas.setForeground(Color.YELLOW);
         
@@ -48,7 +48,7 @@ public class MenuView extends JFrame {
         gbc.gridwidth = 5; 
         pesan.add(judulAtas, gbc);
         
-        JLabel judulBawah = new JLabel("Silakan Pilih Opsi Anda", SwingConstants.CENTER);
+        JLabel judulBawah = new JLabel("Choose Your Option", SwingConstants.CENTER);
         judulBawah.setFont(new Font("Arial", Font.PLAIN, 20));
         judulBawah.setForeground(Color.YELLOW);
 
@@ -67,7 +67,7 @@ public class MenuView extends JFrame {
 
         pesan.add(showMenu, gbc);
 
-        keranjang = new JButton("Keranjang");
+        keranjang = new JButton("Check Basket");
         gbc.gridx = 1;
         gbc.gridy = 3;
         pesan.add(keranjang, gbc);
@@ -83,7 +83,7 @@ public class MenuView extends JFrame {
         checkout.setBackground(Color.RED);
         checkout.setForeground(Color.YELLOW);
 
-        checkProfil = new JButton("Check Profil");
+        checkProfil = new JButton("Check Profile");
         gbc.gridx = 3;
         gbc.gridy = 3;
         pesan.add(checkProfil, gbc);
@@ -91,7 +91,7 @@ public class MenuView extends JFrame {
         checkProfil.setBackground(Color.RED);
         checkProfil.setForeground(Color.YELLOW);
 
-        reward = new JButton("Reward");
+        reward = new JButton("Check Reward");
         gbc.gridx = 4;
         gbc.gridy = 3;
         pesan.add(reward, gbc);
@@ -99,7 +99,7 @@ public class MenuView extends JFrame {
         reward.setBackground(Color.RED);
         reward.setForeground(Color.YELLOW);
 
-        checkTransaksi = new JButton("Check Transaksi");
+        checkTransaksi = new JButton("Check Transaction");
         gbc.gridx = 0;
         gbc.gridy = 4;
         pesan.add(checkTransaksi, gbc);
@@ -107,7 +107,7 @@ public class MenuView extends JFrame {
         checkTransaksi.setBackground(Color.RED);
         checkTransaksi.setForeground(Color.YELLOW);
 
-        saldo = new JButton("Saldo");
+        saldo = new JButton("Check Balance");
         gbc.gridx = 1;
         gbc.gridy = 4;
         pesan.add(saldo, gbc);
@@ -115,7 +115,7 @@ public class MenuView extends JFrame {
         saldo.setBackground(Color.RED);
         saldo.setForeground(Color.YELLOW);
 
-        level = new JButton("Level");
+        level = new JButton("Check Level");
         gbc.gridx = 2;
         gbc.gridy = 4;
         pesan.add(level, gbc);
@@ -123,7 +123,7 @@ public class MenuView extends JFrame {
         level.setBackground(Color.RED);
         level.setForeground(Color.YELLOW);
 
-        lastTransaksi = new JButton("Last Transaksi");
+        lastTransaksi = new JButton("Last Transaction");
         gbc.gridx = 3;
         gbc.gridy = 4;
         pesan.add(lastTransaksi, gbc);

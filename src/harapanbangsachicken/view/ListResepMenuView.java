@@ -107,9 +107,13 @@ public class ListResepMenuView extends JFrame {
 
         // Back button
         backButton = new JButton("Back");
+        backButton.setBackground(Color.RED);
+        backButton.setForeground(Color.YELLOW);
 
         // Insert button
         insertNewButton = new JButton("Add Resep");
+        insertNewButton.setBackground(Color.RED);
+        insertNewButton.setForeground(Color.YELLOW);
 
         buttonPanel = new JPanel();
         buttonPanel.setBackground(Color.RED);

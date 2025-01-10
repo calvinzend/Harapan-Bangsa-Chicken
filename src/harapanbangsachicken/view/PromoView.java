@@ -63,6 +63,7 @@ public class PromoView extends JFrame{
         promoTable.setForeground(Color.YELLOW);
         promoTable.setFont(new Font("Arial", Font.PLAIN, 15));
         promoTable.setRowHeight(25);
+        promoTable.setGridColor(Color.WHITE);
         promoTable.getTableHeader().setFont(new Font("Arial", Font.BOLD, 18));
         promoTable.getTableHeader().setBackground(Color.RED);
         promoTable.getTableHeader().setForeground(Color.YELLOW);
