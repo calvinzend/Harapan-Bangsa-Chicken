@@ -62,7 +62,23 @@ public class ShowDaftarPaket extends JFrame {
             foodLabel.setBackground(Color.WHITE);
             foodLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-            JLabel foodImage = new JLabel(new ImageIcon(paketMenu.getPicture_path()));
+            String originalImagePath = paketMenu.getPicture_path();
+
+            String defaultImagePath = "src/harapanbangsachicken/view/gambar/paket/defaultPaket.png";
+
+            ImageIcon imageIcon;
+            try {
+                imageIcon = new ImageIcon(originalImagePath);
+                if (imageIcon.getIconWidth() <= 0 || imageIcon.getIconHeight() <= 0) {
+                    throw new Exception("Image not found");
+                }
+            } catch (Exception e) {
+                imageIcon = new ImageIcon(defaultImagePath);
+            }
+
+            Image resizedImage = imageIcon.getImage().getScaledInstance(200, 200, Image.SCALE_SMOOTH);
+
+            JLabel foodImage = new JLabel(new ImageIcon(resizedImage));
             foodImage.setAlignmentX(Component.CENTER_ALIGNMENT);
             foodImage.setPreferredSize(new Dimension(200, 200));
 

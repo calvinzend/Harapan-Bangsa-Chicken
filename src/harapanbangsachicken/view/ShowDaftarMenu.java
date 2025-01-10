@@ -65,8 +65,24 @@ public class ShowDaftarMenu extends JFrame {
                 Drink data = (Drink) dataMenu;
                 foodLabel.setText(data.getNama() + " - " + data.getSize());
             }
+            
+            String originalImagePath = dataMenu.getGambarPath();
 
-            JLabel foodImage = new JLabel(new ImageIcon(dataMenu.getGambarPath()));
+            String defaultImagePath = "src/harapanbangsachicken/view/gambar/defaultMenu.png";
+
+            ImageIcon imageIcon;
+            try {
+                imageIcon = new ImageIcon(originalImagePath);
+                if (imageIcon.getIconWidth() <= 0 || imageIcon.getIconHeight() <= 0) {
+                    throw new Exception("Image not found");
+                }
+            } catch (Exception e) {
+                imageIcon = new ImageIcon(defaultImagePath);
+            }
+            
+            Image resizedImage = imageIcon.getImage().getScaledInstance(200, 200, Image.SCALE_SMOOTH);
+
+            JLabel foodImage = new JLabel(new ImageIcon(resizedImage));
             foodImage.setAlignmentX(Component.CENTER_ALIGNMENT);
             foodImage.setPreferredSize(new Dimension(200, 200));
 
