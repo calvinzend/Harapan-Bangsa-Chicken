@@ -1,5 +1,7 @@
 package harapanbangsachicken.model.classes;
 
+import java.text.NumberFormat;
+import java.util.Locale;
 
 public abstract class User {
     private int user_id;
@@ -81,11 +83,12 @@ public abstract class User {
         hasil.append("<tr><td><b>Email</b></td><td>: ").append(email).append("</td></tr>");
         hasil.append("<tr><td><b>Nomor Telepon</b></td><td>: ").append(noTelp).append("</td></tr>");
     
+        NumberFormat numberFormat = NumberFormat.getInstance(Locale.US);
         if (this instanceof Customer) {
             Customer customer = (Customer) this;
             hasil.append("<tr><td><b>Alamat</b></td><td>: ").append(customer.getAlamat()).append("</td></tr>");
             hasil.append("<tr><td><b>Gender</b></td><td>: ").append(customer.getGender()).append("</td></tr>");
-            hasil.append("<tr><td><b>Saldo</b></td><td>: ").append(customer.getSaldo()).append("</td></tr>");
+            hasil.append("<tr><td><b>Saldo</b></td><td>: ").append(numberFormat.format(customer.getSaldo())).append("</td></tr>");
             hasil.append("<tr><td><b>Point</b></td><td>: ").append(customer.getPoint()).append("</td></tr>");
             hasil.append("<tr><td><b>Level</b></td><td>: ").append(customer.getLevel()).append("</td></tr>");
         }

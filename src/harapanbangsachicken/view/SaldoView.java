@@ -4,6 +4,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.NumberFormat;
+import java.util.Locale;
 
 import harapanbangsachicken.model.classes.Customer;
 import harapanbangsachicken.model.classes.SingletonManager;
@@ -39,7 +41,6 @@ public class SaldoView extends JFrame {
         gbc.gridy = 0;
         gbc.gridwidth = 2;
         frame.add(mcImageLabel, gbc);
-
 
         JLabel titleLabel = new JLabel("Saldo Management", SwingConstants.CENTER);
         titleLabel.setFont(new Font("Arial", Font.BOLD, 28));
@@ -116,7 +117,8 @@ public class SaldoView extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 double saldo = customer.getSaldo();
-                saldoField.setText("Rp " + saldo);
+                NumberFormat numberFormat = NumberFormat.getInstance(Locale.US);
+                saldoField.setText("Rp " + numberFormat.format(saldo));
             }
         });
 

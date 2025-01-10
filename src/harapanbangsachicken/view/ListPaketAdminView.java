@@ -40,7 +40,7 @@ public class ListPaketAdminView extends JFrame {
         header.setForeground(Color.YELLOW);
         panel2.add(header, BorderLayout.NORTH);
 
-        String[] columnNames = { "ID Paket", "Name", "Price", "Gambar", "View Menu", "Update", "Delete" };
+        String[] columnNames = { "ID Paket", "Name", "Price", "Image", "View Menu", "Update", "Delete" };
         tableModel = new DefaultTableModel(columnNames, 0);
         paketTable = new JTable(tableModel) {
             @Override
@@ -57,7 +57,7 @@ public class ListPaketAdminView extends JFrame {
         paketTable.setBackground(Color.RED);
         paketTable.setForeground(Color.YELLOW);
         paketTable.setFont(new Font("Arial", Font.PLAIN, 14));
-        paketTable.setRowHeight(50);
+        paketTable.setRowHeight(30);
         paketTable.setGridColor(Color.WHITE);
 
         NumberFormat numberFormat = NumberFormat.getInstance(Locale.US);

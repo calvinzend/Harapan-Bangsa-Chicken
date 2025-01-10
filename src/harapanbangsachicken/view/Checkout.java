@@ -16,7 +16,9 @@ import harapanbangsachicken.controller.StockController;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.NumberFormat;
 import java.util.ArrayList;
+import java.util.Locale;
 
 public class Checkout extends JFrame {
     private double totalBelanja;
@@ -51,6 +53,8 @@ public class Checkout extends JFrame {
         if (keranjang == null) {
             keranjang = new ArrayList<>();
         }
+
+        NumberFormat numberFormat = NumberFormat.getInstance(Locale.US);
 
         for (Keranjang item : keranjang) {
             JPanel itemPanel = new JPanel(new BorderLayout());
@@ -98,7 +102,7 @@ public class Checkout extends JFrame {
                 nameLabel.setText(data.getNama() + " - " + data.getSize());
             }
         
-            JLabel priceLabel = new JLabel("Harga: Rp " + harga);
+            JLabel priceLabel = new JLabel("Harga: Rp " + numberFormat.format(harga));
             priceLabel.setForeground(Color.YELLOW);
             detailsPanel.add(priceLabel);
         
@@ -111,7 +115,7 @@ public class Checkout extends JFrame {
             JPanel totalPricePanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
             totalPricePanel.setBackground(Color.RED);
             totalHarga = jumlah * harga;
-            JLabel totalPriceLabel = new JLabel("Total: Rp " + totalHarga);
+            JLabel totalPriceLabel = new JLabel("Total: Rp " + numberFormat.format(totalHarga));
             totalPriceLabel.setFont(new Font("Arial", Font.BOLD, 14));
             totalPriceLabel.setForeground(Color.YELLOW);
             totalPricePanel.add(totalPriceLabel);
@@ -127,7 +131,7 @@ public class Checkout extends JFrame {
             StringBuilder claimedPromoList = new StringBuilder();
             claimedPromoList.append(promo.getNamaPromo())
                              .append(" - Nominal: ")
-                             .append(promo.getNominalPromo())
+                             .append(numberFormat.format(promo.getNominalPromo()))
                              .append("\n");
             totalPromo += promo.getNominalPromo();
             JLabel promoLabel = new JLabel(claimedPromoList.toString());
@@ -155,7 +159,7 @@ public class Checkout extends JFrame {
         }
 
         UpdateKeranjang.getInstance().setTotalHarga(harga);
-        JLabel totalLabel = new JLabel("Total Belanja: Rp " + String.valueOf(harga));
+        JLabel totalLabel = new JLabel("Total Belanja: Rp " + numberFormat.format(harga));
         totalLabel.setFont(new Font("Arial", Font.BOLD, 16));
         totalLabel.setForeground(Color.YELLOW);
 

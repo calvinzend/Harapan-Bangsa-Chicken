@@ -3,6 +3,8 @@ package harapanbangsachicken.view;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.NumberFormat;
+import java.util.Locale;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -46,14 +48,15 @@ public class InfoPembayaran extends JFrame {
         transactionPanel.setBackground(Color.RED);
         transactionPanel.setLayout(new BoxLayout(transactionPanel, BoxLayout.Y_AXIS));
         
+        NumberFormat numberFormat = NumberFormat.getInstance(Locale.US);
 
         if (transaction != null) {
             String transactionInfo = String.format(
-                "<html><div style='text-align: center;'>ID Transaksi: %d<br>Tanggal: %s<br>Total Harga: Rp %.2f<br>Potongan Promo: Rp %.2f</div></html>",
+                "<html><div style='text-align: center;'>ID Transaksi: %d<br>Tanggal: %s<br>Total Harga: Rp %s<br>Potongan Promo: Rp %s</div></html>",
                 transaction.getTransaction_id(),
                 transaction.getTanggalPembelian(),
-                transaction.getHargaTotal(),
-                transaction.getPotonganPromo()
+                numberFormat.format(transaction.getHargaTotal()),
+                numberFormat.format(transaction.getPotonganPromo())
             );
 
             JLabel transactionLabel = new JLabel(transactionInfo);

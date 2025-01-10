@@ -2,8 +2,11 @@ package harapanbangsachicken.view;
 
 import java.awt.*;
 import java.awt.event.ActionListener;
+import java.text.NumberFormat;
 import java.awt.event.ActionEvent;
 import java.util.ArrayList;
+import java.util.Locale;
+
 import javax.swing.*;
 
 import harapanbangsachicken.controller.StockController;
@@ -38,6 +41,8 @@ public class ShowDaftarMenu extends JFrame {
         JPanel menuPanel = new JPanel(new GridLayout(2, 0, 10, 10));
         menuPanel.setBackground(Color.RED);
 
+        NumberFormat numberFormat = NumberFormat.getInstance(Locale.US);
+
         for (Menu dataMenu : menu) {
             int keranjangQuantity = 0;
             for (Keranjang k : UpdateKeranjang.getInstance().getKeranjang()) {
@@ -65,7 +70,7 @@ public class ShowDaftarMenu extends JFrame {
             foodImage.setAlignmentX(Component.CENTER_ALIGNMENT);
             foodImage.setPreferredSize(new Dimension(200, 200));
 
-            JLabel foodPriceLabel = new JLabel("Rp " + dataMenu.getHarga());
+            JLabel foodPriceLabel = new JLabel("Rp " + numberFormat.format(dataMenu.getHarga()));
             foodPriceLabel.setBackground(Color.WHITE);
             foodPriceLabel.setForeground(Color.YELLOW);
             foodPriceLabel.setAlignmentX(Component.CENTER_ALIGNMENT);

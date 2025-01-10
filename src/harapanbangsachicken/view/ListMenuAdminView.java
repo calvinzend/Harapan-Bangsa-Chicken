@@ -41,7 +41,7 @@ public class ListMenuAdminView extends JFrame {
         header.setForeground(Color.YELLOW);
         panel2.add(header, BorderLayout.NORTH);
 
-        String[] columnNames = { "ID", "Name", "Price", "Size", "Gambar", "View Recipe", "Update", "Delete" };
+        String[] columnNames = { "ID", "Name", "Price", "Size", "Image", "View Recipe", "Update", "Delete" };
         tableModel = new DefaultTableModel(columnNames, 0);
 
         menuTable = new JTable(tableModel) {
@@ -59,7 +59,7 @@ public class ListMenuAdminView extends JFrame {
         menuTable.setBackground(Color.RED);
         menuTable.setForeground(Color.YELLOW);
         menuTable.setFont(new Font("Arial", Font.PLAIN, 14));
-        menuTable.setRowHeight(50);
+        menuTable.setRowHeight(30);
         menuTable.setGridColor(Color.WHITE);
 
         NumberFormat numberFormat = NumberFormat.getInstance(Locale.US);

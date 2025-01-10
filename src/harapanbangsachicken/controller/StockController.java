@@ -110,7 +110,7 @@ public class StockController {
                             }
                         }
                     }
-                    if (count != k.getMenu().getResep().size()) {
+                    if (count != menu.getResep().size()) {
                         itemTidakValid.add(k);
                     }
                 }

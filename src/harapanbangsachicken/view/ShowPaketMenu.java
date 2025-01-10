@@ -2,11 +2,14 @@ package harapanbangsachicken.view;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.JTableHeader;
 import javax.swing.table.TableCellRenderer;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.NumberFormat;
 import java.util.ArrayList;
+import java.util.Locale;
 
 import harapanbangsachicken.controller.PaketEditAdminController;
 import harapanbangsachicken.model.classes.Drink;
@@ -39,7 +42,7 @@ public class ShowPaketMenu extends JFrame {
         header.setForeground(Color.YELLOW);
         panel2.add(header, BorderLayout.NORTH);
 
-        String[] columnNames = { "Menu Id", "Name", "Price", "Size", "Gambar", "Delete" };
+        String[] columnNames = { "Menu Id", "Name", "Price", "Size", "Image", "Delete" };
         tableModel = new DefaultTableModel(columnNames, 0);
         menuTable = new JTable(tableModel) {
             @Override
@@ -47,12 +50,26 @@ public class ShowPaketMenu extends JFrame {
                 return column >= 5;
             }
         };
+        
+        JTableHeader header = menuTable.getTableHeader();
+        header.setBackground(Color.RED);
+        header.setForeground(Color.YELLOW);
+        header.setFont(new Font("Arial", Font.BOLD, 14));
+        
+        menuTable.setBackground(Color.RED);
+        menuTable.setForeground(Color.YELLOW);
+        menuTable.setFont(new Font("Arial", Font.PLAIN, 14));
+        menuTable.setRowHeight(30);
+        menuTable.setGridColor(Color.WHITE);
+
         Paket paket = Paket.getData(paketId);
+
+        NumberFormat numberFormat = NumberFormat.getInstance(Locale.US);
 
         for (Menu m : paket.getMenu()) {
             int menu_id = m.getMenu_id();
             String nama = m.getNama();
-            int harga = m.getHarga();
+            String harga = numberFormat.format(m.getHarga());
             String size = "-";
             String gambarPath = m.getGambarPath();
 
@@ -86,6 +103,7 @@ public class ShowPaketMenu extends JFrame {
         }));
 
         JScrollPane scrollPane = new JScrollPane(menuTable);
+        scrollPane.getViewport().setBackground(Color.RED);
         panel2.add(scrollPane, BorderLayout.CENTER);
 
         mainPanel.add(panel2, BorderLayout.CENTER);

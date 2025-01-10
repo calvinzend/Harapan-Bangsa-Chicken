@@ -13,6 +13,8 @@ import java.awt.*;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.NumberFormat;
+import java.util.Locale;
 
 public class TotalPendapatanView extends JFrame{
     private JPanel frame;
@@ -37,7 +39,7 @@ public class TotalPendapatanView extends JFrame{
         logoLabel = new JLabel(logoIcon, SwingConstants.CENTER);
 
         gbc = new GridBagConstraints();
-        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.fill = GridBagConstraints.CENTER;
         gbc.insets = new Insets(10, 10, 10, 10);
 
         gbc.gridx = 0;
@@ -56,7 +58,8 @@ public class TotalPendapatanView extends JFrame{
         gbc.gridwidth = 5;
         frame.add(showPendapatan, gbc);
 
-        incomeLabel = new JLabel("Rp. "+income+"  ");
+        NumberFormat numberFormat = NumberFormat.getInstance(Locale.US);
+        incomeLabel = new JLabel("Rp " + numberFormat.format(income));
         incomeLabel.setFont(new Font("Arial", Font.PLAIN, 28));
         incomeLabel.setForeground(Color.YELLOW);
 
@@ -73,7 +76,7 @@ public class TotalPendapatanView extends JFrame{
 
         gbc.gridx = 0;
         gbc.gridy = 3;
-        gbc.gridwidth = 3;
+        gbc.gridwidth = 5;
         frame.add(backButton, gbc);
 
         add(frame);
