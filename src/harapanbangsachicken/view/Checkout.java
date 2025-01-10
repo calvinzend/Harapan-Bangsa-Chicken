@@ -102,11 +102,11 @@ public class Checkout extends JFrame {
                 nameLabel.setText(data.getNama() + " - " + data.getSize());
             }
         
-            JLabel priceLabel = new JLabel("Harga: Rp " + numberFormat.format(harga));
+            JLabel priceLabel = new JLabel("Price: Rp " + numberFormat.format(harga));
             priceLabel.setForeground(Color.YELLOW);
             detailsPanel.add(priceLabel);
         
-            JLabel quantityLabel = new JLabel("Jumlah: " + jumlah);
+            JLabel quantityLabel = new JLabel("Quantity: " + jumlah);
             quantityLabel.setForeground(Color.YELLOW);
             detailsPanel.add(quantityLabel);
         
@@ -159,7 +159,7 @@ public class Checkout extends JFrame {
         }
 
         UpdateKeranjang.getInstance().setTotalHarga(harga);
-        JLabel totalLabel = new JLabel("Total Belanja: Rp " + numberFormat.format(harga));
+        JLabel totalLabel = new JLabel("Total Expenditure: Rp " + numberFormat.format(harga));
         totalLabel.setFont(new Font("Arial", Font.BOLD, 16));
         totalLabel.setForeground(Color.YELLOW);
 
@@ -177,7 +177,7 @@ public class Checkout extends JFrame {
         checkoutButton.setBackground(Color.RED);
         checkoutButton.setForeground(Color.YELLOW);
 
-        JButton kembaliButton = new JButton("Kembali");
+        JButton kembaliButton = new JButton("Back");
         kembaliButton.setFont(new Font("Arial", Font.BOLD, 16));
         kembaliButton.setBackground(Color.RED);
         kembaliButton.setForeground(Color.YELLOW);

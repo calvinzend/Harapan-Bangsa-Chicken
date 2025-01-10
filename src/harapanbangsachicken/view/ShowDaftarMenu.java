@@ -33,7 +33,7 @@ public class ShowDaftarMenu extends JFrame {
         JPanel panel2 = new JPanel(new BorderLayout());
         panel2.setOpaque(false);
 
-        JLabel header = new JLabel("Daftar Menu", SwingConstants.CENTER);
+        JLabel header = new JLabel("Menu List", SwingConstants.CENTER);
         header.setFont(new Font("Arial", Font.PLAIN, 28));
         header.setForeground(Color.YELLOW);
         panel2.add(header, BorderLayout.NORTH);
@@ -166,12 +166,12 @@ public class ShowDaftarMenu extends JFrame {
 
         mainPanel.add(panel2, BorderLayout.CENTER);
 
-        keranjangButton = new JButton("Keranjang");
+        keranjangButton = new JButton("Insert Basket");
         keranjangButton.setFont(new Font("Arial", Font.PLAIN, 16));
         keranjangButton.setBackground(Color.RED);
         keranjangButton.setForeground(Color.YELLOW);
 
-        backButton = new JButton("Kembali");
+        backButton = new JButton("Back");
         backButton.setFont(new Font("Arial", Font.PLAIN, 16));
         backButton.setBackground(Color.RED);
         backButton.setForeground(Color.YELLOW);

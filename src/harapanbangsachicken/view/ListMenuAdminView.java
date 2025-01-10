@@ -122,9 +122,13 @@ public class ListMenuAdminView extends JFrame {
 
         // Back button
         backButton = new JButton("Back");
+        backButton.setBackground(Color.RED);
+        backButton.setForeground(Color.YELLOW);
 
         // Add new Button
         insertNewButton = new JButton("Add New");
+        insertNewButton.setBackground(Color.RED);
+        insertNewButton.setForeground(Color.YELLOW);
 
         buttonPanel = new JPanel();
         buttonPanel.setBackground(Color.RED);

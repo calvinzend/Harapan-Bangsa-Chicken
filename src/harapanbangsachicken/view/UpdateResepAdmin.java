@@ -134,7 +134,7 @@ public class UpdateResepAdmin extends JFrame {
         input.add(quantityField, gbc);
 
         // Label Satuan
-        satuanLabel = new JLabel("Satuan :");
+        satuanLabel = new JLabel("Unit :");
         satuanLabel.setFont(new Font("Arial", Font.PLAIN, 16));
         satuanLabel.setForeground(Color.YELLOW);
 

@@ -52,7 +52,7 @@ public class UpdateMenu extends JFrame {
         Menu menu = Menu.getDataById(idMenu);
 
         // label nama
-        namaLabel = new JLabel("Nama :");
+        namaLabel = new JLabel("Name :");
         namaLabel.setFont(new Font("Arial", Font.PLAIN, 16));
         namaLabel.setForeground(Color.YELLOW);
 
@@ -75,7 +75,7 @@ public class UpdateMenu extends JFrame {
         input.add(namaField, gbc);
 
         // label harga
-        hargaLabel = new JLabel("Harga :");
+        hargaLabel = new JLabel("Price :");
         hargaLabel.setFont(new Font("Arial", Font.PLAIN, 16));
         hargaLabel.setForeground(Color.YELLOW);
 

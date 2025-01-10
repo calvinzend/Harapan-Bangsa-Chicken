@@ -38,7 +38,7 @@ public class ShowMenuView extends JFrame {
         gbc.anchor = GridBagConstraints.CENTER;
         pesan.add(logoLabel, gbc);
 
-        JLabel judulAtas = new JLabel("Selamat Datang di Menu Pesanan", SwingConstants.CENTER);
+        JLabel judulAtas = new JLabel("Welcome to the Order Menu", SwingConstants.CENTER);
         judulAtas.setFont(new Font("Arial", Font.PLAIN, 28));
         judulAtas.setFont(new Font("Arial", Font.PLAIN, 28));
         judulAtas.setForeground(Color.YELLOW);
@@ -48,7 +48,7 @@ public class ShowMenuView extends JFrame {
         gbc.gridwidth = 5;
         pesan.add(judulAtas, gbc);
 
-        JLabel judulBawah = new JLabel("Silakan Pilih Opsi Anda", SwingConstants.CENTER);
+        JLabel judulBawah = new JLabel("Choose Your Option", SwingConstants.CENTER);
         judulBawah.setFont(new Font("Arial", Font.PLAIN, 18));
         judulBawah.setFont(new Font("Arial", Font.PLAIN, 20));
         judulBawah.setForeground(Color.YELLOW);
@@ -57,7 +57,7 @@ public class ShowMenuView extends JFrame {
         gbc.gridwidth = 5;
         pesan.add(judulBawah, gbc);
 
-        menuMakanan = new JButton("Makanan");
+        menuMakanan = new JButton("Food");
         menuMakanan.setFont(new Font("Arial", Font.PLAIN, 16));
         menuMakanan.setBackground(Color.RED);
         menuMakanan.setForeground(Color.YELLOW);
@@ -66,7 +66,7 @@ public class ShowMenuView extends JFrame {
         gbc.gridwidth = 1;
         pesan.add(menuMakanan, gbc);
 
-        menuMinuman = new JButton("Minuman");
+        menuMinuman = new JButton("Drink");
         menuMinuman.setFont(new Font("Arial", Font.PLAIN, 16));
         menuMinuman.setBackground(Color.RED);
         menuMinuman.setForeground(Color.YELLOW);
@@ -74,7 +74,7 @@ public class ShowMenuView extends JFrame {
         gbc.gridy = 3;
         pesan.add(menuMinuman, gbc);
 
-        menuPaket = new JButton("Paket");
+        menuPaket = new JButton("Package");
         menuPaket.setFont(new Font("Arial", Font.PLAIN, 16));
         menuPaket.setBackground(Color.RED);
         menuPaket.setForeground(Color.YELLOW);
@@ -82,7 +82,7 @@ public class ShowMenuView extends JFrame {
         gbc.gridy = 3;
         pesan.add(menuPaket, gbc);
 
-        keranjang = new JButton("Keranjang");
+        keranjang = new JButton("Check Basket");
         keranjang.setFont(new Font("Arial", Font.PLAIN, 16));
         keranjang.setBackground(Color.RED);
         keranjang.setForeground(Color.YELLOW);
@@ -90,7 +90,7 @@ public class ShowMenuView extends JFrame {
         gbc.gridy = 3;
         pesan.add(keranjang, gbc);
 
-        back= new JButton("Kembali");
+        back= new JButton("Back");
         back.setFont(new Font("Arial", Font.PLAIN, 16));
         back.setBackground(Color.RED);
         back.setForeground(Color.YELLOW);

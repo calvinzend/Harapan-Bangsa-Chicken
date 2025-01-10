@@ -18,7 +18,7 @@ public class RewardMenu extends JFrame {
     private JButton claimButton;
 
     public RewardMenu() {
-        super("Daftar Reward");
+        super("Reward List");
         setExtendedState(JFrame.MAXIMIZED_BOTH);
         setLocationRelativeTo(null);
         setFont(new Font("Arial", Font.BOLD, 30));
@@ -28,7 +28,7 @@ public class RewardMenu extends JFrame {
         mainPanel.setLayout(new BorderLayout());
         mainPanel.setBackground(Color.RED);
 
-        String[] columnNames = {"ID Reward", "Nama Reward", "Minimal Poin"};
+        String[] columnNames = {"Reward ID", "Reward Name", "Minimal Poin"};
         tableModel = new DefaultTableModel(columnNames, 0);
         rewardTable = new JTable(tableModel);
         rewardTable.setForeground(Color.YELLOW);

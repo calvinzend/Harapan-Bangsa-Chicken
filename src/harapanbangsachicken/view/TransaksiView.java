@@ -29,12 +29,12 @@ public class TransaksiView extends JFrame {
         frame = new JPanel(new BorderLayout());
         frame.setBackground(Color.RED);
 
-        JLabel titleLabel = new JLabel("History Transaksi", SwingConstants.CENTER);
+        JLabel titleLabel = new JLabel("Transaction History", SwingConstants.CENTER);
         titleLabel.setFont(new Font("Arial", Font.BOLD, 28));
         titleLabel.setForeground(Color.YELLOW);
         frame.add(titleLabel, BorderLayout.NORTH);
 
-        String[] columnNames = {"Transaction ID", "Tanggal Pembelian", "Potongan Promo", "Harga Total"};
+        String[] columnNames = {"Transaction ID", "Purchase Date", "Promotional Pieces", "Total Price"};
         tableModel = new DefaultTableModel(columnNames, 0);
 
         NumberFormat numberFormat = NumberFormat.getInstance(Locale.US);
