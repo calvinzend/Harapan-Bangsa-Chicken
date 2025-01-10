@@ -26,6 +26,7 @@ public class LevelMenu extends JFrame {
         setExtendedState(JFrame.MAXIMIZED_BOTH);
         setLocationRelativeTo(null);
         setFont(new Font("Arial", Font.BOLD, 30));
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         LevelController levelController =  new LevelController();
         levelController.updateLevel();

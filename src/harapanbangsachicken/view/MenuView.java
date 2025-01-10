@@ -20,6 +20,7 @@ public class MenuView extends JFrame {
         setExtendedState(JFrame.MAXIMIZED_BOTH);
         setLocationRelativeTo(null);
         setFont(new Font("Arial", Font.BOLD, 30));
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         pesan = new JPanel(new GridBagLayout());
         pesan.setBackground(Color.RED);

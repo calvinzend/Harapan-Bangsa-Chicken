@@ -21,6 +21,7 @@ public class InfoPembayaran extends JFrame {
         super("Info Pembayaran");
         setExtendedState(JFrame.MAXIMIZED_BOTH);
         setLocationRelativeTo(null);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         panel = new JPanel(new GridBagLayout());
         panel.setBackground(Color.RED);

@@ -22,6 +22,7 @@ public class ShowKeranjang extends JFrame {
         setExtendedState(JFrame.MAXIMIZED_BOTH);
         setLocationRelativeTo(null);
         setFont(new Font("Arial", Font.BOLD, 30));
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         JLabel totalLabel = new JLabel();
         totalLabel.setForeground(Color.YELLOW);

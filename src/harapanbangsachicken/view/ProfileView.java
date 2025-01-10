@@ -20,6 +20,7 @@ public class ProfileView extends JFrame{
         super("Show Profile");
         setExtendedState(JFrame.MAXIMIZED_BOTH);
         setLocationRelativeTo(null);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         panel = new JPanel(new GridBagLayout());
         panel.setBackground(Color.RED);

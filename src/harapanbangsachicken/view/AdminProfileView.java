@@ -20,6 +20,7 @@ public class AdminProfileView extends JFrame{
         super("Show Admin Profile");
         setExtendedState(JFrame.MAXIMIZED_BOTH);
         setLocationRelativeTo(null);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         panel = new JPanel(new GridBagLayout());
         panel.setBackground(Color.RED);

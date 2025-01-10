@@ -2,11 +2,14 @@ package harapanbangsachicken.view;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.JTableHeader;
 import javax.swing.table.TableCellRenderer;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.NumberFormat;
 import java.util.ArrayList;
+import java.util.Locale;
 
 import harapanbangsachicken.controller.PaketEditAdminController;
 import harapanbangsachicken.model.classes.Paket;
@@ -23,6 +26,7 @@ public class ListPaketAdminView extends JFrame {
 
         setExtendedState(JFrame.MAXIMIZED_BOTH);
         setLocationRelativeTo(null);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         mainPanel = new JPanel();
         mainPanel.setLayout(new BorderLayout());
@@ -44,10 +48,24 @@ public class ListPaketAdminView extends JFrame {
                 return column >= 4;
             }
         };
+
+        JTableHeader header = paketTable.getTableHeader();
+        header.setBackground(Color.RED);
+        header.setForeground(Color.YELLOW);
+        header.setFont(new Font("Arial", Font.BOLD, 14));
+                
+        paketTable.setBackground(Color.RED);
+        paketTable.setForeground(Color.YELLOW);
+        paketTable.setFont(new Font("Arial", Font.PLAIN, 14));
+        paketTable.setRowHeight(50);
+        paketTable.setGridColor(Color.WHITE);
+
+        NumberFormat numberFormat = NumberFormat.getInstance(Locale.US);
+
         for (Paket p : listPaket) {
             int paket_id = p.getPaket_id();
             String nama = p.getNamaPaket();
-            int harga = p.getHarga();
+            String harga = numberFormat.format(p.getHarga());
             String gambarPath = p.getPicture_path();
 
             tableModel.addRow(new Object[] {
@@ -89,6 +107,7 @@ public class ListPaketAdminView extends JFrame {
         }));
 
         JScrollPane scrollPane = new JScrollPane(paketTable);
+        scrollPane.getViewport().setBackground(Color.RED);
         panel2.add(scrollPane, BorderLayout.CENTER);
 
         mainPanel.add(panel2, BorderLayout.CENTER);

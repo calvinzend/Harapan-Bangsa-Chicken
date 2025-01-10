@@ -18,6 +18,7 @@ public class SaldoView extends JFrame {
         setExtendedState(JFrame.MAXIMIZED_BOTH);
         setLocationRelativeTo(null);
         setFont(new Font("Arial", Font.BOLD, 30));
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         // Create a frame with GridBagLayout
         frame = new JPanel();
