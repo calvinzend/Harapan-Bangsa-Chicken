@@ -23,7 +23,7 @@ import java.util.ArrayList;
 public class IngredientView extends JFrame{
     private JPanel mainPanel, panel2, buttonPanel;
     private JLabel header;
-    private JTable rewardTable;
+    private JTable ingredientTable;
     private DefaultTableModel tableModel;
     private JButton updateIngredient, insertIngredient, deleteIngredient, addStock, backButton;
     private Border roundedBorder = BorderFactory.createLineBorder(Color.YELLOW, 2, true);
@@ -48,11 +48,21 @@ public class IngredientView extends JFrame{
 
         String[] columnNames = {"Ingredient ID", "Ingredient Name", "Ingredient Stock", "Stock Unit"};
         tableModel = new DefaultTableModel(columnNames, 0);
-        rewardTable = new JTable(tableModel);
-        rewardTable.setBackground(Color.RED);
-        rewardTable.setForeground(Color.YELLOW);
-        rewardTable.setFont(new Font("Arial", Font.PLAIN, 15));
-        rewardTable.setRowHeight(50);
+        
+        ingredientTable = new JTable(tableModel){
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
+
+        ingredientTable.setBackground(Color.RED);
+        ingredientTable.setForeground(Color.YELLOW);
+        ingredientTable.setFont(new Font("Arial", Font.PLAIN, 15));
+        ingredientTable.setRowHeight(25);
+        ingredientTable.getTableHeader().setFont(new Font("Arial", Font.BOLD, 18));
+        ingredientTable.getTableHeader().setBackground(Color.RED);
+        ingredientTable.getTableHeader().setForeground(Color.YELLOW);
 
         for (Ingredient ing : ingredient) {
             
@@ -66,7 +76,8 @@ public class IngredientView extends JFrame{
             tableModel.addRow(rowData);
         }
 
-        JScrollPane scrollPane = new JScrollPane(rewardTable);
+        JScrollPane scrollPane = new JScrollPane(ingredientTable);
+        scrollPane.getViewport().setBackground(Color.RED);
         scrollPane.setBorder(roundedBorder);
         scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);

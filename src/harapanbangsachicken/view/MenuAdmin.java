@@ -110,7 +110,7 @@ public class MenuAdmin extends JFrame{
         panel.add(ingredient, gbc);
 
         // Menu 5 : Show List Paket
-        paket = new JButton("Edit Paket");
+        paket = new JButton("Edit Package");
         paket.setFont(new Font("Arial", Font.PLAIN, 16));
         paket.setBackground(Color.RED);
         paket.setForeground(Color.YELLOW);

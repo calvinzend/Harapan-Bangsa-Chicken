@@ -18,7 +18,9 @@ import java.awt.*;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.NumberFormat;
 import java.util.ArrayList;
+import java.util.Locale;
 
 public class PromoView extends JFrame{
     private JPanel mainPanel, panel2, buttonPanel;
@@ -48,18 +50,31 @@ public class PromoView extends JFrame{
 
         String[] columnNames = {"Promo ID", "Promo Name", "Promo Nominal", "Expired Date"};
         tableModel = new DefaultTableModel(columnNames, 0);
-        promoTable = new JTable(tableModel);
+
+        promoTable = new JTable(tableModel) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
+
         promoTable.setBackground(Color.RED);
         promoTable.setForeground(Color.YELLOW);
         promoTable.setFont(new Font("Arial", Font.PLAIN, 15));
-        promoTable.setRowHeight(50);
+        promoTable.setRowHeight(25);
+        promoTable.getTableHeader().setFont(new Font("Arial", Font.BOLD, 18));
+        promoTable.getTableHeader().setBackground(Color.RED);
+        promoTable.getTableHeader().setForeground(Color.YELLOW);
+
+        NumberFormat numberFormat = NumberFormat.getInstance(Locale.US);
 
         for (Promo prm : promo) {
-            
+            String nominalPromo = numberFormat.format(prm.getNominalPromo());
+
             Object[] rowData = {
                 prm.getPromo_id(),
                 prm.getNamaPromo(),
-                prm.getNominalPromo(),
+                nominalPromo,
                 prm.getDate()
             };
         
@@ -67,6 +82,7 @@ public class PromoView extends JFrame{
         }
 
         JScrollPane scrollPane = new JScrollPane(promoTable);
+        scrollPane.getViewport().setBackground(Color.RED);
         scrollPane.setBorder(roundedBorder);
         scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);

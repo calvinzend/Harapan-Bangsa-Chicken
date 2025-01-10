@@ -48,11 +48,21 @@ public class RewardView extends JFrame{
 
         String[] columnNames = {"Reward ID", "Reward Name", "Minimal Poin"};
         tableModel = new DefaultTableModel(columnNames, 0);
-        rewardTable = new JTable(tableModel);
+        
+        rewardTable = new JTable(tableModel) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
+
         rewardTable.setBackground(Color.RED);
         rewardTable.setForeground(Color.YELLOW);
         rewardTable.setFont(new Font("Arial", Font.PLAIN, 15));
-        rewardTable.setRowHeight(50);
+        rewardTable.setRowHeight(25);
+        rewardTable.getTableHeader().setFont(new Font("Arial", Font.BOLD, 18));
+        rewardTable.getTableHeader().setBackground(Color.RED);
+        rewardTable.getTableHeader().setForeground(Color.YELLOW);
 
         for (Reward rwd : reward) {
             
@@ -66,6 +76,7 @@ public class RewardView extends JFrame{
         }
 
         JScrollPane scrollPane = new JScrollPane(rewardTable);
+        scrollPane.getViewport().setBackground(Color.RED);
         scrollPane.setBorder(roundedBorder);
         scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
