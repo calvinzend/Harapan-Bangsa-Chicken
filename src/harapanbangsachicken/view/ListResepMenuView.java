@@ -2,11 +2,14 @@ package harapanbangsachicken.view;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.JTableHeader;
 import javax.swing.table.TableCellRenderer;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.NumberFormat;
 import java.util.ArrayList;
+import java.util.Locale;
 
 import harapanbangsachicken.controller.ResepAdminController;
 import harapanbangsachicken.model.classes.Menu;
@@ -24,6 +27,7 @@ public class ListResepMenuView extends JFrame {
 
         setExtendedState(JFrame.MAXIMIZED_BOTH);
         setLocationRelativeTo(null);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         mainPanel = new JPanel();
         mainPanel.setLayout(new BorderLayout());
@@ -48,6 +52,17 @@ public class ListResepMenuView extends JFrame {
                 return column >= 5;
             }
         };
+
+        JTableHeader header = resepTable.getTableHeader();
+        header.setBackground(Color.RED);
+        header.setForeground(Color.YELLOW);
+        header.setFont(new Font("Arial", Font.BOLD, 14));
+
+        resepTable.setBackground(Color.RED);
+        resepTable.setForeground(Color.YELLOW);
+        resepTable.setFont(new Font("Arial", Font.PLAIN, 14));
+        resepTable.setRowHeight(50);
+        resepTable.setGridColor(Color.WHITE);
 
         for (Resep r : menu.getResep()) {
             int ing_id = r.getBahan().getIng_id();
@@ -86,6 +101,8 @@ public class ListResepMenuView extends JFrame {
         }));
 
         JScrollPane scrollPane = new JScrollPane(resepTable);
+        scrollPane.getViewport().setBackground(Color.RED);
+
         panel2.add(scrollPane, BorderLayout.CENTER);
 
         mainPanel.add(panel2, BorderLayout.CENTER);

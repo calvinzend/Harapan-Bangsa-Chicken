@@ -33,6 +33,7 @@ public class RewardView extends JFrame{
         setExtendedState(JFrame.MAXIMIZED_BOTH);
         setLocationRelativeTo(null);
         setFont(new Font("Arial", Font.BOLD, 30));
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         mainPanel = new JPanel();
         mainPanel.setLayout(new BorderLayout());

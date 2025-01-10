@@ -25,6 +25,7 @@ public class ShowPaketMenu extends JFrame {
 
         setExtendedState(JFrame.MAXIMIZED_BOTH);
         setLocationRelativeTo(null);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         mainPanel = new JPanel();
         mainPanel.setLayout(new BorderLayout());

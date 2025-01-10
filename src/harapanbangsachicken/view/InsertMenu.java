@@ -23,6 +23,7 @@ public class InsertMenu extends JFrame {
         setExtendedState(JFrame.MAXIMIZED_BOTH);
         setLocationRelativeTo(null);
         setFont(new Font("Arial", Font.BOLD, 30));
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         frame = new JPanel(new GridBagLayout());
         frame.setBackground(Color.RED);

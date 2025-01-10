@@ -2,11 +2,14 @@ package harapanbangsachicken.view;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.JTableHeader;
 import javax.swing.table.TableCellRenderer;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.NumberFormat;
 import java.util.ArrayList;
+import java.util.Locale;
 
 import harapanbangsachicken.controller.MenuEditAdminController;
 import harapanbangsachicken.model.classes.Drink;
@@ -24,6 +27,7 @@ public class ListMenuAdminView extends JFrame {
 
         setExtendedState(JFrame.MAXIMIZED_BOTH);
         setLocationRelativeTo(null);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         mainPanel = new JPanel();
         mainPanel.setLayout(new BorderLayout());
@@ -39,16 +43,31 @@ public class ListMenuAdminView extends JFrame {
 
         String[] columnNames = { "ID", "Name", "Price", "Size", "Gambar", "View Recipe", "Update", "Delete" };
         tableModel = new DefaultTableModel(columnNames, 0);
+
         menuTable = new JTable(tableModel) {
             @Override
             public boolean isCellEditable(int row, int column) {
                 return column >= 5;
             }
         };
+        
+        JTableHeader header = menuTable.getTableHeader();
+        header.setBackground(Color.RED);
+        header.setForeground(Color.YELLOW);
+        header.setFont(new Font("Arial", Font.BOLD, 14));
+        
+        menuTable.setBackground(Color.RED);
+        menuTable.setForeground(Color.YELLOW);
+        menuTable.setFont(new Font("Arial", Font.PLAIN, 14));
+        menuTable.setRowHeight(50);
+        menuTable.setGridColor(Color.WHITE);
+
+        NumberFormat numberFormat = NumberFormat.getInstance(Locale.US);
+
         for (Menu m : listMenu) {
             int menu_id = m.getMenu_id();
             String nama = m.getNama();
-            int harga = m.getHarga();
+            String harga = numberFormat.format(m.getHarga());
             String size = "-";
             String gambarPath = m.getGambarPath();
 
@@ -96,6 +115,7 @@ public class ListMenuAdminView extends JFrame {
         }));
 
         JScrollPane scrollPane = new JScrollPane(menuTable);
+        scrollPane.getViewport().setBackground(Color.RED);
         panel2.add(scrollPane, BorderLayout.CENTER);
 
         mainPanel.add(panel2, BorderLayout.CENTER);

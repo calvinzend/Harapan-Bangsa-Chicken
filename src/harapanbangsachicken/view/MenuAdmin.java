@@ -26,6 +26,7 @@ public class MenuAdmin extends JFrame{
         setExtendedState(JFrame.MAXIMIZED_BOTH);
         setLocationRelativeTo(null);
         setFont(new Font("Arial", Font.BOLD, 30));
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         panel = new JPanel(new GridBagLayout());
         panel.setBackground(Color.RED);
