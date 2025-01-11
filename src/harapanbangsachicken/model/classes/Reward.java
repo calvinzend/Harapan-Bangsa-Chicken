@@ -1,6 +1,5 @@
 package harapanbangsachicken.model.classes;
 
-import java.beans.Statement;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -16,6 +15,10 @@ public class Reward {
         this.reward_id = builder.reward_id;
         this.rewardName = builder.rewardName;
         this.minimalPoint = builder.minimalPoint;
+    }
+
+    public Reward(){
+
     }
 
     public int getReward_id() {
@@ -96,7 +99,9 @@ public class Reward {
 
     public static ArrayList<Reward> getData() {
         ArrayList<Reward> rewardList = new ArrayList<>();
-        String query = "SELECT * FROM reward";
+        String query = "SELECT r.reward_id, r.name , r.minimalPoin " +
+        "FROM reward r " +
+        "WHERE r.reward_id NOT IN (SELECT reward_id FROM claimedrewards)";
         try (Connection con = ConnectionManager.getConnection();
              PreparedStatement st = con.prepareStatement(query)) {
 
@@ -166,11 +171,6 @@ public class Reward {
                     stmtUpdate.executeUpdate();
 
     
-                    String deleteRewardQuery = "DELETE FROM reward WHERE reward_id = ?";
-                    PreparedStatement stmtDelete = con.prepareStatement(deleteRewardQuery);
-                    stmtDelete.setInt(1, rewardId);
-                    stmtDelete.executeUpdate();
-    
                     return true; 
                 }
             }
@@ -187,6 +187,57 @@ public class Reward {
         }
         return false;
     }
+
+    public static boolean addClaimReward(int userId, int rewardId) {
+        String query = "INSERT INTO `claimedrewards`(`user_id`, `reward_id`, `claimed_date`) VALUES (?, ?, ?)";
+        try (Connection con = ConnectionManager.getConnection();
+             PreparedStatement st = con.prepareStatement(query)) {
+    
+                java.sql.Timestamp currentTimestamp = java.sql.Timestamp.valueOf(java.time.LocalDateTime.now());
+
+                System.out.println(userId);
+                st.setInt(1, userId);
+                st.setInt(2, rewardId);
+                st.setTimestamp(3, currentTimestamp);
+        
+
+            int rowsInserted = st.executeUpdate();
+            return rowsInserted > 0;
+    
+        } catch (SQLException ex) {
+            System.out.println("Terjadi kesalahan saat menambahkan klaim reward: " + ex.getMessage());
+            return false;
+        }
+    }
+
+    public static ArrayList<Reward> getClaimedRewardsWithRewardDetails(int userId) {
+        ArrayList<Reward> claimedRewardDetails = new ArrayList<>();
+        String query = "SELECT r.reward_id, r.name AS reward_name " +
+                       "FROM claimedrewards cr " +
+                       "JOIN reward r ON cr.reward_id = r.reward_id " +
+                       "WHERE cr.user_id = ?";
+        
+        try (Connection con = ConnectionManager.getConnection();
+             PreparedStatement st = con.prepareStatement(query)) {
+            
+            st.setInt(1, userId);
+            
+            try (ResultSet rs = st.executeQuery()) {
+                while (rs.next()) {
+                    Reward detail = new Reward();
+                    detail.setReward_id(rs.getInt("reward_id"));
+                    detail.setRewardName(rs.getString("reward_name"));
+        
+                    claimedRewardDetails.add(detail);
+                }
+            }
+        } catch (SQLException ex) {
+            System.out.println("Terjadi kesalahan saat mengambil klaim reward dengan detail hadiah: " + ex.getMessage());
+        }
+        
+        return claimedRewardDetails;
+    }
+    
     
     
 }

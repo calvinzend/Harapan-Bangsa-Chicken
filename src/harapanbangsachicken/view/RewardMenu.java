@@ -16,6 +16,7 @@ public class RewardMenu extends JFrame {
     private DefaultTableModel tableModel;
     private JButton backButton;
     private JButton claimButton;
+    private JButton viewClaim;
 
     public RewardMenu() {
         super("Daftar Reward");
@@ -57,10 +58,17 @@ public class RewardMenu extends JFrame {
         claimButton.setForeground(Color.YELLOW);
         claimButton.setFocusPainted(false);
 
+        viewClaim = new JButton("Show Claim");
+        viewClaim.setFont(new Font("Arial", Font.BOLD, 20));
+        viewClaim.setBackground(Color.RED);
+        viewClaim.setForeground(Color.YELLOW);
+        viewClaim.setFocusPainted(false);
+
         JPanel buttonPanel = new JPanel();
         buttonPanel.setBackground(Color.RED);
         buttonPanel.add(backButton);
         buttonPanel.add(claimButton);
+        buttonPanel.add(viewClaim);
 
         mainPanel.add(buttonPanel, BorderLayout.SOUTH);
 
@@ -76,6 +84,14 @@ public class RewardMenu extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 claimReward();
+            }
+        });
+
+        viewClaim.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                new ShowClaimReward();
+                dispose();
             }
         });
 
@@ -109,6 +125,7 @@ public class RewardMenu extends JFrame {
 
             boolean isClaimed = Reward.claimReward(SingletonManager.getInstance().getUser().getUser_id(), rewardId, minimalPoin);
             if (isClaimed) {
+                Reward.addClaimReward(SingletonManager.getInstance().getUser().getUser_id(), rewardId);
                 JOptionPane.showMessageDialog(this, "Berhasil klaim reward: " + rewardName, "Klaim Berhasil", JOptionPane.INFORMATION_MESSAGE);
             } else {
                 JOptionPane.showMessageDialog(this, "Poin Anda tidak mencukupi.", "Klaim Gagal", JOptionPane.WARNING_MESSAGE);
