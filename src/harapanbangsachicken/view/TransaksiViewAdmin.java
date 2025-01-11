@@ -4,13 +4,13 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.Locale;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.NumberFormat;
 
 import harapanbangsachicken.model.classes.Transaction;
 import harapanbangsachicken.model.classes.Admin;
-import harapanbangsachicken.model.classes.Customer;
-import harapanbangsachicken.model.classes.SingletonManager;
 
 public class TransaksiViewAdmin extends JFrame {
     private JPanel frame;
@@ -28,22 +28,23 @@ public class TransaksiViewAdmin extends JFrame {
         frame = new JPanel(new BorderLayout());
         frame.setBackground(Color.RED);
 
-        JLabel titleLabel = new JLabel("History Transaksi", SwingConstants.CENTER);
+        JLabel titleLabel = new JLabel("Transaction History", SwingConstants.CENTER);
         titleLabel.setFont(new Font("Arial", Font.BOLD, 28));
         titleLabel.setForeground(Color.YELLOW);
         frame.add(titleLabel, BorderLayout.NORTH);
 
-        String[] columnNames = {"Transaction ID", "Tanggal Pembelian", "Potongan Promo", "Harga Total"};
+        String[] columnNames = {"Transaction ID", "Purchase Date", "Promotional Pieces", "Total Price"};
         tableModel = new DefaultTableModel(columnNames, 0);
 
+        NumberFormat numberFormat = NumberFormat.getInstance(Locale.US);
 
         ArrayList<Transaction> historyList = Admin.getDataHistory();
         for (Transaction transaction : historyList) {
             Object[] rowData = {
                 transaction.getTransaction_id(),
                 transaction.getTanggalPembelian(),
-                transaction.getPotonganPromo(),
-                transaction.getHargaTotal()
+                numberFormat.format(transaction.getPotonganPromo()),
+                numberFormat.format(transaction.getHargaTotal())
             };
             tableModel.addRow(rowData);
         }

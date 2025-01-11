@@ -7,9 +7,7 @@ import javax.swing.table.TableCellRenderer;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.text.NumberFormat;
 import java.util.ArrayList;
-import java.util.Locale;
 
 import harapanbangsachicken.controller.ResepAdminController;
 import harapanbangsachicken.model.classes.Menu;
@@ -43,7 +41,7 @@ public class ListResepMenuView extends JFrame {
 
         Menu menu = Menu.getDataById(menu_id);
 
-        String[] columnNames = { "Menu Id", "Ingridient Id", "Ingridient name", "Quantity", "Satuan", "Update",
+        String[] columnNames = { "Menu Id", "Ingredient Id", "Ingredient name", "Quantity", "Unit", "Update",
                 "Delete" };
         tableModel = new DefaultTableModel(columnNames, 0);
         resepTable = new JTable(tableModel) {
@@ -61,7 +59,7 @@ public class ListResepMenuView extends JFrame {
         resepTable.setBackground(Color.RED);
         resepTable.setForeground(Color.YELLOW);
         resepTable.setFont(new Font("Arial", Font.PLAIN, 14));
-        resepTable.setRowHeight(50);
+        resepTable.setRowHeight(30);
         resepTable.setGridColor(Color.WHITE);
 
         for (Resep r : menu.getResep()) {
@@ -109,9 +107,13 @@ public class ListResepMenuView extends JFrame {
 
         // Back button
         backButton = new JButton("Back");
+        backButton.setBackground(Color.RED);
+        backButton.setForeground(Color.YELLOW);
 
         // Insert button
         insertNewButton = new JButton("Add Resep");
+        insertNewButton.setBackground(Color.RED);
+        insertNewButton.setForeground(Color.YELLOW);
 
         buttonPanel = new JPanel();
         buttonPanel.setBackground(Color.RED);

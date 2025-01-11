@@ -3,7 +3,9 @@ package harapanbangsachicken.view;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.Locale;
 import java.awt.event.ActionListener;
+import java.text.NumberFormat;
 import java.awt.event.ActionEvent;
 import javax.swing.*;
 
@@ -40,13 +42,15 @@ public class ShowKeranjang extends JFrame {
         JPanel panel2 = new JPanel(new BorderLayout());
         panel2.setOpaque(false);
 
-        JLabel header = new JLabel("Daftar Menu", SwingConstants.CENTER);
+        JLabel header = new JLabel("Menu List", SwingConstants.CENTER);
         header.setFont(new Font("Arial", Font.PLAIN, 28));
         header.setForeground(Color.YELLOW);
         panel2.add(header, BorderLayout.NORTH);
 
         JPanel menuPanel = new JPanel(new GridLayout(2, 0, 10, 10));
         menuPanel.setBackground(Color.RED);
+
+        NumberFormat numberFormat = NumberFormat.getInstance(Locale.US);
 
         for (Keranjang dataKeranjang : keranjang) {
             JPanel itemPanel = new JPanel();
@@ -97,9 +101,9 @@ public class ShowKeranjang extends JFrame {
             plusButton.setBackground(Color.RED);
             plusButton.setForeground(Color.YELLOW);
 
-            JLabel foodPriceLabel = new JLabel("Total Rp " + totalHarga);
+            JLabel foodPriceLabel = new JLabel("Total Rp " + numberFormat.format(totalHarga));
             totalBelanja += totalHarga;
-            totalLabel.setText("Total Belanja : Rp " + String.valueOf(totalBelanja));
+            totalLabel.setText("Total Belanja : Rp " + numberFormat.format(totalBelanja));
 
             foodPriceLabel.setBackground(Color.WHITE);
             foodPriceLabel.setForeground(Color.YELLOW);
@@ -124,9 +128,9 @@ public class ShowKeranjang extends JFrame {
                             totalBelanja += 1 * dataKeranjang.getPaket().getHarga();
                         }
                         foodPriceLabel.setText("Total Rp " + newTotal);
-                        totalLabel.setText("Total Belanja : Rp " + String.valueOf(totalBelanja));
+                        totalLabel.setText("Total Expenditure : Rp " + String.valueOf(totalBelanja));
                     } else {
-                        showMessage("Stock tidak cukup!");
+                        showMessage("Insufficient stock!");
                     }
 
                 }
@@ -141,7 +145,7 @@ public class ShowKeranjang extends JFrame {
                     } else {
                         totalBelanja -= 1 * dataKeranjang.getPaket().getHarga();
                     }
-                    totalLabel.setText("Total Belanja : Rp " + String.valueOf(totalBelanja));
+                    totalLabel.setText("Total Expenditure : Rp " + String.valueOf(totalBelanja));
 
                     if (currentQuantity > 1) {
                         int newQuantity = currentQuantity - 1;
@@ -200,7 +204,7 @@ public class ShowKeranjang extends JFrame {
         checkOut.setBackground(Color.RED);
         checkOut.setForeground(Color.YELLOW);
 
-        backButton = new JButton("Kembali");
+        backButton = new JButton("Back");
         backButton.setFont(new Font("Arial", Font.PLAIN, 16));
         backButton.setBackground(Color.RED);
         backButton.setForeground(Color.YELLOW);

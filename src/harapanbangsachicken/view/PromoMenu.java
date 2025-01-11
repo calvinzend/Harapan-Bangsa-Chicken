@@ -10,7 +10,6 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 import harapanbangsachicken.controller.PromoController;
-import harapanbangsachicken.model.classes.Paket;
 import harapanbangsachicken.model.classes.Promo;
 
 public class PromoMenu {

@@ -4,6 +4,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.NumberFormat;
+import java.util.Locale;
 
 import harapanbangsachicken.model.classes.Customer;
 import harapanbangsachicken.model.classes.SingletonManager;
@@ -14,7 +16,7 @@ public class SaldoView extends JFrame {
     private JTextField saldoField;
 
     public SaldoView() {
-        super("Saldo Management");
+        super("Balance Management");
         setExtendedState(JFrame.MAXIMIZED_BOTH);
         setLocationRelativeTo(null);
         setFont(new Font("Arial", Font.BOLD, 30));
@@ -40,8 +42,7 @@ public class SaldoView extends JFrame {
         gbc.gridwidth = 2;
         frame.add(mcImageLabel, gbc);
 
-
-        JLabel titleLabel = new JLabel("Saldo Management", SwingConstants.CENTER);
+        JLabel titleLabel = new JLabel("Balance Management", SwingConstants.CENTER);
         titleLabel.setFont(new Font("Arial", Font.BOLD, 28));
         titleLabel.setForeground(Color.YELLOW);
         gbc.gridx = 0;
@@ -56,25 +57,25 @@ public class SaldoView extends JFrame {
 
         saldoField = new JTextField(10);
         saldoField.setFont(new Font("Arial", Font.PLAIN, 16));
-        JLabel textSaldo =new JLabel("Saldo: ");
+        JLabel textSaldo =new JLabel("Balance: ");
         textSaldo.setFont(new Font("Arial", Font.PLAIN, 20));
         textSaldo.setForeground(Color.YELLOW);
         saldoPanel.add(textSaldo);
         saldoPanel.add(saldoField);
 
-        viewSaldoButton = new JButton("View Saldo");
+        viewSaldoButton = new JButton("View Balance");
         viewSaldoButton.setFont(new Font("Arial", Font.BOLD, 18));
         viewSaldoButton.setBackground(Color.RED);
         viewSaldoButton.setForeground(Color.YELLOW);
         saldoPanel.add(viewSaldoButton);
 
-        addSaldoButton = new JButton("Add Saldo");
+        addSaldoButton = new JButton("Add Balance");
         addSaldoButton.setFont(new Font("Arial", Font.BOLD, 18));
         addSaldoButton.setBackground(Color.RED);
         addSaldoButton.setForeground(Color.YELLOW);
         saldoPanel.add(addSaldoButton);
 
-        updateSaldoButton = new JButton("Update Saldo");    
+        updateSaldoButton = new JButton("Update Balance");    
         updateSaldoButton.setFont(new Font("Arial", Font.BOLD, 18));
         updateSaldoButton.setBackground(Color.RED);
         updateSaldoButton.setForeground(Color.YELLOW);
@@ -116,7 +117,8 @@ public class SaldoView extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 double saldo = customer.getSaldo();
-                saldoField.setText("Rp " + saldo);
+                NumberFormat numberFormat = NumberFormat.getInstance(Locale.US);
+                saldoField.setText("Rp " + numberFormat.format(saldo));
             }
         });
 

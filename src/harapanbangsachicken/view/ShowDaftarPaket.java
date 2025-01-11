@@ -2,8 +2,11 @@ package harapanbangsachicken.view;
 
 import java.awt.*;
 import java.awt.event.ActionListener;
+import java.text.NumberFormat;
 import java.awt.event.ActionEvent;
 import java.util.ArrayList;
+import java.util.Locale;
+
 import javax.swing.*;
 
 import harapanbangsachicken.controller.StockController;
@@ -29,13 +32,15 @@ public class ShowDaftarPaket extends JFrame {
         JPanel panel2 = new JPanel(new BorderLayout());
         panel2.setOpaque(false);
 
-        JLabel header = new JLabel("Daftar Paket", SwingConstants.CENTER);
+        JLabel header = new JLabel("Package List", SwingConstants.CENTER);
         header.setFont(new Font("Arial", Font.PLAIN, 28));
         header.setForeground(Color.YELLOW);
         panel2.add(header, BorderLayout.NORTH);
 
         JPanel paketPanel = new JPanel(new GridLayout(2, 0, 10, 10));
         paketPanel.setBackground(Color.RED);
+
+        NumberFormat numberFormat = NumberFormat.getInstance(Locale.US);
 
         for (Paket paketMenu : paket) {
             int keranjangQuantity = 0;
@@ -57,11 +62,27 @@ public class ShowDaftarPaket extends JFrame {
             foodLabel.setBackground(Color.WHITE);
             foodLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-            JLabel foodImage = new JLabel(new ImageIcon(paketMenu.getPicture_path()));
+            String originalImagePath = paketMenu.getPicture_path();
+
+            String defaultImagePath = "src/harapanbangsachicken/view/gambar/paket/defaultPaket.png";
+
+            ImageIcon imageIcon;
+            try {
+                imageIcon = new ImageIcon(originalImagePath);
+                if (imageIcon.getIconWidth() <= 0 || imageIcon.getIconHeight() <= 0) {
+                    throw new Exception("Image not found");
+                }
+            } catch (Exception e) {
+                imageIcon = new ImageIcon(defaultImagePath);
+            }
+
+            Image resizedImage = imageIcon.getImage().getScaledInstance(200, 200, Image.SCALE_SMOOTH);
+
+            JLabel foodImage = new JLabel(new ImageIcon(resizedImage));
             foodImage.setAlignmentX(Component.CENTER_ALIGNMENT);
             foodImage.setPreferredSize(new Dimension(200, 200));
 
-            JLabel foodPriceLabel = new JLabel("Rp " + paketMenu.getHarga());
+            JLabel foodPriceLabel = new JLabel("Rp " + numberFormat.format(paketMenu.getHarga()));
             foodPriceLabel.setBackground(Color.WHITE);
             foodPriceLabel.setForeground(Color.YELLOW);
             foodPriceLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -158,12 +179,12 @@ public class ShowDaftarPaket extends JFrame {
 
         mainPanel.add(panel2, BorderLayout.CENTER);
 
-        keranjangButton = new JButton("Keranjang");
+        keranjangButton = new JButton("Insert Basket");
         keranjangButton.setFont(new Font("Arial", Font.PLAIN, 16));
         keranjangButton.setBackground(Color.RED);
         keranjangButton.setForeground(Color.YELLOW);
 
-        backButton = new JButton("Kembali");
+        backButton = new JButton("Back");
         backButton.setFont(new Font("Arial", Font.PLAIN, 16));
         backButton.setBackground(Color.RED);
         backButton.setForeground(Color.YELLOW);
