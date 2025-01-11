@@ -65,18 +65,36 @@ public class Checkout extends JFrame {
             String nama = "";
             double harga = 0;
             int jumlah = item.getJumlah();
-
-            if(item.getMenu() != null){
+            ImageIcon originalIcon;
+            
+            if (item.getMenu() != null) {
                 img = item.getMenu().getGambarPath();
+                try {
+                    originalIcon = new ImageIcon(img);
+                    if (originalIcon.getIconWidth() <= 0 || originalIcon.getIconHeight() <= 0) {
+                        throw new Exception("Image not found");
+                    }
+                } catch (Exception e) {
+                    String defaultImagePath = "src/harapanbangsachicken/view/gambar/defaultMenu.png";
+                    originalIcon = new ImageIcon(defaultImagePath);
+                }
                 nama = item.getMenu().getNama();
                 harga = item.getMenu().getHarga();
             } else {
                 img = item.getPaket().getPicture_path();
+                try {
+                    originalIcon = new ImageIcon(img);
+                    if (originalIcon.getIconWidth() <= 0 || originalIcon.getIconHeight() <= 0) {
+                        throw new Exception("Image not found");
+                    }
+                } catch (Exception e) {
+                    String defaultImagePath = "src/harapanbangsachicken/view/gambar/paket/defaultPaket.png";
+                    originalIcon = new ImageIcon(defaultImagePath);
+                }
                 nama = item.getPaket().getNamaPaket();
                 harga = item.getPaket().getHarga();
             }
-        
-            ImageIcon originalIcon = new ImageIcon(img);
+
             Image scaledImage = originalIcon.getImage().getScaledInstance(50, 50, Image.SCALE_SMOOTH);
             ImageIcon scaledIcon = new ImageIcon(scaledImage);
 
@@ -87,7 +105,7 @@ public class Checkout extends JFrame {
             imageLabel.setPreferredSize(new Dimension(50, 50));
             imagePanel.add(imageLabel);
             itemPanel.add(imagePanel, BorderLayout.WEST);
-        
+
             JPanel detailsPanel = new JPanel();
             detailsPanel.setLayout(new BoxLayout(detailsPanel, BoxLayout.Y_AXIS));
             detailsPanel.setBackground(Color.RED);
@@ -96,22 +114,22 @@ public class Checkout extends JFrame {
             nameLabel.setFont(new Font("Arial", Font.BOLD, 16));
             nameLabel.setForeground(Color.YELLOW);
             detailsPanel.add(nameLabel);
-            
+
             if (item.getMenu() instanceof Drink) {
                 Drink data = (Drink) item.getMenu();
                 nameLabel.setText(data.getNama() + " - " + data.getSize());
             }
-        
+
             JLabel priceLabel = new JLabel("Price: Rp " + numberFormat.format(harga));
             priceLabel.setForeground(Color.YELLOW);
             detailsPanel.add(priceLabel);
-        
+
             JLabel quantityLabel = new JLabel("Quantity: " + jumlah);
             quantityLabel.setForeground(Color.YELLOW);
             detailsPanel.add(quantityLabel);
-        
+
             itemPanel.add(detailsPanel, BorderLayout.CENTER);
-        
+
             JPanel totalPricePanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
             totalPricePanel.setBackground(Color.RED);
             totalHarga = jumlah * harga;
@@ -120,9 +138,9 @@ public class Checkout extends JFrame {
             totalPriceLabel.setForeground(Color.YELLOW);
             totalPricePanel.add(totalPriceLabel);
             totalBelanja += totalHarga;
-        
+
             itemPanel.add(totalPricePanel, BorderLayout.EAST);
-        
+
             cartPanel.add(itemPanel);
         }
         int totalPromo = 0;
@@ -130,9 +148,9 @@ public class Checkout extends JFrame {
         for (Promo promo : ButtonEditor.getClaimedPromos()) {
             StringBuilder claimedPromoList = new StringBuilder();
             claimedPromoList.append(promo.getNamaPromo())
-                             .append(" - Nominal: ")
-                             .append(numberFormat.format(promo.getNominalPromo()))
-                             .append("\n");
+                    .append(" - Nominal: ")
+                    .append(numberFormat.format(promo.getNominalPromo()))
+                    .append("\n");
             totalPromo += promo.getNominalPromo();
             JLabel promoLabel = new JLabel(claimedPromoList.toString());
             promoLabel.setFont(new Font("Arial", Font.BOLD, 16));
@@ -153,7 +171,7 @@ public class Checkout extends JFrame {
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(5, 5, 5, 5);
 
-        double harga = totalBelanja-totalPromo;
+        double harga = totalBelanja - totalPromo;
         if (harga < 0) {
             harga = 0;
         }
@@ -166,7 +184,7 @@ public class Checkout extends JFrame {
         gbc.gridx = 0;
         gbc.gridy = 0;
         gbc.weightx = 1.0;
-        gbc.anchor = GridBagConstraints.WEST; 
+        gbc.anchor = GridBagConstraints.WEST;
         actionPanel.add(totalLabel, gbc);
 
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
@@ -181,7 +199,6 @@ public class Checkout extends JFrame {
         kembaliButton.setFont(new Font("Arial", Font.BOLD, 16));
         kembaliButton.setBackground(Color.RED);
         kembaliButton.setForeground(Color.YELLOW);
-       
 
         JButton promoButton = new JButton("Promo");
         promoButton.setFont(new Font("Arial", Font.PLAIN, 16));
@@ -197,38 +214,38 @@ public class Checkout extends JFrame {
         gbc.gridx = 1;
         gbc.gridy = 0;
         gbc.weightx = 0.0;
-        gbc.anchor = GridBagConstraints.EAST; 
+        gbc.anchor = GridBagConstraints.EAST;
         actionPanel.add(buttonPanel, gbc);
 
         kembaliButton.addActionListener(e -> {
             new ShowKeranjang();
             dispose();
         });
-       
+
         ArrayList<Keranjang> finalKeranjang = new ArrayList<>(keranjang);
         double finalharga = harga;
-        
+
         checkoutButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 CheckoutController checkoutController = new CheckoutController();
                 StockController stockController = new StockController();
-        
+
                 CheckoutResult.initializeInstance(finalKeranjang, promoList, finalharga);
 
                 boolean statusPembayaran = checkoutController.Konfirmasi(Checkout.this);
                 if (statusPembayaran) {
                     Customer customer = (Customer) SingletonManager.getInstance().getUser();
-        
+
                     int point = customer.getPoint();
                     point += 100;
-                    customer.setPoint(point);  
+                    customer.setPoint(point);
 
                     Customer.updateCustomerPoint();
-                  
-                    UpdateKeranjang.getInstance().clearKeranjang();  
-                    stockController.updateStock(finalKeranjang);  
-                    new InfoPembayaran(); 
+
+                    UpdateKeranjang.getInstance().clearKeranjang();
+                    stockController.updateStock(finalKeranjang);
+                    new InfoPembayaran();
                     dispose();
                 }
             }
@@ -236,16 +253,18 @@ public class Checkout extends JFrame {
 
         promoButton.addActionListener(new ActionListener() {
 
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        dispose();
-        new PromoMenu();
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                dispose();
+                new PromoMenu();
+            }
+
+        });
+
+        mainPanel.add(actionPanel);
+
+        add(new JScrollPane(mainPanel));
+        setVisible(true);
     }
-
-});
-
-mainPanel.add(actionPanel);
-
-add(new JScrollPane(mainPanel));setVisible(true);}
 
 }

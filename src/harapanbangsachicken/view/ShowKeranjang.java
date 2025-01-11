@@ -61,7 +61,8 @@ public class ShowKeranjang extends JFrame {
             String img = "";
             double totalHarga = 0;
             int quantity = dataKeranjang.getJumlah();
-
+            ImageIcon imageIcon;
+            
             if (dataKeranjang.getMenu() != null) {
                 if (dataKeranjang.getMenu() instanceof Drink) {
                     Drink data = (Drink) dataKeranjang.getMenu();
@@ -70,10 +71,28 @@ public class ShowKeranjang extends JFrame {
                     nama = dataKeranjang.getMenu().getNama();
                 }
                 img = dataKeranjang.getMenu().getGambarPath();
+                try {
+                    imageIcon = new ImageIcon(img);
+                    if (imageIcon.getIconWidth() <= 0 || imageIcon.getIconHeight() <= 0) {
+                        throw new Exception("Image not found");
+                    }
+                } catch (Exception e) {
+                    String defaultImagePath = "src/harapanbangsachicken/view/gambar/defaultMenu.png";
+                    imageIcon = new ImageIcon(defaultImagePath);
+                }
                 totalHarga = dataKeranjang.getJumlah() * dataKeranjang.getMenu().getHarga();
             } else {
                 nama = dataKeranjang.getPaket().getNamaPaket();
                 img = dataKeranjang.getPaket().getPicture_path();
+                try {
+                    imageIcon = new ImageIcon(img);
+                    if (imageIcon.getIconWidth() <= 0 || imageIcon.getIconHeight() <= 0) {
+                        throw new Exception("Image not found");
+                    }
+                } catch (Exception e) {
+                    String defaultImagePath = "src/harapanbangsachicken/view/gambar/paket/defaultPaket.png";
+                    imageIcon = new ImageIcon(defaultImagePath);
+                }
                 totalHarga = dataKeranjang.getJumlah() * dataKeranjang.getPaket().getHarga();
             }
 
@@ -82,7 +101,7 @@ public class ShowKeranjang extends JFrame {
             foodLabel.setBackground(Color.WHITE);
             foodLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-            JLabel foodImage = new JLabel(new ImageIcon(img));
+            JLabel foodImage = new JLabel(imageIcon);
             foodImage.setAlignmentX(Component.CENTER_ALIGNMENT);
             foodImage.setPreferredSize(new Dimension(200, 200));
 
@@ -258,7 +277,8 @@ public class ShowKeranjang extends JFrame {
                                 Iterator<Keranjang> iterator = keranjang.iterator();
                                 while (iterator.hasNext()) {
                                     Keranjang k = iterator.next();
-                                    if (invalid.getMenu().getNama().equals(k.getMenu().getNama()) && invalid.getMenu().getHarga() == k.getMenu().getHarga()) {
+                                    if (invalid.getMenu().getNama().equals(k.getMenu().getNama())
+                                            && invalid.getMenu().getHarga() == k.getMenu().getHarga()) {
                                         iterator.remove();
                                     }
                                 }
@@ -266,7 +286,8 @@ public class ShowKeranjang extends JFrame {
                                 Iterator<Keranjang> iterator = keranjang.iterator();
                                 while (iterator.hasNext()) {
                                     Keranjang k = iterator.next();
-                                    if (invalid.getPaket().getNamaPaket().equals(k.getPaket().getNamaPaket()) && invalid.getPaket().getHarga() == k.getPaket().getHarga()) {
+                                    if (invalid.getPaket().getNamaPaket().equals(k.getPaket().getNamaPaket())
+                                            && invalid.getPaket().getHarga() == k.getPaket().getHarga()) {
                                         iterator.remove();
                                     }
                                 }

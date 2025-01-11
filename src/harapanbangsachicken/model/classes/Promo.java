@@ -11,7 +11,7 @@ public class Promo {
     private String namaPromo;
     private double nominalPromo;
     private Date date;
-    
+
     public Promo(int promo_id, String namaPromo, double nominalPromo, Date date) {
         this.promo_id = promo_id;
         this.namaPromo = namaPromo;
@@ -46,7 +46,7 @@ public class Promo {
     public Date getDate() {
         return date;
     }
-    
+
     public void setDate(Date date) {
         this.date = date;
     }
@@ -54,7 +54,7 @@ public class Promo {
     public static boolean addPromo(Promo promo) {
         String query = "INSERT INTO `promo`(`promo_id`, `namaPromo`, `nominalPromo`, `promo_date`) VALUES (?, ?, ?, ?)";
         try (Connection con = ConnectionManager.getConnection();
-             PreparedStatement st = con.prepareStatement(query)) {
+                PreparedStatement st = con.prepareStatement(query)) {
 
             st.setInt(1, promo.getPromo_id());
             st.setString(2, promo.getNamaPromo());
@@ -73,7 +73,7 @@ public class Promo {
     public static boolean updatePromo(Promo promo) {
         String query = "UPDATE `promo` SET `namaPromo` = ?, `nominalPromo` = ?, `promo_date` = ? WHERE `promo_id` = ?";
         try (Connection con = ConnectionManager.getConnection();
-             PreparedStatement st = con.prepareStatement(query)) {
+                PreparedStatement st = con.prepareStatement(query)) {
 
             st.setString(1, promo.getNamaPromo());
             st.setDouble(2, promo.getNominalPromo());
@@ -92,7 +92,7 @@ public class Promo {
     public static boolean deletePromo(int promo_id) {
         String query = "DELETE FROM `promo` WHERE `promo_id` = ?";
         try (Connection con = ConnectionManager.getConnection();
-             PreparedStatement st = con.prepareStatement(query)) {
+                PreparedStatement st = con.prepareStatement(query)) {
 
             st.setInt(1, promo_id);
 
@@ -109,16 +109,15 @@ public class Promo {
         ArrayList<Promo> promoList = new ArrayList<>();
         String query = "SELECT * FROM promo";
         try (Connection con = ConnectionManager.getConnection();
-             PreparedStatement st = con.prepareStatement(query)) {
-    
+                PreparedStatement st = con.prepareStatement(query)) {
+
             try (ResultSet rs = st.executeQuery()) {
                 while (rs.next()) {
                     promoList.add(new Promo(
-                        rs.getInt("promo_id"),
-                        rs.getString("namaPromo"),
-                        rs.getInt("nominalPromo"),
-                        rs.getDate("promo_date")
-                    ));
+                            rs.getInt("promo_id"),
+                            rs.getString("namaPromo"),
+                            rs.getInt("nominalPromo"),
+                            rs.getDate("promo_date")));
                 }
             }
             return promoList;
@@ -127,27 +126,27 @@ public class Promo {
         }
         return null;
     }
+
     public static ArrayList<Promo> getData(int userId) {
         ArrayList<Promo> promoList = new ArrayList<>();
         String query = """
-            SELECT p.promo_id, p.namaPromo, p.nominalPromo, p.promo_date 
-            FROM customer_promo cp
-            JOIN promo p ON cp.promo_id = p.promo_id
-            WHERE cp.customer_id = ?
-            """;
+                SELECT p.promo_id, p.namaPromo, p.nominalPromo, p.promo_date
+                FROM customer_promo cp
+                JOIN promo p ON cp.promo_id = p.promo_id
+                WHERE cp.customer_id = ? AND p.status = 'ACTIVE'
+                """;
         try (Connection con = ConnectionManager.getConnection();
-             PreparedStatement st = con.prepareStatement(query)) {
-                
+                PreparedStatement st = con.prepareStatement(query)) {
+
             st.setInt(1, userId);
-    
+
             try (ResultSet rs = st.executeQuery()) {
                 while (rs.next()) {
                     promoList.add(new Promo(
-                        rs.getInt("promo_id"),
-                        rs.getString("namaPromo"),
-                        rs.getInt("nominalPromo"),
-                        rs.getDate("promo_date")
-                    ));
+                            rs.getInt("promo_id"),
+                            rs.getString("namaPromo"),
+                            rs.getInt("nominalPromo"),
+                            rs.getDate("promo_date")));
                 }
             }
             return promoList;
@@ -156,4 +155,21 @@ public class Promo {
         }
         return null;
     }
+
+    public static void updatePromoExpiration(ArrayList<Promo> promoList) {
+        String query = "UPDATE promo SET status = 'EXPIRED' WHERE status = 'ACTIVE' AND promo_date < ?";
+        try (Connection con = ConnectionManager.getConnection();
+                PreparedStatement st = con.prepareStatement(query)) {
+
+            java.sql.Date currentDate = new java.sql.Date(System.currentTimeMillis());
+
+            st.setDate(1, currentDate);
+
+            int rowsUpdated = st.executeUpdate();
+            System.out.println(rowsUpdated + " promo(s) expired.");
+        } catch (Exception ex) {
+            System.out.println("Error occurred: " + ex.getMessage());
+        }
+    }
+
 }
