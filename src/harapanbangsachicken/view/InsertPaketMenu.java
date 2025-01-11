@@ -227,8 +227,7 @@ public class InsertPaketMenu extends JFrame {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                ArrayList<Menu> show = Paket.getPaketMenu(id_paket);
-                new PaketMenuEdit(show, id_paket);
+                new ShowPaketMenu(id_paket);
                 dispose();
             }
 
